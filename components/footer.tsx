@@ -13,7 +13,7 @@ export default function Footer() {
               Vodeći padel centar u kantonu. Mesto gde se sport susreće sa dizajnom i vrhunskim iskustvom igranja.
             </p>
           </div>
-          
+
           <div>
             <span className="text-blue-500 text-[10px] font-black uppercase tracking-[0.4em] block mb-8">LOKACIJA</span>
             <address className="not-italic text-slate-300 leading-relaxed font-medium">
@@ -32,10 +32,10 @@ export default function Footer() {
         </div>
 
         <div className="pt-16 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-10">
-          <p className="text-slate-600 text-[10px] font-black uppercase tracking-[0.5em]">
+          <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.5em]">
             © 2026 Padel Gravity Subotica. Powered by O24.
           </p>
-          <div className="flex gap-12 uppercase text-[10px] font-black tracking-[0.3em] text-slate-500">
+          <div className="flex gap-12 uppercase text-[10px] font-black tracking-[0.3em] text-slate-400">
             <a href="https://www.instagram.com/padel.gravity/" className="hover:text-blue-400 transition-colors">Instagram</a>
             <a href="#" className="hover:text-blue-400 transition-colors">Facebook</a>
             <Link href="#contact" className="hover:text-blue-400 transition-colors">Kontakt</Link>

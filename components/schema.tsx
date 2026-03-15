@@ -79,11 +79,9 @@ export default function Schema() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsLocationJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([sportsLocationJsonLd, breadcrumbJsonLd]),
+        }}
       />
     </>
   );

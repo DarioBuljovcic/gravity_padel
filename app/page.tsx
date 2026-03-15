@@ -1,6 +1,7 @@
 import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import AboutCourts from "@/components/about-courts";
+import Pricing from "@/components/pricing";
 import BookingCTA from "@/components/booking-cta";
 import Footer from "@/components/footer";
 import Schema from "@/components/schema";
@@ -16,6 +17,7 @@ export default function Home() {
         
         <div id="about" className="relative z-10 transition-colors duration-500">
           <AboutCourts />
+          <Pricing />
           <BookingCTA />
         </div>
         

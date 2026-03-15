@@ -31,7 +31,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Tereni', href: '#courts' },
-    { name: 'O klubu', href: '#about' },
+    { name: 'Cenovnik', href: '#pricing' },
     { name: 'Kontakt', href: '#contact' },
   ];
 
@@ -63,7 +63,7 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4">
             <Link
-              href="https://gravitysport.simplybook.me/v2/?utm_source=ig&utm_medium=social&utm_content=link_in_bio#book"
+              href="/rezervacija"
               className=" hidden md:block px-4 md:px-6 py-2 bg-lime-400 text-slate-950 rounded-full font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 shadow-lg shadow-lime-400/20 btn-press"
             >
               Rezerviši
@@ -105,7 +105,7 @@ export default function Navbar() {
           <div className={`mt-8 w-full max-w-xs transition-all duration-500 delay-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
             }`}>
             <Link
-              href="https://gravitysport.simplybook.me/v2/?utm_source=ig&utm_medium=social&utm_content=link_in_bio#book"
+              href="/rezervacija"
               onClick={() => setIsOpen(false)}
               className="block w-full py-5 bg-padel-blue text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-2xl shadow-blue-600/20"
             >
