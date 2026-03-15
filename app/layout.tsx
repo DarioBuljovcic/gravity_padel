@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.jpeg",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Padel Gravity Subotica",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Padel Gravity | Subotica, Srbija",
     description: "Doživite vrhunsku padel kulturu u Padel Gravity Subotica. 4 moderna terena, premium kafić i živopisna zajednica.",
-    images: ["/og-image.jpeg"],
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
