@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FadeIn } from './fade-in';
 
 export default function BookingCTA() {
   return (
@@ -6,7 +7,7 @@ export default function BookingCTA() {
       {/* Background Atmosphere */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.05)_0%,transparent_70%)]" />
 
-      <div className="max-w-5xl mx-auto text-center relative z-10 scroll-reveal">
+      <FadeIn className="max-w-5xl mx-auto text-center relative z-10">
         <h2 className="text-6xl md:text-8xl font-display font-black text-slate-50 mb-10 tracking-tighter leading-[0.85]">
           POSTANI DEO <br />
           <span className="text-lime-400">GRAVITACIJE</span>
@@ -31,7 +32,7 @@ export default function BookingCTA() {
             <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.4em] mt-3">CALL CENTER</span>
           </div>
         </div>
-      </div>
+      </FadeIn>
     </section>
   );
 }

@@ -85,12 +85,4 @@ section, footer, [id] {
   text-shadow: 0 0 20px rgba(190, 242, 100, 0.3);
 }
 
-/* Scroll-Driven Animation Utility */
-@utility scroll-reveal {
-  view-timeline-name: --section;
-  view-timeline-axis: block;
-  animation-timeline: --section;
-  animation-name: fade-in;
-  animation-fill-mode: both;
-  animation-range: entry 10% cover 30%;
-}
+

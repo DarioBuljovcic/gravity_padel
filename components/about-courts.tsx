@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { FadeIn } from './fade-in';
 
 export default function AboutCourts() {
   const features = [
@@ -35,7 +36,7 @@ export default function AboutCourts() {
   return (
     <section id="courts" className="relative py-20 md:py-32 px-4 md:px-6 bg-slate-950">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24 scroll-reveal">
+        <FadeIn className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24">
           <div className="max-w-2xl space-y-6 text-center md:text-left">
             <h2 className="text-4xl sm:text-5xl md:text-7xl font-display font-black text-white tracking-tighter leading-tight">
               PLAVI <br className="hidden sm:block" /><span className="text-padel-blue">DIZAJN KULTURE</span>
@@ -44,15 +45,14 @@ export default function AboutCourts() {
               Standard koji Subotica zaslužuje. Fokusirani na vrhunske mečeve i besprekornu zajednicu.
             </p>
           </div>
-
-        </div>
+        </FadeIn>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-24">
           {features.map((feature, i) => (
-            <div
+            <FadeIn
               key={i}
-              className="group p-8 md:p-10 bg-slate-900/40 border border-blue-600/10 rounded-[2rem] md:rounded-[2.5rem] transition-all duration-500 hover:border-blue-600/40 hover:bg-slate-900/60 scroll-reveal"
-              style={{ animationDelay: `${i * 0.1}s` }}
+              delay={i * 100}
+              className="group p-8 md:p-10 bg-slate-900/40 border border-blue-600/10 rounded-[2rem] md:rounded-[2.5rem] transition-all duration-500 hover:border-blue-600/40 hover:bg-slate-900/60"
             >
               <div className="w-14 h-14 md:w-16 md:h-16 mb-8 md:mb-10 rounded-2xl bg-blue-600/10 border border-blue-600/20 flex items-center justify-center text-blue-400 group-hover:bg-padel-blue group-hover:text-white transition-all duration-300">
                 {feature.icon}
@@ -63,12 +63,12 @@ export default function AboutCourts() {
               <p className="text-sm md:text-base text-slate-400 leading-relaxed font-medium group-hover:text-slate-300 transition-colors">
                 {feature.description}
               </p>
-            </div>
+            </FadeIn>
           ))}
         </div>
 
         {/* Court Preview with Blue Glow */}
-        <div className="relative h-[400px] md:h-[650px] w-full rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-blue-600/10 group scroll-reveal shadow-[0_0_50px_rgba(37,99,235,0.05)]">
+        <FadeIn className="relative h-[400px] md:h-[650px] w-full rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-blue-600/10 group shadow-[0_0_50px_rgba(37,99,235,0.05)]">
           <Image
             src="/about.webp"
             alt="Padel Plavi Teren"
@@ -88,7 +88,7 @@ export default function AboutCourts() {
               Prati @padel.gravity
             </Link>
           </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

@@ -54,7 +54,7 @@ export default function Hero() {
           <div className="absolute -inset-4 bg-padel-blue/20 blur-3xl opacity-30 group-hover:opacity-60 transition-opacity duration-1000" />
           <div className="relative h-full w-full border border-blue-600/20 shadow-2xl overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-slate-900">
             <Image
-              src="/hero.webp"
+              src="/hero.jpeg"
               alt="Padel Night Akcija"
               fill
               className="object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000"
