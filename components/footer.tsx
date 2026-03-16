@@ -10,7 +10,7 @@ export default function Footer() {
               PADEL <span className="text-padel-blue">GRAVITY</span>
             </Link>
             <p className="max-w-sm text-slate-400 leading-relaxed font-medium">
-              Vodeći padel centar u kantonu. Mesto gde se sport susreće sa dizajnom i vrhunskim iskustvom igranja.
+              Vodeći padel centar u Subotici. Mesto gde se sport susreće sa vrhunskim iskustvom igranja.
             </p>
           </div>
 
