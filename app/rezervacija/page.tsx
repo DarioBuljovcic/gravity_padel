@@ -169,19 +169,19 @@ export default function BookingPage() {
                 ))}
               </div>
               <div className="space-y-4">
-                <h3 className="text-xl font-bold text-lime-400 uppercase tracking-widest pl-2">Vikend</h3>
+                <h3 className="text-xl font-bold text-primary-orange uppercase tracking-widest pl-2">Vikend</h3>
                 {pricingData.weekend.items.map((item, i) => (
                   <button
                     key={i}
                     onClick={() => handlePackageSelect({ ...item, type: 'Vikend' })}
-                    className="w-full text-left p-6 rounded-2xl bg-slate-900/50 border border-white/5 hover:border-lime-400/50 hover:bg-slate-900 transition-all duration-300 group shadow-lg active:scale-95 transform"
+                    className="w-full text-left p-6 rounded-2xl bg-slate-900/50 border border-white/5 hover:border-primary-orange/50 hover:bg-slate-900 transition-all duration-300 group shadow-lg active:scale-95 transform"
                   >
                     <div className="flex justify-between items-center">
                       <div>
                         <span className="block text-white font-bold text-lg">{item.duration} — {item.time}</span>
                         <span className="block text-slate-500 text-xs uppercase">{item.range}</span>
                       </div>
-                      <span className="text-xl font-black text-white group-hover:text-lime-400 transition-colors">{item.price}</span>
+                      <span className="text-xl font-black text-white group-hover:text-primary-orange transition-colors">{item.price}</span>
                     </div>
                   </button>
                 ))}
@@ -321,7 +321,7 @@ export default function BookingPage() {
               </div>
               <button
                 type="submit"
-                className="w-full mt-8 py-5 bg-lime-400 text-slate-950 rounded-xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-lime-400/20 active:scale-95 transform"
+                className="w-full mt-8 py-5 bg-primary-orange text-slate-950 rounded-xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-primary-orange/20 active:scale-95 transform"
               >
                 Pošalji Upit
               </button>
@@ -334,7 +334,7 @@ export default function BookingPage() {
       case 6:
         return (
           <div className={`text-center space-y-8 max-w-lg mx-auto ${stepClass}`}>
-            <div className="w-24 h-24 mx-auto rounded-full bg-lime-400/10 flex items-center justify-center text-lime-400 border border-lime-400/20 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <div className="w-24 h-24 mx-auto rounded-full bg-primary-orange/10 flex items-center justify-center text-primary-orange border border-primary-orange/20 animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-12 h-12">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
@@ -382,7 +382,7 @@ export default function BookingPage() {
 
       <div className="relative pt-32 pb-20 px-4 md:px-6">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-padel-blue/10 rounded-full blur-[120px] -z-10" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-lime-400/5 rounded-full blur-[120px] -z-10" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-primary-orange/5 rounded-full blur-[120px] -z-10" />
 
         <div className="max-w-7xl mx-auto">
           {step < 6 && (
@@ -390,7 +390,7 @@ export default function BookingPage() {
               {[1, 2, 3, 4, 5].map((s) => (
                 <div
                   key={s}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${s === step ? 'w-12 bg-padel-blue scale-x-110' : s < step ? 'w-8 bg-lime-400' : 'w-8 bg-slate-800'
+                  className={`h-1.5 rounded-full transition-all duration-500 ${s === step ? 'w-12 bg-padel-blue scale-x-110' : s < step ? 'w-8 bg-primary-orange' : 'w-8 bg-slate-800'
                     }`}
                 />
               ))}

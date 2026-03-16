@@ -28,15 +28,10 @@ export const metadata: Metadata = {
   applicationName: "Padel Gravity",
   authors: [{ name: "Padel Gravity Tim" }],
   generator: "Next.js",
-  keywords: ["Padel", "Subotica", "Padel Gravity", "Sportovi", "Srbija", "Padel tereni", "Padel klub"],
+  keywords: ["Padel", "Subotica", "Padel Gravity", "Sportovi", "Srbija", "Padel tereni", "Padel klub", "padel teren Subotica", "rezervacija padel Subotica", "padel klub Subotica"],
   referrer: "origin-when-cross-origin",
   creator: "Padel Gravity",
   publisher: "Padel Gravity",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
   openGraph: {
     title: "Padel Gravity | Subotica, Srbija",
     description: "Doživite vrhunsku padel kulturu u Padel Gravity Subotica. 4 moderna terena, premium kafić i živopisna zajednica.",

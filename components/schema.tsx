@@ -4,7 +4,7 @@ export default function Schema() {
     "@type": "SportsActivityLocation",
     "name": "Padel Gravity Subotica",
     "description": "Doživite vrhunsku padel kulturu u Padel Gravity Subotica. 4 moderna terena, premium kafić i živopisna zajednica.",
-    "image": "https://images.unsplash.com/photo-1626248680749-3353443e0d86?q=80&w=2070&auto=format&fit=crop",
+    "image": "/hero.jpeg",
     "@id": "https://padelgravity.rs",
     "url": "https://padelgravity.rs",
     "telephone": "+381606558559",

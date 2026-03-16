@@ -17,7 +17,7 @@ export default function Footer() {
           <div>
             <span className="text-blue-500 text-[10px] font-black uppercase tracking-[0.4em] block mb-8">LOKACIJA</span>
             <address className="not-italic text-slate-300 leading-relaxed font-medium">
-              Severna BB, <br />
+              Severna 7, <br />
               Subotica 24000, Srbija
             </address>
           </div>
@@ -37,7 +37,7 @@ export default function Footer() {
           </p>
           <div className="flex gap-12 uppercase text-[10px] font-black tracking-[0.3em] text-slate-400">
             <a href="https://www.instagram.com/padel.gravity/" className="hover:text-blue-400 transition-colors">Instagram</a>
-            <a href="#" className="hover:text-blue-400 transition-colors">Facebook</a>
+            <a href="https://www.facebook.com/padel.gravity024/" className="hover:text-blue-400 transition-colors">Facebook</a>
             <Link href="#contact" className="hover:text-blue-400 transition-colors">Kontakt</Link>
           </div>
         </div>

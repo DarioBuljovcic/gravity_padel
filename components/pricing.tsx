@@ -29,7 +29,7 @@ export default function Pricing() {
     <section id="pricing" className="py-24 md:py-32 px-4 md:px-6 bg-slate-950 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-lime-400/5 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary-orange/5 rounded-full blur-[120px] -z-10" />
 
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16 md:mb-24">
@@ -74,8 +74,8 @@ export default function Pricing() {
                 ))}
               </div>
 
-              <div className="mt-12 pt-8 border-t border-white/5 flex items-center gap-4 text-lime-400">
-                <div className="w-10 h-10 rounded-xl bg-lime-400/10 flex items-center justify-center border border-lime-400/20">
+              <div className="mt-12 pt-8 border-t border-white/5 flex items-center gap-4 text-primary-orange">
+                <div className="w-10 h-10 rounded-xl bg-primary-orange/10 flex items-center justify-center border border-primary-orange/20">
                   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
@@ -86,13 +86,13 @@ export default function Pricing() {
           </FadeIn>
 
           {/* Weekend */}
-          <FadeIn delay={200} className="group relative p-1px rounded-[2.5rem] bg-gradient-to-b from-lime-400/20 to-transparent">
+          <FadeIn delay={200} className="group relative p-1px rounded-[2.5rem] bg-gradient-to-b from-primary-orange/20 to-transparent">
             <div className="h-full bg-slate-900/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 border border-white/5">
               <div className="flex items-baseline justify-between mb-10">
                 <h3 className="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-tight">
                   {pricingData.weekend.title}
                 </h3>
-                <span className="px-4 py-1.5 rounded-full bg-lime-400/10 text-lime-400 text-[10px] font-black uppercase tracking-widest border border-lime-400/20">
+                <span className="px-4 py-1.5 rounded-full bg-primary-orange/10 text-primary-orange text-[10px] font-black uppercase tracking-widest border border-primary-orange/20">
                   Subota - Nedelja
                 </span>
               </div>
@@ -108,7 +108,7 @@ export default function Pricing() {
                         {item.range}
                       </span>
                     </div>
-                    <div className="flex-1 border-b border-dotted border-slate-800 mx-4 h-5 opacity-50 group-hover/line:border-lime-400/30 transition-colors" />
+                    <div className="flex-1 border-b border-dotted border-slate-800 mx-4 h-5 opacity-50 group-hover/line:border-primary-orange/30 transition-colors" />
                     <span className="text-white font-black text-xl tracking-tight">
                       {item.price}
                     </span>
@@ -116,8 +116,8 @@ export default function Pricing() {
                 ))}
               </div>
 
-              <div className="mt-12 pt-8 border-t border-white/5 flex items-center gap-4 text-lime-400">
-                <div className="w-10 h-10 rounded-xl bg-lime-400/10 flex items-center justify-center border border-lime-400/20">
+              <div className="mt-12 pt-8 border-t border-white/5 flex items-center gap-4 text-primary-orange">
+                <div className="w-10 h-10 rounded-xl bg-primary-orange/10 flex items-center justify-center border border-primary-orange/20">
                   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>

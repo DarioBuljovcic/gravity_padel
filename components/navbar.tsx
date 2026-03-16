@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
@@ -41,10 +42,21 @@ export default function Navbar() {
         <div className="max-w-7xl w-full glass-dark rounded-full px-6 md:px-8 py-3 flex items-center justify-between border border-blue-600/20 shadow-[0_0_20px_rgba(37,99,235,0.1)] transition-all duration-300">
           <Link
             href="/"
-            className="font-display font-black text-lg md:text-xl tracking-tighter text-white group relative z-[110]"
+            className="flex items-center gap-2 md:gap-3 font-display font-black text-lg md:text-xl tracking-tighter text-white group relative z-[110]"
             onClick={() => setIsOpen(false)}
           >
-            PADEL <span className="text-padel-blue group-hover:text-lime-400 transition-colors">GRAVITY</span>
+            <Image
+              src="/icon.jpg"
+              alt="Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8 md:w-10 md:h-10 rounded-xl object-cover border border-white/10"
+              priority
+              fetchPriority='high'
+            />
+            <span>
+              PADEL <span className="text-padel-blue group-hover:text-primary-orange transition-colors">GRAVITY</span>
+            </span>
           </Link>
 
           {/* Desktop Links */}
@@ -64,7 +76,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             <Link
               href="/rezervacija"
-              className=" hidden md:block px-4 md:px-6 py-2 bg-lime-400 text-slate-950 rounded-full font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 shadow-lg shadow-lime-400/20 btn-press"
+              className=" hidden md:block px-4 md:px-6 py-2 bg-primary-orange text-slate-950 rounded-full font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 shadow-lg shadow-primary-orange/20 btn-press"
             >
               Rezerviši
             </Link>
@@ -116,7 +128,7 @@ export default function Navbar() {
 
         {/* Decorative Background Elements */}
         <div className="absolute top-1/4 -right-20 w-64 h-64 bg-padel-blue/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 -left-20 w-64 h-64 bg-lime-400/5 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 -left-20 w-64 h-64 bg-primary-orange/5 rounded-full blur-[100px]" />
       </div>
     </>
   );

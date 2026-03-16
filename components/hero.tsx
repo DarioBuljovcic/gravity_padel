@@ -17,13 +17,6 @@ export default function Hero() {
 
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-12 gap-10 md:gap-16 items-center">
         <div className="lg:col-span-7 space-y-8 md:space-y-10 text-center lg:text-left">
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-blue-600/10 border border-blue-600/20 text-blue-400 text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] animate-[fade-in_0.8s_ease-out]">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-padel-blue opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-padel-blue"></span>
-            </span>
-            Premium Night Court Experience
-          </div>
 
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-display font-black leading-[0.85] tracking-tighter text-slate-50">
             POBEDI <br className="hidden sm:block" />
@@ -37,7 +30,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 md:gap-5 pt-4">
             <Link
               href="https://gravitysport.simplybook.me/v2/?utm_source=ig&utm_medium=social&utm_content=link_in_bio#book"
-              className="w-full sm:w-auto px-10 py-5 bg-lime-400 text-slate-950 font-black uppercase tracking-widest text-sm hover:bg-white transition-all duration-300 transform shadow-2xl shadow-lime-400/20 btn-press text-center"
+              className="w-full sm:w-auto px-10 py-5 bg-primary-orange text-slate-950 font-black uppercase tracking-widest text-sm hover:bg-white transition-all duration-300 transform shadow-2xl shadow-primary-orange/20 btn-press text-center"
             >
               Rezerviši Termin
             </Link>

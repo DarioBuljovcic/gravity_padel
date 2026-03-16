@@ -3,7 +3,8 @@
 @theme {
   --font-sans: var(--font-geist);
   --font-display: var(--font-syne);
-  --color-lime-400: #bef264;
+  --color-primary-orange: #f2b264;
+  --color-accent-orange: #d97706;
   --color-padel-blue: #2563eb;
   --color-midnight: #020617;
   --color-midnight-card: rgba(15, 23, 42, 0.5);
@@ -79,7 +80,7 @@ section, footer, [id] {
 }
 
 @utility card-forest {
-  background: #064e3b;
+  background: #7c2d12;
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -90,8 +91,8 @@ section, footer, [id] {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-@utility text-glow-lime {
-  text-shadow: 0 0 20px rgba(190, 242, 100, 0.3);
+@utility text-glow-orange {
+  text-shadow: 0 0 20px rgba(242, 178, 100, 0.3);
 }
 
 

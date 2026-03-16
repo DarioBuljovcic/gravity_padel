@@ -10,7 +10,7 @@ export default function BookingCTA() {
       <FadeIn className="max-w-5xl mx-auto text-center relative z-10">
         <h2 className="text-5xl md:text-7xl font-display font-black text-slate-50 mb-10 tracking-tighter leading-[0.85]">
           POSTANI DEO <br />
-          <span className="text-lime-400">GRAVITACIJE</span>
+          <span className="text-primary-orange">GRAVITACIJE</span>
         </h2>
 
         <p className="text-xl md:text-2xl text-slate-400 mb-16 max-w-2xl mx-auto font-medium">
@@ -20,7 +20,7 @@ export default function BookingCTA() {
         <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
           <Link
             href="/rezervacija"
-            className="group relative px-12 py-4 bg-lime-400 text-slate-950 font-black uppercase tracking-widest text-xl hover:bg-white transition-all duration-300 w-full md:w-auto shadow-[0_0_50px_rgba(190,242,100,0.2)] btn-press flex items-center justify-center rounded-2xl border-b-4 border-lime-600 active:border-b-0"
+            className="group relative px-12 py-4 bg-primary-orange text-slate-950 font-black uppercase tracking-widest text-xl hover:bg-white transition-all duration-300 w-full md:w-auto shadow-[0_0_50px_rgba(242,178,100,0.2)] btn-press flex items-center justify-center rounded-2xl border-b-4 border-accent-orange active:border-b-0"
           >
             Rezerviši odmah
           </Link>
