@@ -100,7 +100,7 @@ export default function Navbar() {
         className={`fixed inset-0 z-[90] bg-slate-950/98 backdrop-blur-xl md:hidden transition-all duration-500 ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8 px-6 text-center">
+        <div className="flex flex-col items-center justify-center h-full gap-8 px-6 text-center relative z-10">
           {navLinks.map((link, i) => (
             <Link
               key={link.name}
