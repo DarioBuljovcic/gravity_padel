@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -33,12 +34,6 @@ export default function Hero() {
               className="w-full sm:w-auto px-10 py-5 bg-primary-orange text-slate-950 font-black uppercase tracking-widest text-sm hover:bg-white transition-all duration-300 transform shadow-2xl shadow-primary-orange/20 btn-press text-center"
             >
               Rezerviši Termin
-            </Link>
-            <Link
-              href="#courts"
-              className="w-full sm:w-auto px-10 py-5 bg-slate-900 text-white font-black uppercase tracking-widest text-sm hover:bg-padel-blue transition-all duration-300 border border-blue-600/30 shadow-xl shadow-blue-600/10 btn-press text-center"
-            >
-              Istraži Klub
             </Link>
           </div>
         </div>
