@@ -26,7 +26,7 @@ export default function Footer() {
             <span className="text-blue-500 text-[10px] font-black uppercase tracking-[0.4em] block mb-8">RADNO VREME</span>
             <p className="text-slate-300 leading-relaxed font-medium">
               Svakim danom <br />
-              07:00 — 23:00
+              08:00 — 23:00
             </p>
           </div>
         </div>

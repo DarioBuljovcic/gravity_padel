@@ -32,7 +32,7 @@ export default function Schema() {
         "Saturday",
         "Sunday"
       ],
-      "opens": "07:00",
+      "opens": "08:00",
       "closes": "23:00"
     },
     "sameAs": [
