@@ -5,22 +5,24 @@ import Pricing from "@/components/pricing";
 import BookingCTA from "@/components/booking-cta";
 import Footer from "@/components/footer";
 import Schema from "@/components/schema";
+import { LatestBlogs } from "@/components/LatestBlogs";
 
 export default function Home() {
   return (
     <main className="bg-slate-950 min-h-screen">
       <Schema />
       <Navbar />
-      
+
       <div className="relative">
         <Hero />
-        
+
         <div id="about" className="relative z-10 transition-colors duration-500">
           <AboutCourts />
+          <LatestBlogs />
           <Pricing />
           <BookingCTA />
         </div>
-        
+
         <Footer />
       </div>
     </main>

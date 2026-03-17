@@ -18,7 +18,7 @@ export default function Navbar() {
 
   const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith('#')) {
-      e.preventDefault();
+      e.preventDefault()
       const id = href.substring(1);
       const element = document.getElementById(id);
       if (element) {
