@@ -1,15 +1,17 @@
 "use client";
 
+import type { Booking, BookedSlot } from "./types";
+
 export default function TimeStep({ 
   booking, 
-  setBooking, 
+  onSelect,
   prevStep,
   bookedSlots 
 }: { 
-  booking: any, 
-  setBooking: (b: any) => void, 
+  booking: Booking,
+  onSelect: (time: string) => void,
   prevStep: () => void,
-  bookedSlots: any[]
+  bookedSlots: BookedSlot[]
 }) {
   const getTimeSlots = () => {
     const slots = [];
@@ -20,9 +22,9 @@ export default function TimeStep({
     const dur = parseFloat(duration);
 
     // Convert booked slots to minutes for easy comparison
-    const bookedRanges = bookedSlots.map(b => {
-      const [sh, sm] = b.start_time.split(':').map(Number);
-      const [eh, em] = b.end_time.split(':').map(Number);
+    const bookedRanges = bookedSlots.map((slot) => {
+      const [sh, sm] = slot.start_time.split(':').map(Number);
+      const [eh, em] = slot.end_time.split(':').map(Number);
       return { start: sh * 60 + sm, end: eh * 60 + em };
     });
 
@@ -47,21 +49,29 @@ export default function TimeStep({
   const slots = getTimeSlots();
 
   const handleSelect = (time: string) => {
-    setBooking({ ...booking, time });
+    onSelect(time);
   };
 
   return (
     <div className="space-y-8 animate-step-in">
       <div className="text-center">
-        <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4 uppercase">Izaberite Vreme</h2>
-        <p className="text-slate-400">Pronađite slobodan termin za {new Date(booking.date).toLocaleDateString("sr-RS")} — Teren {booking.terrain.name}</p>
+        <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4 uppercase">Ovo su slobodni termini</h2>
+        <p className="text-slate-400">Izaberi vreme pre nego što ga uzme neko drugi.</p>
       </div>
+      {slots.length === 0 ? (
+        <div className="mx-auto max-w-2xl rounded-[2rem] border border-red-500/20 bg-red-500/5 p-8 text-center">
+          <p className="text-lg font-black text-white mb-3">Za ovaj izbor nema slobodnih termina.</p>
+          <p className="text-sm font-medium text-slate-400">
+            Vrati se korak nazad i uzmi sledeću najbolju opciju.
+          </p>
+        </div>
+      ) : (
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 max-w-4xl mx-auto">
         {slots.map(({ time, isTaken }) => (
           <div key={time} className="relative">
             {isTaken && (
               <div className="absolute -top-2 -right-1 z-10 bg-red-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded shadow-lg transform rotate-12">
-                ZAUZETO
+                OTIŠLO
               </div>
             )}
             <button
@@ -78,6 +88,7 @@ export default function TimeStep({
           </div>
         ))}
       </div>
+      )}
       <div className="text-center">
         <button 
           onClick={prevStep} 

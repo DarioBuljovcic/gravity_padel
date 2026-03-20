@@ -11,19 +11,19 @@ export async function LatestBlogs() {
       <div className="flex items-end justify-between mb-12 px-2">
         <div>
           <span className="text-primary-orange text-[10px] md:text-xs font-black uppercase tracking-[0.5em] block mb-4">
-            Gravity Magazine
+            Ako želiš još razloga da dođeš
           </span>
           <h2
             className="text-3xl md:text-5xl font-display font-black text-white tracking-tighter uppercase"
           >
-            NAJNOVIJE <span className="text-padel-blue">OBJAVE</span>
+            PROČITAJ PRE <span className="text-padel-blue">SLEDEĆEG MEČA</span>
           </h2>
         </div>
         <Link
           href="/blog"
           className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 hover:text-primary-orange transition-all duration-300 mb-2"
         >
-          Sve Objave
+          Sve Priče
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
             <path d="M5 12h14m-7-7 7 7-7 7" />
           </svg>
@@ -59,7 +59,7 @@ export async function LatestBlogs() {
               )}
 
               <div className="mt-auto pt-4 flex items-center gap-2 text-primary-orange text-[10px] font-black uppercase tracking-widest group-hover:gap-4 transition-all duration-300">
-                Saznaj više
+                Pročitaj
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14m-7-7 7 7-7 7" />
                 </svg>

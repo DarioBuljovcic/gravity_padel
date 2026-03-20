@@ -3,8 +3,13 @@
 import { supabase } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { requireAuth } from "@/lib/auth";
+import type { ReservationActionState } from "@/app/rezervacija/_components/types";
 
-export async function createReservationAction(prevState: any, formData: FormData) {
+export async function createReservationAction(
+  prevState: ReservationActionState,
+  formData: FormData
+): Promise<ReservationActionState> {
+  void prevState;
   const terrain_id = parseInt(formData.get("terrain_id") as string);
   const date = formData.get("date") as string;
   const start_time = formData.get("start_time") as string;
@@ -90,4 +95,3 @@ export async function cancelReservationAction(id: string) {
   revalidatePath("/admin/dashboard");
   return { success: true };
 }
-

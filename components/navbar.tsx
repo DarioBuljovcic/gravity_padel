@@ -31,9 +31,9 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { name: 'Tereni', href: '#courts' },
-    { name: 'Cenovnik', href: '#pricing' },
-    { name: 'Kontakt', href: '#contact' },
+    { name: 'Kako funkcioniše', href: '#courts' },
+    { name: 'Cene i termini', href: '#pricing' },
+    { name: 'Rezerviši', href: '#contact' },
   ];
 
   return (
@@ -78,7 +78,7 @@ export default function Navbar() {
               href="/rezervacija"
               className=" hidden md:block px-4 md:px-6 py-2 bg-primary-orange text-slate-950 rounded-full font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 shadow-lg shadow-primary-orange/20 btn-press"
             >
-              Rezerviši
+              Rezerviši za 10 sekundi
             </Link>
 
             {/* Burger Button */}
@@ -121,7 +121,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
               className="block w-full py-5 bg-padel-blue text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-2xl shadow-blue-600/20"
             >
-              Rezerviši Termin
+              Rezerviši za 10 sekundi
             </Link>
           </div>
         </div>

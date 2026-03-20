@@ -1,9 +1,10 @@
 import Link from "next/link";
+import type { Booking } from "./types";
 
 export default function ConfirmationStep({
   booking
 }: {
-  booking: any
+  booking: Booking
 }) {
   return (
     <div className="text-center space-y-8 max-w-lg mx-auto animate-step-in">
@@ -13,9 +14,9 @@ export default function ConfirmationStep({
         </svg>
       </div>
       <div>
-        <h2 className="text-4xl font-display font-black text-white mb-4 uppercase">HVALA VAM!</h2>
+        <h2 className="text-4xl font-display font-black text-white mb-4 uppercase">Termin je zabeležen</h2>
         <p className="text-slate-400 text-lg">
-          Vaš upit je uspešno poslat.
+          Poslali smo tvoj upit. Potvrda sledi uskoro.
         </p>
       </div>
       <div className="p-6 rounded-2xl bg-slate-900/50 border border-white/5 text-left space-y-3 shadow-2xl">
@@ -36,6 +37,9 @@ export default function ConfirmationStep({
           <span className="text-padel-blue font-black text-xl">{booking.package.price}</span>
         </div>
       </div>
+      <p className="text-sm font-medium text-slate-400">
+        Ako treba nešto da promeniš, pozovi nas i rešavamo odmah.
+      </p>
       <Link
         href="/"
         className="inline-block px-10 py-4 bg-padel-blue text-white rounded-full font-black uppercase tracking-widest text-xs hover:bg-blue-500 transition-all shadow-lg shadow-blue-600/20 active:scale-95 transform"

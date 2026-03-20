@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.actions";
-import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
 type Props = {

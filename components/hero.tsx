@@ -3,6 +3,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function Hero() {
+  const proofPoints = [
+    '4 terena',
+    '08-23h svakog dana',
+    'Reketi i loptice uključeni',
+    'Subotica, Severna',
+    'Online rezervacija odmah',
+  ];
+
   return (
     <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 md:pt-32 pb-12 md:pb-20 px-4 md:px-6 bg-slate-950">
       {/* LED Floodlight Glow - Anchoring Design */}
@@ -20,21 +28,38 @@ export default function Hero() {
         <div className="lg:col-span-7 space-y-8 md:space-y-10 text-center lg:text-left">
 
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-display font-black leading-[0.85] tracking-tighter text-slate-50">
-            POBEDI <br className="hidden sm:block" />
-            <span className="text-padel-blue brightness-125">GRAVITACIJU</span>
+            TVOJ TERMIN <br className="hidden sm:block" />
+            <span className="text-padel-blue brightness-125">ZA 10 SEKUNDI</span>
           </h1>
 
-          <p className="max-w-md mx-auto lg:mx-0 text-lg md:text-xl text-slate-400 leading-relaxed font-medium px-4 md:px-0">
-            Oseti energiju plavih terena pod svetlima reflektora. Najveći padel centar u gradu čeka na tvoj prvi smeč.
+          <p className="max-w-xl mx-auto lg:mx-0 text-lg md:text-xl text-slate-400 leading-relaxed font-medium px-4 md:px-0">
+            Ekipa je spremna. Termin još nije. Rezerviši teren bez poziva, bez čekanja i bez dopisivanja dok je najbolji termin još slobodan.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 md:gap-5 pt-4">
             <Link
-              href="https://gravitysport.simplybook.me/v2/?utm_source=ig&utm_medium=social&utm_content=link_in_bio#book"
+              href="/rezervacija"
               className="w-full sm:w-auto px-10 py-5 bg-primary-orange text-slate-950 font-black uppercase tracking-widest text-sm hover:bg-white transition-all duration-300 transform shadow-2xl shadow-primary-orange/20 btn-press text-center"
             >
-              Rezerviši Termin
+              Rezerviši za 10 sekundi
             </Link>
+          </div>
+
+          <div className="space-y-4 pt-1">
+            <p className="text-xs md:text-sm font-black uppercase tracking-[0.35em] text-slate-500">
+              Bez poziva. Bez čekanja.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 md:gap-4">
+              {proofPoints.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/10 bg-slate-900/50 px-4 py-2 text-[10px] md:text-xs font-black uppercase tracking-[0.18em] text-slate-300"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -51,8 +76,8 @@ export default function Hero() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
             <div className="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8 p-4 md:p-6 glass-dark rounded-xl md:rounded-2xl border border-blue-600/10">
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-1">Subotica</p>
-              <p className="text-white font-black tracking-tight text-sm md:text-base">Severna BB, 24000 Subotica</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-1">Ne čekaj da termin ode</p>
+              <p className="text-white font-black tracking-tight text-sm md:text-base">Severna 7, Subotica. Izaberi vreme sada i dođi pravo na meč.</p>
             </div>
           </div>
         </div>

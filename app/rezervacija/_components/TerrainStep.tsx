@@ -1,5 +1,7 @@
 "use client";
 
+import type { Terrain, TerrainAvailability } from "./types";
+
 const terrains = [
   { id: 1, name: "Teren 1", description: "Panoramic WPT Standard" },
   { id: 2, name: "Teren 2", description: "Panoramic WPT Standard" },
@@ -8,39 +10,33 @@ const terrains = [
 ];
 
 export default function TerrainStep({ 
-  booking, 
-  setBooking, 
+  onSelect,
   prevStep,
   terrainAvailability 
 }: { 
-  booking: any, 
-  setBooking: (b: any) => void, 
+  onSelect: (terrain: Terrain) => void,
   prevStep: () => void,
-  terrainAvailability: any[]
+  terrainAvailability: TerrainAvailability[]
 }) {
-  const handleSelect = (terrain: typeof terrains[0]) => {
-    setBooking({ ...booking, terrain });
-  };
-
   return (
     <div className="space-y-8 animate-step-in">
       <div className="text-center">
-        <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4 uppercase">Izaberite Teren</h2>
-        <p className="text-slate-400">Na kom terenu želite da pokažete svoje umeće za datum {new Date(booking.date).toLocaleDateString("sr-RS")}</p>
+        <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4 uppercase">Izaberi teren</h2>
+        <p className="text-slate-400">Za tvoj datum prikazujemo samo ono što ima smisla da rezervišeš.</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
         {terrains.map((terrain) => {
-          const isAvailable = terrainAvailability.find(a => a.terrain_id === terrain.id)?.hasAnyFreeSlot;
+          const isAvailable = terrainAvailability.find((availability) => availability.terrain_id === terrain.id)?.hasAnyFreeSlot;
 
           return (
             <div key={terrain.id} className="relative">
               {!isAvailable && (
                 <div className="absolute top-4 right-4 z-10 bg-red-500/10 text-red-500 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-red-500/20">
-                  Zauzeto
+                  Ovaj je otišao
                 </div>
               )}
               <button
-                onClick={() => isAvailable && handleSelect(terrain)}
+                onClick={() => isAvailable && onSelect(terrain)}
                 disabled={!isAvailable}
                 className={`group block w-full p-8 rounded-[2.5rem] border transition-all duration-300 text-left shadow-2xl ${
                   isAvailable 
@@ -59,6 +55,11 @@ export default function TerrainStep({
                 </div>
                 <h3 className="text-2xl font-display font-black text-white">{terrain.name}</h3>
                 <p className="text-slate-500 text-sm">{terrain.description}</p>
+                {isAvailable && (
+                  <p className="mt-4 text-[10px] font-black uppercase tracking-[0.25em] text-padel-blue">
+                    Slobodan je za tvoj datum
+                  </p>
+                )}
               </button>
             </div>
           );

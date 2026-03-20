@@ -34,11 +34,12 @@ export default function Pricing() {
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16 md:mb-24">
           <h2 className="text-4xl md:text-7xl font-display font-black text-white tracking-tighter mb-6">
-            CENOVNIK
+            IZABERI TERMIN <br className="hidden md:block" />
+            <span className="text-padel-blue">I REŠI TO ODMAH</span>
           </h2>
           <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-medium">
-            Transparentne cene za vrhunsko iskustvo. <br className="hidden md:block" />
-            Izaberite termin koji vam najviše odgovara.
+            Cene su jasne unapred, bez dopisivanja i proveravanja. <br className="hidden md:block" />
+            Pogledaj šta ti odgovara i rezerviši dok je termin slobodan.
           </p>
         </FadeIn>
 
@@ -51,7 +52,7 @@ export default function Pricing() {
                   {pricingData.workingDays.title}
                 </h3>
                 <span className="px-4 py-1.5 rounded-full bg-blue-600/10 text-blue-400 text-[10px] font-black uppercase tracking-widest border border-blue-600/20">
-                  Ponedeljak - Petak
+                  Kada želiš posle obaveza
                 </span>
               </div>
 
@@ -93,7 +94,7 @@ export default function Pricing() {
                   {pricingData.weekend.title}
                 </h3>
                 <span className="px-4 py-1.5 rounded-full bg-primary-orange/10 text-primary-orange text-[10px] font-black uppercase tracking-widest border border-primary-orange/20">
-                  Subota - Nedelja
+                  Za lagan vikend meč
                 </span>
               </div>
 
@@ -130,7 +131,7 @@ export default function Pricing() {
 
         <FadeIn className="mt-12 text-center">
           <p className="text-slate-500 text-xs md:text-sm font-medium italic">
-            * Napomena: izgubljena loptica se naplaćuje 300 din *
+            * Oprema je spremna. Potreban ti je samo termin. *
           </p>
         </FadeIn>
       </div>

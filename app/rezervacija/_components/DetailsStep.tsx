@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect } from "react";
 import { createReservationAction } from "@/lib/actions/reservation.actions";
+import type { Booking, BookingSetter, ReservationActionState } from "./types";
 
 export default function DetailsStep({ 
   booking, 
@@ -9,12 +10,15 @@ export default function DetailsStep({
   prevStep,
   onSuccess
 }: { 
-  booking: any, 
-  setBooking: (b: any) => void, 
+  booking: Booking,
+  setBooking: BookingSetter,
   prevStep: () => void,
   onSuccess: () => void
 }) {
-  const [state, action, isPending] = useActionState(createReservationAction, null);
+  const [state, action, isPending] = useActionState<ReservationActionState, FormData>(
+    createReservationAction,
+    null
+  );
   
   useEffect(() => {
     if (state?.success) {
@@ -25,8 +29,8 @@ export default function DetailsStep({
   return (
     <div className="space-y-8 max-w-xl mx-auto animate-step-in">
       <div className="text-center">
-        <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4 uppercase">Vaši Podaci</h2>
-        <p className="text-slate-400">Ostavite nam svoje podatke za potvrdu rezervacije</p>
+        <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4 uppercase">Još samo tvoji podaci</h2>
+        <p className="text-slate-400">Ostavi kontakt i završavamo rezervaciju.</p>
       </div>
       
       <form action={action} className="p-8 rounded-3xl bg-slate-900/50 border border-white/5 backdrop-blur-xl space-y-4 shadow-2xl">
@@ -44,13 +48,22 @@ export default function DetailsStep({
           </div>
         )}
 
+        <div className="rounded-2xl border border-blue-600/20 bg-blue-600/5 px-4 py-4 text-center">
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-2">
+            Zašto tražimo kontakt
+          </p>
+          <p className="text-sm font-medium text-slate-300">
+            Javljamo se samo radi potvrde termina. Nema komplikacije, samo da zaključaš rezervaciju.
+          </p>
+        </div>
+
         <div className="space-y-2">
           <label className="text-xs font-black text-slate-500 uppercase tracking-widest ml-2">Ime i prezime</label>
           <input
             required
             name="name"
             type="text"
-            placeholder="Vaše ime"
+            placeholder="Tvoje ime i prezime"
             onChange={(e) => setBooking({ ...booking, name: e.target.value })}
             className="w-full bg-slate-800 text-white p-4 rounded-xl border border-white/10 focus:border-padel-blue outline-none font-bold transition-all focus:ring-1 focus:ring-padel-blue"
           />
@@ -82,7 +95,7 @@ export default function DetailsStep({
           type="submit"
           className="w-full mt-8 py-5 bg-primary-orange text-slate-950 rounded-xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-primary-orange/20 active:scale-95 transform disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isPending ? "Slanje..." : "Pošalji Upit"}
+          {isPending ? "Zaključavamo termin..." : "Završi rezervaciju"}
         </button>
         
         <button 

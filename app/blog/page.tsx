@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getBlogs } from "@/lib/actions/blog.actions";
-import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
 export const revalidate = 60; // ISR: revalidate every 60s
