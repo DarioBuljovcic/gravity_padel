@@ -26,6 +26,25 @@ export default function DetailsStep({
     }
   }, [state, onSuccess]);
 
+  if (!booking.terrain || !booking.package) {
+    return (
+      <div className="space-y-6 max-w-xl mx-auto animate-step-in text-center">
+        <div>
+          <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4 uppercase">Nedostaju podaci rezervacije</h2>
+          <p className="text-slate-400">Izaberi teren i paket pre završetka rezervacije.</p>
+        </div>
+
+        <button
+          type="button"
+          onClick={prevStep}
+          className="w-full py-5 bg-primary-orange text-slate-950 rounded-xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-primary-orange/20 active:scale-95 transform"
+        >
+          Nazad
+        </button>
+      </div>
+    );
+  }
+  
   return (
     <div className="space-y-8 max-w-xl mx-auto animate-step-in">
       <div className="text-center">

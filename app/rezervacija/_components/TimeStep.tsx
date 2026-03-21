@@ -13,9 +13,31 @@ export default function TimeStep({
   prevStep: () => void,
   bookedSlots: BookedSlot[]
 }) {
+  if (!booking.package) {
+    return (
+      <div className="space-y-6 animate-step-in text-center">
+        <div>
+          <h2 className="text-3xl md:text-5xl font-display font-black text-white mb-4 uppercase">Paket nije izabran</h2>
+          <p className="text-slate-400">Vrati se jedan korak nazad i izaberi paket pre termina.</p>
+        </div>
+
+        <div>
+          <button 
+            onClick={prevStep} 
+            className="inline-block mt-8 text-slate-500 font-bold uppercase text-xs tracking-widest hover:text-white transition-colors"
+          >
+            Nazad na paket
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const selectedPackage = booking.package;
+
   const getTimeSlots = () => {
     const slots = [];
-    const { duration, range } = booking.package;
+    const { duration, range } = selectedPackage;
     const [startRange, endRange] = range.split(' - ');
     const startHour = parseInt(startRange.split(':')[0]);
     const endHour = parseInt(endRange.split(':')[0]);
