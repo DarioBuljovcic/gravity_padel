@@ -10,7 +10,7 @@ export default function Footer() {
               PADEL <span className="text-padel-blue">GRAVITY</span>
             </Link>
             <p className="max-w-sm text-slate-400 leading-relaxed font-medium">
-              Vodeći padel centar u Subotici. Mesto gde se sport susreće sa vrhunskim iskustvom igranja.
+              Kada želiš brz dogovor i siguran termin, ovde rezervišeš bez čekanja i dolaziš pravo na igru.
             </p>
           </div>
 
@@ -25,7 +25,7 @@ export default function Footer() {
           <div>
             <span className="text-blue-500 text-[10px] font-black uppercase tracking-[0.4em] block mb-8">RADNO VREME</span>
             <p className="text-slate-300 leading-relaxed font-medium">
-              Svakim danom <br />
+              Svakog dana <br />
               08:00 — 23:00
             </p>
           </div>
@@ -33,12 +33,12 @@ export default function Footer() {
 
         <div className="pt-16 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-10">
           <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.5em]">
-            © 2026 Padel Gravity Subotica. Powered by O24.
+            © 2026 Padel Gravity Subotica. Rezervacija online, bez čekanja.
           </p>
           <div className="flex gap-12 uppercase text-[10px] font-black tracking-[0.3em] text-slate-400">
             <a href="https://www.instagram.com/padel.gravity/" className="hover:text-blue-400 transition-colors">Instagram</a>
             <a href="https://www.facebook.com/padel.gravity024/" className="hover:text-blue-400 transition-colors">Facebook</a>
-            <Link href="#contact" className="hover:text-blue-400 transition-colors">Kontakt</Link>
+            <Link href="#contact" className="hover:text-blue-400 transition-colors">Rezervacija</Link>
           </div>
         </div>
       </div>
