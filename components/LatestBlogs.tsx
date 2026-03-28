@@ -7,7 +7,7 @@ export async function LatestBlogs() {
   if (blogs.length === 0) return null;
 
   return (
-    <section className="w-full pb-20 max-w-7xl mx-auto">
+    <section className="w-full pb-20 max-w-7xl mx-auto px-4 md:px-6">
       <div className="flex items-end justify-between mb-12 px-2">
         <div>
           <span className="text-primary-orange text-[10px] md:text-xs font-black uppercase tracking-[0.5em] block mb-4">
