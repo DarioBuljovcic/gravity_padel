@@ -1,7 +1,8 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getBlogBySlug, getBlogs } from "@/lib/actions/blog.actions";
-import Footer from "@/components/footer";
+import Footer from "@/components/Footer";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -61,6 +62,17 @@ export default async function BlogPostPage({ params }: Props) {
                 </p>
               )}
             </header>
+
+            {blog.image_url && (
+              <div className="w-full aspect-[16/9] md:aspect-[21/9] relative rounded-3xl overflow-hidden mb-12 border border-white/5 shadow-2xl">
+                <Image
+                  src={blog.image_url}
+                  alt={blog.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
 
             <div className="prose prose-invert prose-slate max-w-none">
               {blog.body.split("\n").map((line, i) =>

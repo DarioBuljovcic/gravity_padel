@@ -1,6 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getBlogs } from "@/lib/actions/blog.actions";
-import Footer from "@/components/footer";
+import Footer from "@/components/Footer";
 
 export const revalidate = 60; // ISR: revalidate every 60s
 
@@ -56,32 +57,44 @@ export default async function BlogPage() {
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                <div className="relative z-10">
-                  <div className="flex items-center gap-4 mb-4">
-                    <time className="text-[10px] text-slate-500 font-black uppercase tracking-widest border border-white/10 px-3 py-1 rounded-full">
-                      {new Date(blog.created_at).toLocaleDateString("sr-RS", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      })}
-                    </time>
-                  </div>
-
-                  <h3 className="text-2xl md:text-3xl font-display font-black text-white group-hover:text-primary-orange transition-colors duration-300 mb-4 tracking-tight">
-                    {blog.title}
-                  </h3>
-
-                  {blog.excerpt && (
-                    <p className="text-slate-400 text-base leading-relaxed line-clamp-2 mb-6 font-medium">
-                      {blog.excerpt}
-                    </p>
+                <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start">
+                  {blog.image_url && (
+                    <div className="w-full md:w-1/3 aspect-[4/3] relative rounded-xl overflow-hidden shrink-0 border border-white/5">
+                      <Image
+                        src={blog.image_url}
+                        alt={blog.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
                   )}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-4 mb-4">
+                      <time className="text-[10px] text-slate-500 font-black uppercase tracking-widest border border-white/10 px-3 py-1 rounded-full">
+                        {new Date(blog.created_at).toLocaleDateString("sr-RS", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </time>
+                    </div>
 
-                  <div className="flex items-center gap-2 text-primary-orange text-xs font-black uppercase tracking-widest group-hover:gap-4 transition-all duration-300">
-                    Pročitaj više
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14m-7-7 7 7-7 7" />
-                    </svg>
+                    <h3 className="text-2xl md:text-3xl font-display font-black text-white group-hover:text-primary-orange transition-colors duration-300 mb-4 tracking-tight">
+                      {blog.title}
+                    </h3>
+
+                    {blog.excerpt && (
+                      <p className="text-slate-400 text-base leading-relaxed line-clamp-2 mb-6 font-medium">
+                        {blog.excerpt}
+                      </p>
+                    )}
+
+                    <div className="flex items-center gap-2 text-primary-orange text-xs font-black uppercase tracking-widest group-hover:gap-4 transition-all duration-300 mt-auto">
+                      Pročitaj više
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14m-7-7 7 7-7 7" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </Link>

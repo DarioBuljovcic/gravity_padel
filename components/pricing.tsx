@@ -1,6 +1,6 @@
 'use client';
 
-import { FadeIn } from './fade-in';
+import { FadeIn } from './FadeIn';
 
 const pricingData = {
   workingDays: {

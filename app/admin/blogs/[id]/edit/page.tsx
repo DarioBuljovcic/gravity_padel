@@ -64,6 +64,7 @@ export default async function EditBlogPage({ params }: Props) {
             defaultValues={{
               title: blog.title,
               excerpt: blog.excerpt ?? "",
+              image_url: blog.image_url ?? "",
               body: blog.body,
             }}
           />

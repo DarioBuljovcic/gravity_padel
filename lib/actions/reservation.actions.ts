@@ -3,7 +3,7 @@
 import { supabase } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { requireAuth } from "@/lib/auth";
-import type { ReservationActionState } from "@/app/rezervacija/_components/types";
+import type { ReservationActionState } from "@/apphttps://gravitysport.simplybook.me/v2//_components/types";
 
 export async function createReservationAction(
   prevState: ReservationActionState,

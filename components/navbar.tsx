@@ -31,9 +31,11 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { name: 'Kako funkcioniše', href: '#courts' },
-    { name: 'Cene i termini', href: '#pricing' },
-    { name: 'Rezerviši', href: '#contact' },
+    { name: 'O nama', href: '#about' },
+    { name: 'Cene', href: '#pricing' },
+    { name: 'Galerija', href: '#gallery' },
+    { name: 'Blog', href: '#blog' },
+    { name: 'Kontakt', href: '#contact' },
   ];
 
   return (
@@ -75,10 +77,10 @@ export default function Navbar() {
 
           <div className="flex items-center gap-4">
             <Link
-              href="/rezervacija"
-              className=" hidden md:block px-4 md:px-6 py-2 bg-primary-orange text-slate-950 rounded-full font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 shadow-lg shadow-primary-orange/20 btn-press"
+              href="https://gravitysport.simplybook.me/v2/"
+              className=" hidden md:block px-4 md:px-6 py-2 bg-primary-orange text-slate-950 rounded-full font-black text-[9px] md:text-[10px] uppercase tracking-[0.1em] hover:bg-white transition-all duration-300 shadow-lg shadow-primary-orange/20 btn-press"
             >
-              Rezerviši za 10 sekundi
+              Rezerviši
             </Link>
 
             {/* Burger Button */}
@@ -117,7 +119,7 @@ export default function Navbar() {
           <div className={`mt-8 w-full max-w-xs transition-all duration-500 delay-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
             }`}>
             <Link
-              href="/rezervacija"
+              href="https://gravitysport.simplybook.me/v2/"
               onClick={() => setIsOpen(false)}
               className="block w-full py-5 bg-padel-blue text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-2xl shadow-blue-600/20"
             >

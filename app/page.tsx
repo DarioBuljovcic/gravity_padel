@@ -1,10 +1,12 @@
-import Navbar from "@/components/navbar";
-import Hero from "@/components/hero";
-import AboutCourts from "@/components/about-courts";
-import Pricing from "@/components/pricing";
-import BookingCTA from "@/components/booking-cta";
-import Footer from "@/components/footer";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import AboutCourts from "@/components/AboutCourts";
+import Pricing from "@/components/Pricing";
+import BookingCTA from "@/components/BookingCta";
+import Footer from "@/components/Footer";
 import Schema from "@/components/schema";
+import About from "@/components/About";
+import Gallery from "@/components/Gallery";
 import { LatestBlogs } from "@/components/LatestBlogs";
 
 export default function Home() {
@@ -16,9 +18,13 @@ export default function Home() {
       <div className="relative">
         <Hero />
 
-        <div id="about" className="relative z-10 transition-colors duration-500">
-          <AboutCourts />
+        <div className="relative z-10 transition-colors duration-500">
+          <About />
+          <div id="about">
+            <AboutCourts />
+          </div>
           <LatestBlogs />
+          <Gallery />
           <Pricing />
           <BookingCTA />
         </div>

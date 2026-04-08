@@ -8,7 +8,8 @@ type Props = {
   id: string;
   defaultValues: {
     title: string;
-    excerpt: string;
+    excerpt?: string;
+    image_url?: string;
     body: string;
   };
 };

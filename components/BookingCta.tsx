@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FadeIn } from './fade-in';
+import { FadeIn } from './FadeIn';
 
 export default function BookingCTA() {
   return (
@@ -8,7 +8,7 @@ export default function BookingCTA() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.05)_0%,transparent_70%)]" />
 
       <FadeIn className="max-w-5xl mx-auto text-center relative z-10">
-        <h2 className="text-5xl md:text-7xl font-display font-black text-slate-50 mb-10 tracking-tighter leading-[0.85]">
+        <h2 className="text-5xl md:text-7xl font-display font-black text-slate-50 mb-10 tracking-tighter">
           TVOJ TERMIN <br />
           <span className="text-primary-orange">NEĆE ČEKATI</span>
         </h2>
@@ -19,7 +19,7 @@ export default function BookingCTA() {
 
         <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
           <Link
-            href="/rezervacija"
+            href="https://gravitysport.simplybook.me/v2/"
             className="group relative px-12 py-4 bg-primary-orange text-slate-950 font-black uppercase tracking-widest text-xl hover:bg-white transition-all duration-300 w-full md:w-auto shadow-[0_0_50px_rgba(242,178,100,0.2)] btn-press flex items-center justify-center rounded-2xl border-b-4 border-accent-orange active:border-b-0"
           >
             Rezerviši za 10 sekundi

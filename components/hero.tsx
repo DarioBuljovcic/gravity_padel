@@ -38,7 +38,7 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 md:gap-5 pt-4">
             <Link
-              href="/rezervacija"
+              href="https://gravitysport.simplybook.me/v2/"
               className="w-full sm:w-auto px-10 py-5 bg-primary-orange text-slate-950 font-black uppercase tracking-widest text-sm hover:bg-white transition-all duration-300 transform shadow-2xl shadow-primary-orange/20 btn-press text-center"
             >
               Rezerviši za 10 sekundi

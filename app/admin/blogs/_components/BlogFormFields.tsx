@@ -9,6 +9,7 @@ type Props = {
   defaultValues?: {
     title?: string;
     excerpt?: string;
+    image_url?: string;
     body?: string;
   };
   submitLabel?: string;
@@ -55,6 +56,23 @@ export function BlogFormFields({
           defaultValue={defaultValues.excerpt ?? ""}
           className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-primary-orange/60 focus:ring-4 focus:ring-primary-orange/10 transition-all duration-300 font-medium"
           placeholder="Kratak rezime koji se prikazuje na listi (opciono)"
+        />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        <label
+          htmlFor="image_url"
+          className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1"
+        >
+          URL Slike
+        </label>
+        <input
+          id="image_url"
+          name="image_url"
+          type="text"
+          defaultValue={defaultValues.image_url ?? ""}
+          className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-primary-orange/60 focus:ring-4 focus:ring-primary-orange/10 transition-all duration-300 font-medium"
+          placeholder="npr. /about.webp ili https://..."
         />
       </div>
 

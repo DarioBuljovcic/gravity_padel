@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FadeIn } from './fade-in';
+import { FadeIn } from './FadeIn';
 
 export default function AboutCourts() {
   const features = [
@@ -67,28 +67,6 @@ export default function AboutCourts() {
           ))}
         </div>
 
-        {/* Court Preview with Blue Glow */}
-        <FadeIn className="relative h-[400px] md:h-[650px] w-full rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-blue-600/10 group shadow-[0_0_50px_rgba(37,99,235,0.05)]">
-          <Image
-            src="/about.webp"
-            alt="Padel Plavi Teren"
-            fill
-            className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-1000"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-          <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-10">
-            <div className="max-w-2xl text-center md:text-left">
-              <span className="text-blue-400 text-[10px] md:text-xs font-black uppercase tracking-[0.4em] mb-3 md:mb-4 block">Praktični dokaz</span>
-              <h3 className="text-3xl sm:text-4xl md:text-6xl font-display font-black text-slate-50 leading-[0.9] tracking-tighter">Ti skupi ekipu. <br className="hidden sm:block" />Termin pokupi ovde.</h3>
-            </div>
-            <Link
-              href="/rezervacija"
-              className="w-full md:w-auto px-8 py-4 bg-blue-600 text-white border border-blue-400/20 rounded-full font-black uppercase text-[10px] tracking-[0.2em] hover:bg-white hover:text-padel-blue transition-all btn-press shadow-xl shadow-blue-600/20 text-center"
-            >
-              Uzmi sledeći termin
-            </Link>
-          </div>
-        </FadeIn>
       </div>
     </section>
   );

@@ -69,6 +69,7 @@ export async function createBlogFormAction(
 
   const title = (formData.get("title") as string)?.trim();
   const excerpt = (formData.get("excerpt") as string)?.trim();
+  // const image_url = (formData.get("image_url") as string)?.trim();
   const body = (formData.get("body") as string)?.trim();
 
   if (!title || !body) return { error: "Title and body are required." };
@@ -77,6 +78,7 @@ export async function createBlogFormAction(
     title,
     slug: slugify(title),
     excerpt: excerpt || null,
+    // image_url: image_url || null,
     body,
   });
 
@@ -102,6 +104,7 @@ export async function updateBlogFormAction(
 
   const title = (formData.get("title") as string)?.trim();
   const excerpt = (formData.get("excerpt") as string)?.trim();
+  const image_url = (formData.get("image_url") as string)?.trim();
   const body = (formData.get("body") as string)?.trim();
 
   if (!title || !body) return { error: "Title and body are required." };
@@ -112,6 +115,7 @@ export async function updateBlogFormAction(
       title,
       slug: slugify(title),
       excerpt: excerpt || null,
+      image_url: image_url || null,
       body,
       updated_at: new Date().toISOString(),
     })
