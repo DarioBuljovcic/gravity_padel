@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getBlogs } from "@/lib/actions/blog.actions";
 import Footer from "@/components/Footer";
 
-export const revalidate = 60; // ISR: revalidate every 60s
+export const revalidate = 3600; // ISR: revalidate every 60s
 
 export default async function BlogPage() {
   const blogs = await getBlogs();

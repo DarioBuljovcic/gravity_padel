@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getBlogs, logoutAction } from "@/lib/actions/blog.actions";
 import { getReservations } from "@/lib/reservations.queries";
 import { DeleteButton } from "./_components/DeleteButton";
-import { ReservationButtons } from "./_components/ReservationButtons";
 import Image from "next/image";
 
 export const dynamic = "force-dynamic";
