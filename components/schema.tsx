@@ -70,7 +70,31 @@ export default function Schema() {
         "@type": "ListItem",
         "position": 2,
         "name": "O nama",
-        "item": "https://padelgravity.rs/#about"
+        "item": "https://padelgravity.rs/#about-us"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Galerija",
+        "item": "https://padelgravity.rs/#gallery"
+      },
+      {
+        "@type": "ListItem",
+        "position": 4,
+        "name": "Cene",
+        "item": "https://padelgravity.rs/#pricing"
+      },
+      {
+        "@type": "ListItem",
+        "position": 5,
+        "name": "Blog",
+        "item": "https://padelgravity.rs/#blog"
+      },
+      {
+        "@type": "ListItem",
+        "position": 6,
+        "name": "Kontakt",
+        "item": "https://padelgravity.rs/#contact"
       }
     ]
   };

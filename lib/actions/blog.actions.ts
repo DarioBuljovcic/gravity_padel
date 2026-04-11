@@ -69,7 +69,7 @@ export async function createBlogFormAction(
 
   const title = (formData.get("title") as string)?.trim();
   const excerpt = (formData.get("excerpt") as string)?.trim();
-  // const image_url = (formData.get("image_url") as string)?.trim();
+  const image_url = (formData.get("image_url") as string)?.trim();
   const body = (formData.get("body") as string)?.trim();
 
   if (!title || !body) return { error: "Title and body are required." };
@@ -78,7 +78,7 @@ export async function createBlogFormAction(
     title,
     slug: slugify(title),
     excerpt: excerpt || null,
-    // image_url: image_url || null,
+    image_url: image_url || null,
     body,
   });
 
@@ -88,8 +88,8 @@ export async function createBlogFormAction(
   }
 
   revalidatePath("/blog");
-  revalidatePath("/admin/dashboard");
-  redirect("/admin/dashboard");
+  revalidatePath("/admin");
+  redirect("/admin");
 }
 
 // updateBlogFormAction has an extra first arg (id) so it can be bound:
@@ -106,7 +106,6 @@ export async function updateBlogFormAction(
   const excerpt = (formData.get("excerpt") as string)?.trim();
   const image_url = (formData.get("image_url") as string)?.trim();
   const body = (formData.get("body") as string)?.trim();
-
   if (!title || !body) return { error: "Title and body are required." };
 
   const { error } = await supabase
@@ -124,8 +123,8 @@ export async function updateBlogFormAction(
   if (error) return { error: error.message };
 
   revalidatePath("/blog");
-  revalidatePath("/admin/dashboard");
-  redirect("/admin/dashboard");
+  revalidatePath("/admin");
+  redirect("/admin");
 }
 
 export async function deleteBlog(id: string): Promise<void> {
@@ -133,7 +132,25 @@ export async function deleteBlog(id: string): Promise<void> {
   const { error } = await supabase.from("blogs").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/blog");
-  revalidatePath("/admin/dashboard");
+  revalidatePath("/admin");
+}
+
+export async function deleteBlogImageFromStorage(url: string): Promise<void> {
+  await requireAuth();
+  if (!url) return;
+
+  const urlParts = url.split("/");
+  const filename = urlParts[urlParts.length - 1];
+
+  if (filename) {
+    const { error } = await supabase.storage
+      .from("blog-images")
+      .remove([filename]);
+
+    if (error) {
+      console.error("Failed to delete from storage:", error);
+    }
+  }
 }
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
@@ -157,7 +174,7 @@ export async function loginAction(
   session.isLoggedIn = true;
   await session.save();
 
-  redirect("/admin/dashboard");
+  redirect("/admin");
 }
 
 export async function logoutAction(): Promise<void> {

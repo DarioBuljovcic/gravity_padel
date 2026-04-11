@@ -31,10 +31,10 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { name: 'O nama', href: '#about' },
-    { name: 'Cene', href: '#pricing' },
-    { name: 'Galerija', href: '#gallery' },
+    { name: 'O nama', href: '#about-us' },
     { name: 'Blog', href: '#blog' },
+    { name: 'Galerija', href: '#gallery' },
+    { name: 'Cene', href: '#pricing' },
     { name: 'Kontakt', href: '#contact' },
   ];
 

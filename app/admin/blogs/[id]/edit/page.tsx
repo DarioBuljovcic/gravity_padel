@@ -36,14 +36,14 @@ export default async function EditBlogPage({ params }: Props) {
               PADEL <span className="text-padel-blue group-hover:text-primary-orange transition-colors">GRAVITY</span>
             </span>
           </Link>
-          
+
           <div className="w-full flex items-center justify-between gap-4">
             <Link
-              href="/admin/dashboard"
+              href="/admin"
               className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-slate-500 hover:text-white transition-colors shrink-0"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="group-hover:-translate-x-1 transition-transform">
-                <path d="M19 12H5m7-7-7 7 7 7"/>
+                <path d="M19 12H5m7-7-7 7 7 7" />
               </svg>
               Kontrolna Tabla
             </Link>

@@ -28,7 +28,7 @@ export function EditBlogForm({ id, defaultValues }: Props) {
       state={state}
       isPending={isPending}
       defaultValues={defaultValues}
-      submitLabel="Save changes"
+      submitLabel="Sačuvaj izmene"
     />
   );
 }

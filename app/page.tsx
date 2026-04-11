@@ -17,18 +17,12 @@ export default function Home() {
 
       <div className="relative">
         <Hero />
-
-        <div className="relative z-10 transition-colors duration-500">
-          <About />
-          <div id="about">
-            <AboutCourts />
-          </div>
-          <LatestBlogs />
-          <Gallery />
-          <Pricing />
-          <BookingCTA />
-        </div>
-
+        <About />
+        <AboutCourts />
+        <LatestBlogs />
+        <Gallery />
+        <Pricing />
+        <BookingCTA />
         <Footer />
       </div>
     </main>

@@ -5,7 +5,7 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 // Service role client — only used server-side (actions, server components)
 // Never expose this to the browser
-if (!supabaseServiceKey) {
+if (!supabaseUrl || !supabaseServiceKey) {
   throw new Error("Missing Supabase URL or Service Role Key");
 }
 export const supabase = createClient(supabaseUrl, supabaseServiceKey);
@@ -19,4 +19,11 @@ export type Blog = {
   body: string;
   created_at: string;
   updated_at: string;
+};
+
+export type GalleryImage = {
+  id: string;
+  url: string;
+  alt: string | null;
+  created_at: string;
 };

@@ -1,8 +1,9 @@
 import Image from 'next/image';
+import { FadeIn } from './FadeIn';
 
 const About = () => {
     return (
-        <section id="about-us" className="relative py-24 md:py-32 px-6 overflow-hidden">
+        <section id="about-us" className="relative py-20 px-6 overflow-hidden">
             {/* Background Decorations */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-1/4 -right-20 w-96 h-96 bg-padel-blue/5 rounded-full blur-[120px]" />
@@ -10,15 +11,15 @@ const About = () => {
             </div>
 
             <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-10">
-                
+
                 {/* Image Column */}
-                <div className="relative aspect-[4/5] md:aspect-square lg:aspect-[4/5] w-full rounded-3xl overflow-hidden glass-dark border border-white/5 shadow-2xl">
-                    <Image 
-                        src="/about.webp" 
-                        alt="Padel Center Gravity Atmosphere" 
-                        fill 
-                        className="object-cover" 
-                        priority 
+                <FadeIn className="relative aspect-[4/5] md:aspect-square lg:aspect-[4/5] w-full rounded-3xl overflow-hidden glass-dark border border-white/5 shadow-2xl">
+                    <Image
+                        src="/images/AIP_5544.avif"
+                        alt="Padel Center Gravity Atmosphere"
+                        fill
+                        className="object-cover"
+                        priority
                     />
                     {/* Inner overlay for depth */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-8 md:p-12">
@@ -29,10 +30,10 @@ const About = () => {
                             <p className="text-white text-xs font-black uppercase tracking-widest mt-1">2 Natkrivena</p>
                         </div>
                     </div>
-                </div>
+                </FadeIn>
 
                 {/* Text Column */}
-                <div className="flex flex-col gap-8">
+                <FadeIn delay={120} className="flex flex-col gap-8">
                     <div>
                         <span className="text-primary-orange text-[10px] md:text-xs font-black uppercase tracking-[0.5em] block mb-4">
                             O Nama
@@ -63,7 +64,7 @@ const About = () => {
                             “Gravity” nije samo mesto za igru.
                         </p>
                     </div>
-                </div>
+                </FadeIn>
 
             </div>
         </section>

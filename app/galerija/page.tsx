@@ -1,19 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
+import { getGalleryImages } from "@/lib/actions/gallery.actions";
 
-export default function GalleryPage() {
+export const revalidate = 60; // Refresh occasionally in production
+
+export default async function GalleryPage() {
+  const dbImages = await getGalleryImages();
+
   // Simulating images. The user can add more to the public folder.
-  const images = [
-    { src: "/about.webp", alt: "Igrač na terenu" },
-    { src: "/hero.jpeg", alt: "Padel teren izbliza" },
-    { src: "/about.webp", alt: "Atmosfera u klubu" },
-    { src: "/hero.jpeg", alt: "Oprema za padel" },
-    { src: "/about.webp", alt: "Noćni termin" },
-    { src: "/hero.jpeg", alt: "Detalj terena" },
-    { src: "/about.webp", alt: "Padel Gravity" },
-    { src: "/hero.jpeg", alt: "Igra uveče" },
-  ];
+
+  const images = dbImages.map(img => ({ src: img.url, alt: img.alt || "Gravity Padel Image" }))
 
   return (
     <main className="min-h-screen bg-slate-950 flex flex-col">

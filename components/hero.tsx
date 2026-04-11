@@ -1,6 +1,6 @@
-
 import Link from 'next/link';
 import Image from 'next/image';
+import { FadeIn } from './FadeIn';
 
 export default function Hero() {
   const proofPoints = [
@@ -25,7 +25,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-12 gap-10 md:gap-16 items-center">
-        <div className="lg:col-span-7 space-y-8 md:space-y-10 text-center lg:text-left">
+        <FadeIn className="lg:col-span-7 space-y-8 md:space-y-10 text-center lg:text-left">
 
           <h1 className="text-5xl sm:text-7xl md:text-8xl font-display font-black leading-[0.85] tracking-tighter text-slate-50">
             TVOJ TERMIN <br className="hidden sm:block" />
@@ -61,16 +61,19 @@ export default function Hero() {
               ))}
             </div>
           </div>
-        </div>
+        </FadeIn>
 
-        <div className="lg:col-span-5 relative aspect-[4/5] md:aspect-[4/5] w-full max-w-[400px] md:max-w-[500px] mx-auto lg:mr-0 group">
+        <FadeIn
+          delay={150}
+          className="lg:col-span-5 relative aspect-[4/5] md:aspect-[4/5] w-full max-w-[400px] md:max-w-[500px] mx-auto lg:mr-0 group"
+        >
           <div className="absolute -inset-4 bg-padel-blue/20 blur-3xl opacity-30 group-hover:opacity-60 transition-opacity duration-1000" />
           <div className="relative h-full w-full border border-blue-600/20 shadow-2xl overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-slate-900">
             <Image
-              src="/hero.jpeg"
+              src="/images/MMP-172.avif"
               alt="Padel Night Akcija"
               fill
-              className="object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000"
+              className="object-cover opacity-80  group-hover:opacity-100 transition-all duration-1000"
               priority
               fetchPriority='high'
             />
@@ -80,7 +83,7 @@ export default function Hero() {
               <p className="text-white font-black tracking-tight text-sm md:text-base">Severna 7, Subotica. Izaberi vreme sada i dođi pravo na meč.</p>
             </div>
           </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );

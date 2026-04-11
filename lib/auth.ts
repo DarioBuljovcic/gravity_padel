@@ -1,11 +1,11 @@
-import { getIronSession, IronSession } from "iron-session";
+import { getIronSession, IronSession, SessionOptions } from "iron-session";
 import { cookies } from "next/headers";
 
 export type SessionData = {
   isLoggedIn: boolean;
 };
 
-const sessionOptions = {
+export const sessionOptions: SessionOptions = {
   password: process.env.SESSION_SECRET!,
   cookieName: "cms_session",
   cookieOptions: {

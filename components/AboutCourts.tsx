@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import Link from 'next/link';
 import { FadeIn } from './FadeIn';
 
 export default function AboutCourts() {
@@ -34,7 +32,7 @@ export default function AboutCourts() {
   ];
 
   return (
-    <section id="courts" className="relative py-20 md:py-32 px-4 md:px-6 bg-slate-950">
+    <section id="courts" className="relative py-20 px-4 md:px-6 bg-slate-950">
       <div className="max-w-7xl mx-auto">
         <FadeIn className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 md:mb-24">
           <div className="max-w-2xl space-y-6 text-center md:text-left">
