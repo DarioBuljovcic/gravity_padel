@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FadeIn } from './FadeIn';
+import { getGalleryImages } from "@/lib/actions/gallery.actions";
 
 // Inline SVGs for the icons
 const UsersIcon = () => (
@@ -28,7 +29,13 @@ const CalendarIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
 );
 
-const About = () => {
+const About = async () => {
+  const images = await getGalleryImages();
+  const img1 = images[0]?.url || "/images/AIP_5544.avif";
+  const img2 = images[1]?.url || "/images/MMP-172.avif";
+  const img3 = images[2]?.url || "/images/AIP_5544.avif";
+  const img4 = images[3]?.url || "/images/MMP-172.avif";
+
   const points = [
     {
       icon: <UsersIcon />,
@@ -81,16 +88,16 @@ const About = () => {
           {/* 2x2 Image Grid */}
           <div className="grid grid-cols-2 gap-4">
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden glass-dark border border-white/10">
-              <Image src="/images/AIP_5544.avif" alt="Gravity Padel" fill className="object-cover" />
+              <Image src={img1} alt="Gravity Padel" fill className="object-cover" />
             </div>
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden glass-dark border border-white/10 mt-8">
-              <Image src="/images/MMP-172.avif" alt="Gravity Padel" fill className="object-cover" />
+              <Image src={img2} alt="Gravity Padel" fill className="object-cover" />
             </div>
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden glass-dark border border-white/10 -mt-8">
-              <Image src="/images/AIP_5544.avif" alt="Gravity Padel" fill className="object-cover" />
+              <Image src={img3} alt="Gravity Padel" fill className="object-cover" />
             </div>
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden glass-dark border border-white/10">
-              <Image src="/images/MMP-172.avif" alt="Gravity Padel" fill className="object-cover" />
+              <Image src={img4} alt="Gravity Padel" fill className="object-cover" />
             </div>
           </div>
         </FadeIn>

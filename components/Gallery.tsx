@@ -19,8 +19,13 @@ export default async function Gallery() {
     "/images/MMP-172.avif"
   ];
 
-  const images = dbImages.length >= 6
-    ? dbImages.slice(0, 6).map(img => img.url)
+  // Offset by 6 to avoid showing the exact same images used in other homepage components
+  const images = dbImages.length > 0
+    ? Array.from({ length: 6 }).map((_, i) => {
+        // If we don't have enough images to offset, just use whatever we have by wrapping around
+        const index = dbImages.length > 6 ? (6 + i) % dbImages.length : i % dbImages.length;
+        return dbImages[index]?.url || defaultImages[i];
+      })
     : defaultImages;
 
   return (

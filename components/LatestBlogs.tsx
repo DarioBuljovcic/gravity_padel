@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getLatestBlogs } from "@/lib/actions/blog.actions";
+import { getGalleryImages } from "@/lib/actions/gallery.actions";
 import { FadeIn } from "./FadeIn";
 
 const ArrowRightIcon = () => (
@@ -9,6 +10,8 @@ const ArrowRightIcon = () => (
 
 export async function LatestBlogs() {
   const blogs = await getLatestBlogs(3);
+  const images = await getGalleryImages();
+  const bgImage = images[5]?.url || images[0]?.url || "/images/AIP_5544.avif";
 
   if (blogs.length === 0) return null;
 
@@ -19,7 +22,7 @@ export async function LatestBlogs() {
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-transparent z-10"></div>
         <div className="absolute right-0 top-0 bottom-0 w-full md:w-1/2 opacity-30 md:opacity-100 mix-blend-overlay">
           {/* Placeholder for the racket/ball image */}
-          <Image src="/images/AIP_5544.avif" alt="Padel Racket" fill className="object-cover object-right" />
+          <Image src={bgImage} alt="Padel Racket" fill className="object-cover object-right" />
         </div>
 
         <div className="relative z-20 max-w-xl space-y-6">
@@ -66,7 +69,7 @@ export async function LatestBlogs() {
                 {/* Blog Image */}
                 <div className="relative w-full aspect-[16/9] bg-slate-800 overflow-hidden">
                   <Image
-                    src={blog.image_url || "/images/MMP-172.avif"}
+                    src={blog.image_url || images[index % images.length]?.url || "/images/MMP-172.avif"}
                     alt={blog.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"

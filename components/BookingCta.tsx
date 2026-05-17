@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FadeIn } from './FadeIn';
+import { getGalleryImages } from "@/lib/actions/gallery.actions";
 
 // Inline SVGs
 const CalendarIcon = () => (
@@ -31,7 +32,9 @@ const MoonIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
 );
 
-export default function BookingCTA() {
+export default async function BookingCTA() {
+  const images = await getGalleryImages();
+  const bgImage = images[4]?.url || images[0]?.url || "/images/AIP_5544.avif";
   const leftFeatures = [
     {
       icon: <CalendarIcon />,
@@ -75,10 +78,10 @@ export default function BookingCTA() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(0,85,255,0.05)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10 space-y-16">
-        
+
         {/* Main 3-Column Layout */}
         <div className="grid lg:grid-cols-[1fr_auto_1fr] gap-12 lg:gap-16 items-center">
-          
+
           {/* Left Column: Text & Features */}
           <FadeIn className="space-y-8">
             <div>
@@ -156,20 +159,21 @@ export default function BookingCTA() {
 
         {/* Bottom Banner Section */}
         <FadeIn delay={400} className="glass-dark rounded-3xl border border-white/10 overflow-hidden flex flex-col md:flex-row items-center relative">
-          
+
           {/* Left: Court Image placeholder */}
-          <div className="w-full md:w-5/12 h-64 md:h-full relative overflow-hidden">
-            <Image 
-              src="/images/AIP_5544.avif" 
-              alt="Padel Courts" 
-              fill 
-              className="object-cover" 
+          <div className="w-full md:w-300 h-64 md:h-full relative overflow-hidden">
+            <Image
+              src={bgImage}
+              alt="Padel Courts"
+              width={600}
+              height={500}
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-slate-950/50 to-slate-950"></div>
           </div>
 
           {/* Right: Info */}
-          <div className="w-full md:w-7/12 p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 bg-slate-950/80">
+          <div className="w-full p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-sm">
               <span className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] block mb-2">
                 IGRAJ KADA TI ODGOVARA

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FadeIn } from './FadeIn';
+import { getGalleryImages } from "@/lib/actions/gallery.actions";
 
 // Inline SVGs
 const PlayIcon = () => (
@@ -31,7 +32,9 @@ const ArrowRightIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 );
 
-export default function Hero() {
+export default async function Hero() {
+  const images = await getGalleryImages();
+  const bgImage = images[0]?.url || "/images/MMP-172.avif";
   const featureItems = [
     {
       icon: <CourtIcon />,
@@ -95,7 +98,7 @@ export default function Hero() {
       {/* Background Image Placeholder */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/MMP-172.avif" // Reusing an existing image as placeholder
+          src={bgImage}
           alt="Padel Court Background"
           fill
           className="object-cover opacity-40 mix-blend-overlay"
