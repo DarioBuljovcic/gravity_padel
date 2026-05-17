@@ -18,11 +18,10 @@ export default function Home() {
       <div className="relative">
         <Hero />
         <About />
-        <AboutCourts />
+        <BookingCTA />
         <LatestBlogs />
         <Gallery />
         <Pricing />
-        <BookingCTA />
         <Footer />
       </div>
     </main>
