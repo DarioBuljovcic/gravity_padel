@@ -79,9 +79,9 @@ export default async function Hero() {
 
   return (
     <section id="hero" className="relative min-h-[100vh] flex flex-col justify-end overflow-hidden pb-12 bg-slate-950">
-      <div className='relative inset-0 z-0 max-w-7xl mx-auto w-full space-y-16 px-10 pt-30'>
+      <div className=' inset-0 z-0 max-w-7xl mx-auto w-full space-y-16 px-10 pt-30'>
         {/* Background Image Placeholder */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 max-h-[100vh]">
           <Image
             src={bgImage}
             alt="Padel Court Background"
