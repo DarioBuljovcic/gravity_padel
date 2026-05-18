@@ -1,17 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getLatestBlogs } from "@/lib/actions/blog.actions";
-import { getGalleryImages } from "@/lib/actions/gallery.actions";
-import { FadeIn } from "./FadeIn";
 
-const ArrowRightIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-);
+import { FadeIn } from "./FadeIn";
+import { ArrowRight } from 'lucide-react';
+
+
+const ArrowRightIcon = () => <ArrowRight size={14} strokeWidth={2} />;
 
 export async function LatestBlogs() {
   const blogs = await getLatestBlogs(3);
-  const images = await getGalleryImages();
-  const bgImage = images[5]?.url || images[0]?.url || "/images/AIP_5544.avif";
+  const bgImage = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/b640b619-2ff3-411b-9ac1-870e634b5cb8.webp";
 
   if (blogs.length === 0) return null;
 
@@ -69,7 +68,7 @@ export async function LatestBlogs() {
                 {/* Blog Image */}
                 <div className="relative w-full aspect-[16/9] bg-slate-800 overflow-hidden">
                   <Image
-                    src={blog.image_url || images[index % images.length]?.url || "/images/MMP-172.avif"}
+                    src={blog.image_url || "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/b640b619-2ff3-411b-9ac1-870e634b5cb8.webp"}
                     alt={blog.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-700"

@@ -1,17 +1,18 @@
 'use client';
 
 import { FadeIn } from './FadeIn';
+import { Check } from 'lucide-react';
 
 const pricingData = {
   workingDays: {
     title: "Radni Dani",
     items: [
-      { duration: "1h", time: "Pre podne", range: "08:00 - 16:00", price: "2.000 RSD" },
-      { duration: "1h", time: "Posle podne", range: "16:00 - 23:00", price: "2.500 RSD" },
-      { duration: "1.5h", time: "Pre podne", range: "08:00 - 16:00", price: "3.000 RSD" },
-      { duration: "1.5h", time: "Posle podne", range: "16:00 - 23:00", price: "3.750 RSD" },
-      { duration: "2h", time: "Pre podne", range: "08:00 - 16:00", price: "4.000 RSD" },
-      { duration: "2h", time: "Posle podne", range: "16:00 - 23:00", price: "5.000 RSD" }
+      { duration: "1h", time: "Pre podne", range: "09:00 - 16:00", price: "1.800 RSD" },
+      { duration: "1h", time: "Posle podne", range: "16:00 - 23:00", price: "2.400 RSD" },
+      { duration: "1.5h", time: "Pre podne", range: "09:00 - 16:00", price: "2.700 RSD" },
+      { duration: "1.5h", time: "Posle podne", range: "16:00 - 23:00", price: "3.600 RSD" },
+      { duration: "2h", time: "Pre podne", range: "09:00 - 16:00", price: "3.300 RSD" },
+      { duration: "2h", time: "Posle podne", range: "16:00 - 23:00", price: "4.400 RSD" }
     ]
   },
   weekend: {
@@ -24,9 +25,7 @@ const pricingData = {
   }
 };
 
-const CheckIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-);
+const CheckIcon = () => <Check size={20} strokeWidth={2} />;
 
 export default function Pricing() {
   return (
