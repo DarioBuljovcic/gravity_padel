@@ -91,7 +91,7 @@ export default async function Hero() {
             fetchPriority="high"
           />
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/60 to-slate-950" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/30 to-slate-950" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto w-full space-y-16">
