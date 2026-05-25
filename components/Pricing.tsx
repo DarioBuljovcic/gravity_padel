@@ -4,23 +4,24 @@ import { FadeIn } from './FadeIn';
 import { Check } from 'lucide-react';
 
 const pricingData = {
-  workingDays: {
+  morning: {
     title: "Radni Dani",
+    subtitle: "Pre podne",
+    range: "09:00 - 16:00",
     items: [
-      { duration: "1h", time: "Pre podne", range: "09:00 - 16:00", price: "1.800 RSD" },
-      { duration: "1h", time: "Posle podne", range: "16:00 - 23:00", price: "2.400 RSD" },
-      { duration: "1.5h", time: "Pre podne", range: "09:00 - 16:00", price: "2.700 RSD" },
-      { duration: "1.5h", time: "Posle podne", range: "16:00 - 23:00", price: "3.600 RSD" },
-      { duration: "2h", time: "Pre podne", range: "09:00 - 16:00", price: "3.300 RSD" },
-      { duration: "2h", time: "Posle podne", range: "16:00 - 23:00", price: "4.400 RSD" }
+      { duration: "1h", price: "1.800 RSD" },
+      { duration: "1.5h", price: "2.700 RSD" },
+      { duration: "2h", price: "3.300 RSD" }
     ]
   },
-  weekend: {
-    title: "Vikend",
+  afternoon: {
+    title: "Radni Dani",
+    subtitle: "Posle podne",
+    range: "16:00 - 23:00",
     items: [
-      { duration: "1h", time: "Ceo dan", range: "08:00 - 23:00", price: "2.500 RSD" },
-      { duration: "1.5h", time: "Ceo dan", range: "08:00 - 23:00", price: "3.750 RSD" },
-      { duration: "2h", time: "Ceo dan", range: "08:00 - 23:00", price: "5.000 RSD" }
+      { duration: "1h", price: "2.400 RSD" },
+      { duration: "1.5h", price: "3.600 RSD" },
+      { duration: "2h", price: "4.400 RSD" }
     ]
   }
 };
@@ -49,24 +50,27 @@ export default function Pricing() {
         </FadeIn>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-          {/* Working Days */}
+          {/* Pre podne (09:00 - 16:00) */}
           <FadeIn className="group relative p-1px rounded-[2.5rem] bg-gradient-to-b from-padel-blue/20 to-transparent">
             <div className="h-full bg-slate-900/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 border border-white/5">
-              <div className="flex items-baseline justify-between mb-10">
+              <div className="flex flex-col mb-10">
                 <h3 className="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-tight">
-                  {pricingData.workingDays.title}
+                  {pricingData.morning.title}
                 </h3>
+                <span className="text-padel-blue font-bold text-sm uppercase tracking-wider mt-1">
+                  {pricingData.morning.subtitle} ({pricingData.morning.range})
+                </span>
+                <span className="text-slate-400 text-xs font-medium mt-2">
+                  * Gratis kafa uz jutarnji termin
+                </span>
               </div>
 
               <div className="space-y-6">
-                {pricingData.workingDays.items.map((item, i) => (
+                {pricingData.morning.items.map((item, i) => (
                   <div key={i} className="flex items-center justify-between group/line">
                     <div className="flex flex-col">
                       <span className="text-white font-bold text-lg">
-                        {item.duration} <span className="text-slate-500 font-medium ml-1">— {item.time}</span>
-                      </span>
-                      <span className="text-slate-500 text-[10px] md:text-xs font-medium tracking-tight uppercase">
-                        {item.range}
+                        {item.duration}
                       </span>
                     </div>
                     <div className="flex-1 border-b border-dotted border-slate-800 mx-4 h-5 opacity-50 group-hover/line:border-padel-blue/30 transition-colors" />
@@ -79,28 +83,28 @@ export default function Pricing() {
             </div>
           </FadeIn>
 
-          {/* Weekend */}
-          <FadeIn delay={200} className="group relative p-1px rounded-[2.5rem] bg-gradient-to-b from-white/10 to-transparent">
+          {/* Posle podne (16:00 - 23:00) */}
+          <FadeIn delay={200} className="group relative p-1px rounded-[2.5rem] bg-gradient-to-b from-primary-orange/20 to-transparent">
             <div className="h-full bg-slate-900/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 border border-white/5">
-              <div className="flex items-baseline justify-between mb-10">
+              <div className="flex flex-col mb-10">
                 <h3 className="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-tight">
-                  {pricingData.weekend.title}
+                  {pricingData.afternoon.title}
                 </h3>
+                <span className="text-primary-orange font-bold text-sm uppercase tracking-wider mt-1">
+                  {pricingData.afternoon.subtitle} ({pricingData.afternoon.range})
+                </span>
               </div>
 
-              <div className="space-y-8">
-                {pricingData.weekend.items.map((item, i) => (
+              <div className="space-y-6">
+                {pricingData.afternoon.items.map((item, i) => (
                   <div key={i} className="flex items-center justify-between group/line">
                     <div className="flex flex-col">
                       <span className="text-white font-bold text-lg">
-                        {item.duration} <span className="text-slate-500 font-medium ml-1">— {item.time}</span>
-                      </span>
-                      <span className="text-slate-500 text-[10px] md:text-xs font-medium tracking-tight uppercase">
-                        {item.range}
+                        {item.duration}
                       </span>
                     </div>
-                    <div className="flex-1 border-b border-dotted border-slate-800 mx-4 h-5 opacity-50 group-hover/line:border-white/20 transition-colors" />
-                    <span className="text-white font-black text-xl tracking-tight">
+                    <div className="flex-1 border-b border-dotted border-slate-800 mx-4 h-5 opacity-50 group-hover/line:border-primary-orange/30 transition-colors" />
+                    <span className="text-primary-orange font-black text-xl tracking-tight">
                       {item.price}
                     </span>
                   </div>
