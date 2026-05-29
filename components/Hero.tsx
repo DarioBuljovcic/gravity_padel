@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FadeIn } from './FadeIn';
 import { Play, Sun, MapPin, Users, Calendar, Tag, Megaphone, ArrowRight } from 'lucide-react';
+import { getTranslations } from '@/lib/i18n';
+
 
 
 // Inline SVGs
@@ -18,30 +20,31 @@ const MegaphoneIcon = () => <Megaphone size={24} strokeWidth={1.5} />;
 const ArrowRightIcon = () => <ArrowRight size={16} strokeWidth={2} />;
 
 export default async function Hero() {
+  const t = await getTranslations('Hero');
   const bgImage = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/f7837eaa-ee5c-42d4-b254-fbaf49db63bd.webp";
   const featureItems = [
     {
       icon: <CourtIcon />,
-      title: '4 TERENA',
-      desc: '2 zatvorena\n2 otvorena',
+      title: t('f1_title'),
+      desc: t('f1_desc'),
       color: 'text-padel-blue'
     },
     {
       icon: <SunIcon />,
-      title: 'IGRAJ U BILO KOJE\nDOBA DANA',
-      desc: 'Naši tereni su dostupni\nkada tebi odgovara.',
+      title: t('f2_title'),
+      desc: t('f2_desc'),
       color: 'text-slate-300'
     },
     {
       icon: <MapPinIcon />,
-      title: 'LOKACIJA',
-      desc: 'Subotica,\nSeverna BB',
+      title: t('f3_title'),
+      desc: t('f3_desc'),
       color: 'text-slate-300'
     },
     {
       icon: <UsersIcon />,
-      title: 'TRENERSKI TIM',
-      desc: 'Profesionalni treneri\nza sve nivoe.',
+      title: t('f4_title'),
+      desc: t('f4_desc'),
       color: 'text-slate-300'
     }
   ];
@@ -49,30 +52,30 @@ export default async function Hero() {
   const navCards = [
     {
       icon: <CalendarIcon />,
-      title: 'TERMINI',
-      desc: 'Izaberi teren i vreme koje ti odgovara. Brzo i jednostavno.',
-      linkText: 'REZERVIŠI',
+      title: t('nav1_title'),
+      desc: t('nav1_desc'),
+      linkText: t('nav1_link'),
       href: '#booking'
     },
     {
       icon: <TagIcon />,
-      title: 'CENOVNIK',
-      desc: 'Transparentne cene, bez skrivenih troškova.',
-      linkText: 'POGLEDAJ CENE',
+      title: t('nav2_title'),
+      desc: t('nav2_desc'),
+      linkText: t('nav2_link'),
       href: '#pricing'
     },
     {
       icon: <MegaphoneIcon />,
-      title: 'NOVOSTI',
-      desc: 'Prati turnire, događaje i sve novosti iz našeg centra.',
-      linkText: 'PROČITAJ VIŠE',
+      title: t('nav3_title'),
+      desc: t('nav3_desc'),
+      linkText: t('nav3_link'),
       href: '#blog'
     },
     {
       icon: <UsersIcon />,
-      title: 'O NAMA',
-      desc: 'Saznaj više o našem centru, viziji i timu iza Padel Gravity.',
-      linkText: 'SAZNAJ VIŠE',
+      title: t('nav4_title'),
+      desc: t('nav4_desc'),
+      linkText: t('nav4_link'),
       href: '#about-us'
     }
   ];
@@ -98,16 +101,16 @@ export default async function Hero() {
           {/* Top Text Content */}
           <FadeIn className="space-y-6 max-w-4xl">
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[100px] font-display font-black leading-[0.95] tracking-tight text-white">
-              IGRA POČINJE <br />
-              <span className="text-padel-blue">OVDE.</span>
+              {t('title1')} <br />
+              <span className="text-padel-blue">{t('title2')}</span>
             </h1>
 
             <div className="space-y-2">
               <p className="text-lg md:text-xl text-slate-300 font-medium">
-                Najveći padel centar u Subotici!
+                {t('subtitle1')}
               </p>
               <p className="text-base md:text-lg text-slate-400">
-                Dobrodošao u Padel Gravity.
+                {t('subtitle2')}
               </p>
             </div>
 
@@ -117,14 +120,14 @@ export default async function Hero() {
                 className="flex items-center gap-2 px-8 py-4 bg-padel-blue text-white font-black uppercase tracking-widest text-sm hover:bg-blue-600 transition-all duration-300 rounded-lg shadow-lg shadow-padel-blue/20 btn-press"
               >
                 <CalendarIcon />
-                Rezerviši termin
+                {t('bookBtn')}
               </Link>
               <Link
                 href="#gallery"
                 className="flex items-center gap-2 px-8 py-4 border-2 border-white/20 text-white font-black uppercase tracking-widest text-sm hover:bg-white/10 hover:border-white/40 transition-all duration-300 rounded-lg btn-press"
               >
                 <PlayIcon />
-                Pogledaj galeriju
+                {t('galleryBtn')}
               </Link>
             </div>
           </FadeIn>

@@ -18,7 +18,7 @@ export default async function GalleryTab() {
 
       <div className="flex flex-col gap-6">
         <h3 className="text-xl font-bold text-white tracking-tight">Sve Slike ({images.length})</h3>
-        
+
         {images.length === 0 ? (
           <div className="glass-dark border border-white/10 rounded-2xl p-12 text-center flex flex-col items-center justify-center gap-4">
             <div className="bg-white/10 p-4 rounded-full">
@@ -33,24 +33,25 @@ export default async function GalleryTab() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {images.map((image) => (
-              <div 
-                key={image.id} 
+              <div
+                key={image.id}
                 className="group relative aspect-square rounded-2xl overflow-hidden border border-white/10 bg-slate-900"
               >
                 <Image
                   src={image.url}
                   alt={image.alt || "Gallery image"}
                   fill
-                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  quality={75}
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-white/70 truncate max-w-[70%]">
                       {new Date(image.created_at).toLocaleDateString('sr-RS')}
                     </p>
-                    
+
                     <form action={async () => {
                       "use server";
                       await deleteGalleryImage(image.id);

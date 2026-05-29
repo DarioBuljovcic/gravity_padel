@@ -1,0 +1,103 @@
+{
+  "Navbar": {
+    "home": "POČETNA",
+    "about": "O NAMA",
+    "booking": "TERMINI",
+    "news": "NOVOSTI",
+    "gallery": "GALERIJA",
+    "pricing": "CENOVNIK",
+    "contact": "KONTAKT",
+    "bookBtn": "Rezerviši termin"
+  },
+  "Hero": {
+    "title1": "IGRA POČINJE",
+    "title2": "OVDE.",
+    "subtitle1": "Najveći padel centar u Subotici!",
+    "subtitle2": "Dobrodošao u Padel Gravity.",
+    "bookBtn": "Rezerviši termin",
+    "galleryBtn": "Pogledaj galeriju",
+    "f1_title": "4 TERENA",
+    "f1_desc": "2 zatvorena\n2 otvorena",
+    "f2_title": "IGRAJ U BILO KOJE\nDOBA DANA",
+    "f2_desc": "Naši tereni su dostupni\nkada tebi odgovara.",
+    "f3_title": "LOKACIJA",
+    "f3_desc": "Subotica,\nSeverna BB",
+    "f4_title": "TRENERSKI TIM",
+    "f4_desc": "Profesionalni treneri\nza sve nivoe.",
+    "nav1_title": "TERMINI",
+    "nav1_desc": "Izaberi teren i vreme koje ti odgovara. Brzo i jednostavno.",
+    "nav1_link": "REZERVIŠI",
+    "nav2_title": "CENOVNIK",
+    "nav2_desc": "Transparentne cene, bez skrivenih troškova.",
+    "nav2_link": "POGLEDAJ CENE",
+    "nav3_title": "NOVOSTI",
+    "nav3_desc": "Prati turnire, događaje i sve novosti iz našeg centra.",
+    "nav3_link": "PROČITAJ VIŠE",
+    "nav4_title": "O NAMA",
+    "nav4_desc": "Saznaj više o našem centru, viziji i timu iza Padel Gravity.",
+    "nav4_link": "SAZNAJ VIŠE"
+  },
+  "About": {
+    "tag": "O NAMA",
+    "title1": "MESTO GDE SE",
+    "title2": "LJUDI POVEZUJU",
+    "p1": "Padel centar \"Gravity\" nastao je sa idejom da bude više od sportskog centra - mesto okupljanja ljudi koji vole igru, druženje i dobru energiju.",
+    "p2": "Sa 4 moderna terena, od kojih su 2 natkrivena, igra je moguća tokom cele godine, bez obzira na vremenske uslove.",
+    "p3": "Ali ono što \"Gravity\" čini posebnim nisu samo tereni, već atmosfera i zajednica koja se svakodnevno stvara na njima.",
+    "p4": "Kod nas se igra, navija, upoznaje i vraća zbog energije koju zajedno gradimo.",
+    "facilities_title": "U OKVIRU CENTRA NALAZE SE:",
+    "f1": "Kafić sa\npogledom na\nterene",
+    "f2": "Parking za\nposetioce",
+    "f3": "Svlačionice\ni tuševi",
+    "f4": "Iznajmljivanje\nopreme",
+    "cta_text": "Sve što vam je potrebno da dođete, \nzaigrate i budete deo ekipe.",
+    "bookBtn": "Rezerviši termin"
+  },
+  "Pricing": {
+    "tag": "CENOVNIK",
+    "title1": "REZERVIŠI BEZ",
+    "title2": "ČEKANJA.",
+    "subtitle": "Pogledaj dostupne termine i rezerviši teren online za nekoliko sekundi.",
+    "included1": "Reketi uključeni u cenu",
+    "included2": "Loptice uključene u cenu",
+    "free_coffee": "* Gratis kafa uz jutarnji termin"
+  },
+  "Booking": {
+    "tag": "IGRAJ KADA TI ODGOVARA",
+    "title": "JUTARNJI TRENING, POPODNEVNA PARTIJA ILI VEČERNJA IGRA POD REFLEKTORIMA.",
+    "subtitle": "Na tebi je samo da izabereš termin.",
+    "t1_title": "JUTRO",
+    "t1_desc": "Savršeno za\ntrening i fokus.",
+    "t2_title": "POPODNE",
+    "t2_desc": "Idealno za igru\nposle posla.",
+    "t3_title": "VEČE",
+    "t3_desc": "Posebna atmosfera\npod reflektorima."
+  },
+  "Footer": {
+    "desc": "Atmosfera sa terena, momenti sa mečeva i ekipa koja Gravity čini posebnim mestom za igru i druženje.",
+    "loc_tag": "LOKACIJA",
+    "loc_text": "Severna 7, \nSubotica, Srbija",
+    "contact_tag": "KONTAKT",
+    "hours_tag": "RADNO VREME",
+    "hours_text": "Svakog dana \n08:00 — 23:00",
+    "links_tag": "BRZI LINKOVI",
+    "rights": "Padel Gravity Subotica.",
+    "bookBtn": "REZERVACIJA"
+  },
+  "Blog": {
+    "tag": "NAŠ BLOG",
+    "title1": "NAJNOVIJE",
+    "title2": "VESTI",
+    "subtitle": "Prati aktuelnosti, savete za igru i dešavanja iz Padel Gravity centra.",
+    "readMore": "Pročitaj više",
+    "allPosts": "SVI TEKSTOVI"
+  },
+  "Gallery": {
+    "tag": "ZAVIRI NA TERENE",
+    "title1": "NAŠA",
+    "title2": "GALERIJA",
+    "subtitle1": "Atmosfera sa terena, momenti sa mečeva i ekipa koja Gravity čini posebnim mestom za igru i druženje.",
+    "subtitle2": "Pogledaj sve slike.",
+    "allPictures": "SVE SLIKE"
+  }
+}

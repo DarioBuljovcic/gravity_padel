@@ -1,5 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import { MapPin, Mail, Phone, Clock, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
 
 const TikTokIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -14,13 +18,16 @@ const FacebookIcon = () => (
 );
 
 export default function Footer() {
+  const t = useTranslations('Footer');
+  const tNav = useTranslations('Navbar');
+
   const quickLinks = [
-    { name: 'POČETNA', href: '#' },
-    { name: 'O NAMA', href: '#about-us' },
-    { name: 'TERMINI', href: '#booking' },
-    { name: 'NOVOSTI', href: '#blog' },
-    { name: 'GALERIJA', href: '#gallery' },
-    { name: 'CENOVNIK', href: '#pricing' },
+    { name: tNav('home'), href: '#' },
+    { name: tNav('about'), href: '#about-us' },
+    { name: tNav('booking'), href: '#booking' },
+    { name: tNav('news'), href: '#blog' },
+    { name: tNav('gallery'), href: '#gallery' },
+    { name: tNav('pricing'), href: '#pricing' },
   ];
 
   return (
@@ -34,7 +41,7 @@ export default function Footer() {
               PADEL <span className="text-padel-blue">GRAVITY</span>
             </Link>
             <p className="max-w-sm text-slate-400 leading-relaxed font-medium">
-              Atmosfera sa terena, momenti sa mečeva i ekipa koja Gravity čini posebnim mestom za igru i druženje.
+              {t('desc')}
             </p>
             <div className="flex items-center gap-5 pt-4">
               <a href="https://www.instagram.com/padel.gravity" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-padel-blue transition-colors">
@@ -53,7 +60,7 @@ export default function Footer() {
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-10">
             {/* LOKACIJA */}
             <div>
-              <span className="text-padel-blue text-[10px] font-black uppercase tracking-[0.3em] block mb-6">LOKACIJA</span>
+              <span className="text-padel-blue text-[10px] font-black uppercase tracking-[0.3em] block mb-6">{t('loc_tag')}</span>
               <address>
                 <a
                   href="https://www.google.com/maps/place/Padel+centar+Gravity/@46.1146433,19.6862926,17z/data=!4m6!3m5!1s0x4743670076d5d6ed:0xa713695a0fe7af51!8m2!3d46.114507!4d19.6864879!16s%2Fg%2F11xw8rtcch?entry=ttu&g_ep=EgoyMDI2MDQwNi4wIKXMDSoASAFQAw%3D%3D"
@@ -62,9 +69,8 @@ export default function Footer() {
                   className="flex gap-3 mt-4 hover:text-padel-blue transition-colors text-slate-300 leading-relaxed"
                 >
                   <MapPin size={20} className="flex-shrink-0 text-padel-blue mt-1" />
-                  <span>
-                    Severna 7, <br />
-                    Subotica, Srbija
+                  <span className="whitespace-pre-line">
+                    {t('loc_text')}
                   </span>
                 </a>
               </address>
@@ -72,7 +78,7 @@ export default function Footer() {
 
             {/* KONTAKT */}
             <div>
-              <span className="text-padel-blue text-[10px] font-black uppercase tracking-[0.3em] block mb-6">KONTAKT</span>
+              <span className="text-padel-blue text-[10px] font-black uppercase tracking-[0.3em] block mb-6">{t('contact_tag')}</span>
               <div className="text-slate-300 leading-relaxed font-medium flex flex-col gap-4">
                 <a href="mailto:padelgravity024@gmail.com" className="flex items-center gap-3 hover:text-padel-blue transition-colors break-words">
                   <Mail size={20} className="flex-shrink-0 text-padel-blue" />
@@ -87,19 +93,18 @@ export default function Footer() {
 
             {/* RADNO VREME */}
             <div>
-              <span className="text-padel-blue text-[10px] font-black uppercase tracking-[0.3em] block mb-6">RADNO VREME</span>
+              <span className="text-padel-blue text-[10px] font-black uppercase tracking-[0.3em] block mb-6">{t('hours_tag')}</span>
               <div className="flex gap-3 text-slate-300 leading-relaxed font-medium">
                 <Clock size={20} className="flex-shrink-0 text-padel-blue mt-1" />
-                <p>
-                  Svakog dana <br />
-                  08:00 — 23:00
+                <p className="whitespace-pre-line">
+                  {t('hours_text')}
                 </p>
               </div>
             </div>
 
             {/* BRZI LINKOVI */}
             <div>
-              <span className="text-padel-blue text-[10px] font-black uppercase tracking-[0.3em] block mb-6">BRZI LINKOVI</span>
+              <span className="text-padel-blue text-[10px] font-black uppercase tracking-[0.3em] block mb-6">{t('links_tag')}</span>
               <div className="grid grid-cols-2 gap-3 text-slate-300 text-sm font-medium">
                 {quickLinks.map((link) => (
                   <Link key={link.name} href={link.href} className="flex items-center gap-2 hover:text-padel-blue transition-colors group">
@@ -115,10 +120,10 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest text-center md:text-left">
-            © {new Date().getFullYear()} Padel Gravity Subotica.
+            © {new Date().getFullYear()} {t('rights')}
           </p>
           <div className="flex flex-wrap justify-center md:justify-end gap-6 uppercase text-[10px] font-bold tracking-widest text-slate-500">
-            <Link href="https://gravitysport.simplybook.me/v2/" className="hover:text-padel-blue transition-colors">REZERVACIJA</Link>
+            <Link href="https://gravitysport.simplybook.me/v2/" className="hover:text-padel-blue transition-colors">{t('bookBtn')}</Link>
           </div>
         </div>
       </div>

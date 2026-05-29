@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FadeIn } from './FadeIn';
 import { Users, Heart, Coffee, Car, ShowerHead, Calendar } from 'lucide-react';
+import { getTranslations } from '@/lib/i18n';
 
 
 // Inline SVGs for the icons
@@ -19,6 +20,7 @@ const RacketIcon = () => (
 const CalendarIcon = () => <Calendar size={16} strokeWidth={2} />;
 
 const About = async () => {
+  const t = await getTranslations('About');
   const img1 = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/f8475947-8997-4996-af25-891c83b122b4.webp";
   const img2 = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/ae757f83-8857-4adb-bd21-3532390d4264.webp";
   const img3 = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/fa240268-65a9-439d-8d70-c6fd75ec3258.webp";
@@ -27,27 +29,27 @@ const About = async () => {
   const points = [
     {
       icon: <UsersIcon />,
-      text: 'Padel centar "Gravity" nastao je sa idejom da bude više od sportskog centra - mesto okupljanja ljudi koji vole igru, druženje i dobru energiju.'
+      text: t('p1')
     },
     {
       icon: <CourtIcon />,
-      text: 'Sa 4 moderna terena, od kojih su 2 natkrivena, igra je moguća tokom cele godine, bez obzira na vremenske uslove.'
+      text: t('p2')
     },
     {
       icon: <HeartIcon />,
-      text: 'Ali ono što "Gravity" čini posebnim nisu samo tereni, već atmosfera i zajednica koja se svakodnevno stvara na njima.'
+      text: t('p3')
     },
     {
       icon: <UsersIcon />,
-      text: 'Kod nas se igra, navija, upoznaje i vraća zbog energije koju zajedno gradimo.'
+      text: t('p4')
     }
   ];
 
   const facilities = [
-    { icon: <CoffeeIcon />, title: 'Kafić sa\npogledom na\nterene' },
-    { icon: <CarIcon />, title: 'Parking za\nposetioce' },
-    { icon: <ShowerIcon />, title: 'Svlačionice\ni tuševi' },
-    { icon: <RacketIcon />, title: 'Iznajmljivanje\nopreme' }
+    { icon: <CoffeeIcon />, title: t('f1') },
+    { icon: <CarIcon />, title: t('f2') },
+    { icon: <ShowerIcon />, title: t('f3') },
+    { icon: <RacketIcon />, title: t('f4') }
   ];
 
   return (
@@ -64,12 +66,12 @@ const About = async () => {
         <FadeIn className="flex flex-col gap-10">
           <div>
             <span className="text-slate-400 text-xs font-black uppercase tracking-[0.3em] block mb-4">
-              O NAMA
+              {t('tag')}
             </span>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[0.95]">
-              <span className="text-white">MESTO GDE SE</span>
+              <span className="text-white">{t('title1')}</span>
               <br />
-              <span className="text-padel-blue">LJUDI POVEZUJU</span>
+              <span className="text-padel-blue">{t('title2')}</span>
             </h2>
           </div>
 
@@ -110,7 +112,7 @@ const About = async () => {
           {/* Facilities */}
           <div className="space-y-6">
             <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
-              U OKVIRU CENTRA NALAZE SE:
+              {t('facilities_title')}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {facilities.map((fac, idx) => (
@@ -128,14 +130,14 @@ const About = async () => {
 
           {/* CTA Area */}
           <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-6 glass-dark rounded-2xl p-6 border border-white/10">
-            <p className="text-sm text-slate-300 font-medium text-center sm:text-left">
-              Sve što vam je potrebno da dođete, <br className="hidden sm:block" /> zaigrate i budete deo ekipe.
+            <p className="text-sm text-slate-300 font-medium text-center sm:text-left whitespace-pre-line">
+              {t('cta_text')}
             </p>
             <Link
               href="https://gravitysport.simplybook.me/v2/"
               className="flex-shrink-0 flex items-center justify-center gap-2 px-6 py-3 bg-[#e8c68c] text-slate-900 font-black uppercase tracking-widest text-xs hover:bg-white transition-all duration-300 rounded-lg shadow-lg btn-press"
             >
-              Rezerviši termin
+              {t('bookBtn')}
               <CalendarIcon />
             </Link>
           </div>

@@ -4,11 +4,14 @@ import { getLatestBlogs } from "@/lib/actions/blog.actions";
 
 import { FadeIn } from "./FadeIn";
 import { ArrowRight } from 'lucide-react';
+import { getTranslations } from '@/lib/i18n';
+
 
 
 const ArrowRightIcon = () => <ArrowRight size={14} strokeWidth={2} />;
 
 export async function LatestBlogs() {
+  const t = await getTranslations('Blog');
   const blogs = await getLatestBlogs(3);
   const bgImage = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/b640b619-2ff3-411b-9ac1-870e634b5cb8.webp";
 
@@ -26,29 +29,28 @@ export async function LatestBlogs() {
 
         <div className="relative z-20 max-w-xl space-y-6">
           <span className="text-padel-blue text-xs font-black uppercase tracking-[0.3em] block">
-            BLOG
+            {t('tag')}
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black tracking-tight leading-[1]">
-            <span className="text-white">PRIČE SA TERENA,</span>
+            <span className="text-white">{t('title1')}</span>
             <br />
-            <span className="text-padel-blue">ZNANJE VAN NJEGA.</span>
+            <span className="text-padel-blue">{t('title2')}</span>
           </h2>
           <div className="space-y-2 text-slate-300 text-sm md:text-base font-medium max-w-md">
-            <p>Saveti, priče, novosti i događaji iz sveta padela.</p>
-            <p>Bilo da igraš rekreativno ili ozbiljno, ovde uvek ima nešto novo za tebe.</p>
+            <p className="whitespace-pre-line">{t('subtitle')}</p>
           </div>
         </div>
       </FadeIn>
 
       <FadeIn className="flex items-end justify-between mb-8 px-2">
         <h3 className="text-sm font-black text-white tracking-widest uppercase">
-          NAJNOVIJE PRIČE
+          {t('title1')} {t('title2')}
         </h3>
         <Link
           href="/blog"
           className="group flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-padel-blue hover:text-white transition-all duration-300"
         >
-          SVE PRIČE
+          {t('allPosts')}
           <ArrowRightIcon />
         </Link>
       </FadeIn>
@@ -101,7 +103,7 @@ export async function LatestBlogs() {
                   )}
 
                   <div className="mt-auto flex items-center gap-2 text-padel-blue text-[10px] font-bold uppercase tracking-widest group-hover:text-blue-400 transition-colors duration-300">
-                    PROČITAJ VIŠE
+                    {t('readMore')}
                     <ArrowRightIcon />
                   </div>
                 </div>

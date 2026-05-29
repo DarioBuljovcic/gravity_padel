@@ -2,33 +2,14 @@
 
 import { FadeIn } from './FadeIn';
 import { Check } from 'lucide-react';
+import { pricingData } from '@/lib/constants';
+import { useTranslations } from 'next-intl';
 
-const pricingData = {
-  morning: {
-    title: "Radni Dani",
-    subtitle: "Pre podne",
-    range: "09:00 - 16:00",
-    items: [
-      { duration: "1h", price: "1.800 RSD" },
-      { duration: "1.5h", price: "2.700 RSD" },
-      { duration: "2h", price: "3.300 RSD" }
-    ]
-  },
-  afternoon: {
-    title: "Radni Dani",
-    subtitle: "Posle podne",
-    range: "16:00 - 23:00",
-    items: [
-      { duration: "1h", price: "2.400 RSD" },
-      { duration: "1.5h", price: "3.600 RSD" },
-      { duration: "2h", price: "4.400 RSD" }
-    ]
-  }
-};
 
 const CheckIcon = () => <Check size={20} strokeWidth={2} />;
 
 export default function Pricing() {
+  const t = useTranslations('Pricing');
   return (
     <section id="pricing" className="py-24 md:py-32 px-4 md:px-6 bg-slate-950 relative overflow-hidden">
       {/* Decorative background elements */}
@@ -38,14 +19,14 @@ export default function Pricing() {
       <div className="max-w-7xl mx-auto">
         <FadeIn className="text-center mb-16 md:mb-24">
           <span className="text-slate-400 text-xs font-black uppercase tracking-[0.3em] block mb-4">
-            CENOVNIK
+            {t('tag')}
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black tracking-tight leading-[0.95] mb-6">
-            <span className="text-white">REZERVIŠI BEZ</span> <br className="hidden md:block" />
-            <span className="text-padel-blue">ČEKANJA.</span>
+            <span className="text-white">{t('title1')}</span> <br className="hidden md:block" />
+            <span className="text-padel-blue">{t('title2')}</span>
           </h2>
           <p className="text-slate-400 text-sm md:text-base max-w-2xl mx-auto font-medium">
-            Pogledaj dostupne termine i rezerviši teren online za nekoliko sekundi.
+            {t('subtitle')}
           </p>
         </FadeIn>
 
@@ -61,7 +42,7 @@ export default function Pricing() {
                   {pricingData.morning.subtitle} ({pricingData.morning.range})
                 </span>
                 <span className="text-slate-400 text-xs font-medium mt-2">
-                  * Gratis kafa uz jutarnji termin
+                  {t('free_coffee') || '* Gratis kafa uz jutarnji termin'}
                 </span>
               </div>
 
@@ -121,7 +102,7 @@ export default function Pricing() {
               <CheckIcon />
             </div>
             <span className="text-white font-bold uppercase text-sm tracking-widest">
-              Reketi uključeni u cenu
+              {t('included1')}
             </span>
           </div>
           <div className="glass-dark rounded-2xl p-6 flex items-center justify-center gap-4 border border-white/5 w-full sm:w-auto">
@@ -129,7 +110,7 @@ export default function Pricing() {
               <CheckIcon />
             </div>
             <span className="text-white font-bold uppercase text-sm tracking-widest">
-              Loptice uključene u cenu
+              {t('included2')}
             </span>
           </div>
         </FadeIn>

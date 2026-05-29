@@ -3,6 +3,7 @@ import { logoutAction } from "@/lib/actions/blog.actions";
 import Image from "next/image";
 import BlogsTab from "./_components/BlogsTab";
 import GalleryTab from "./_components/GalleryTab";
+import ReservationsTab from "./_components/ReservationsTab";
 import { Activity } from "react";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +17,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
   const tab = params.tab || "blogs";
 
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-12 md:py-20 relative overflow-hidden">
+    <main className="min-h-screen bg-slate-950 px-6 py-12 md:py-20 relative overflow-x-hidden">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-1/4 -right-20 w-96 h-96 bg-padel-blue/5 rounded-full blur-[120px]" />
@@ -63,8 +64,8 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           <Link
             href="?tab=blogs"
             className={`pb-4 text-sm md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === "blogs"
-                ? "text-primary-orange border-primary-orange"
-                : "text-slate-500 border-transparent hover:text-white"
+              ? "text-primary-orange border-primary-orange"
+              : "text-slate-500 border-transparent hover:text-white"
               }`}
           >
             Blogovi
@@ -72,11 +73,20 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           <Link
             href="?tab=gallery"
             className={`pb-4 text-sm md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === "gallery"
-                ? "text-primary-orange border-primary-orange"
-                : "text-slate-500 border-transparent hover:text-white"
+              ? "text-primary-orange border-primary-orange"
+              : "text-slate-500 border-transparent hover:text-white"
               }`}
           >
             Galerija
+          </Link>
+          <Link
+            href="?tab=reservations"
+            className={`pb-4 text-sm md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === "reservations"
+              ? "text-primary-orange border-primary-orange"
+              : "text-slate-500 border-transparent hover:text-white"
+              }`}
+          >
+            Rezervacije
           </Link>
         </div>
 
@@ -86,6 +96,9 @@ export default async function DashboardPage({ searchParams }: PageProps) {
         </Activity>
         <Activity mode={tab === "gallery" ? "visible" : "hidden"}>
           <GalleryTab />
+        </Activity>
+        <Activity mode={tab === "reservations" ? "visible" : "hidden"}>
+          <ReservationsTab />
         </Activity>
 
       </div>

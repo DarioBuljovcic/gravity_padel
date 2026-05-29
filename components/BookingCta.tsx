@@ -2,6 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FadeIn } from './FadeIn';
 import { Calendar, Laptop, ArrowRight, Clock, CalendarCheck, Users, Sun, SunDim, Moon } from 'lucide-react';
+import { getTranslations } from '@/lib/i18n';
+
 
 
 // Inline SVGs
@@ -16,6 +18,7 @@ const SunDimIcon = () => <SunDim size={24} strokeWidth={1.5} />;
 const MoonIcon = () => <Moon size={24} strokeWidth={1.5} />;
 
 export default async function BookingCTA() {
+  const t = await getTranslations('Booking');
   const bgImage = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/46e291e5-a877-45a4-87fa-94bbc57a7bbb.webp";
   const leftFeatures = [
     {
@@ -49,9 +52,9 @@ export default async function BookingCTA() {
   ];
 
   const times = [
-    { icon: <SunIcon />, title: 'JUTRO', desc: 'Savršeno za\ntrening i fokus.' },
-    { icon: <SunDimIcon />, title: 'POPODNE', desc: 'Idealno za igru\nposle posla.' },
-    { icon: <MoonIcon />, title: 'VEČE', desc: 'Posebna atmosfera\npod reflektorima.' }
+    { icon: <SunIcon />, title: t('t1_title'), desc: t('t1_desc') },
+    { icon: <SunDimIcon />, title: t('t2_title'), desc: t('t2_desc') },
+    { icon: <MoonIcon />, title: t('t3_title'), desc: t('t3_desc') }
   ];
 
   return (
@@ -82,13 +85,13 @@ export default async function BookingCTA() {
           <div className="w-full p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="max-w-sm">
               <span className="text-slate-400 text-xs font-black uppercase tracking-[0.2em] block mb-2">
-                IGRAJ KADA TI ODGOVARA
+                {t('tag')}
               </span>
               <h3 className="text-xl md:text-2xl font-black text-white leading-tight mb-2">
-                JUTARNJI TRENING, POPODNEVNA PARTIJA ILI VEČERNJA IGRA POD REFLEKTORIMA.
+                {t('title')}
               </h3>
               <p className="text-xs md:text-sm text-slate-400">
-                Na tebi je samo da izabereš termin.
+                {t('subtitle')}
               </p>
             </div>
 

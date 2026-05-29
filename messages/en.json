@@ -1,0 +1,103 @@
+{
+  "Navbar": {
+    "home": "HOME",
+    "about": "ABOUT US",
+    "booking": "BOOKING",
+    "news": "NEWS",
+    "gallery": "GALLERY",
+    "pricing": "PRICING",
+    "contact": "CONTACT",
+    "bookBtn": "Book a Court"
+  },
+  "Hero": {
+    "title1": "THE GAME STARTS",
+    "title2": "HERE.",
+    "subtitle1": "The biggest padel center in Subotica!",
+    "subtitle2": "Welcome to Padel Gravity.",
+    "bookBtn": "Book a Court",
+    "galleryBtn": "View Gallery",
+    "f1_title": "4 COURTS",
+    "f1_desc": "2 indoor\n2 outdoor",
+    "f2_title": "PLAY AT ANY\nTIME OF THE DAY",
+    "f2_desc": "Our courts are available\nwhenever it suits you.",
+    "f3_title": "LOCATION",
+    "f3_desc": "Subotica,\nSeverna BB",
+    "f4_title": "COACHING TEAM",
+    "f4_desc": "Professional coaches\nfor all levels.",
+    "nav1_title": "BOOKING",
+    "nav1_desc": "Choose the court and time that suits you. Quick and easy.",
+    "nav1_link": "BOOK NOW",
+    "nav2_title": "PRICING",
+    "nav2_desc": "Transparent prices, no hidden costs.",
+    "nav2_link": "VIEW PRICES",
+    "nav3_title": "NEWS",
+    "nav3_desc": "Follow tournaments, events, and all news from our center.",
+    "nav3_link": "READ MORE",
+    "nav4_title": "ABOUT US",
+    "nav4_desc": "Learn more about our center, vision, and the team behind Padel Gravity.",
+    "nav4_link": "LEARN MORE"
+  },
+  "About": {
+    "tag": "ABOUT US",
+    "title1": "A PLACE WHERE",
+    "title2": "PEOPLE CONNECT",
+    "p1": "The \"Gravity\" padel center was created with the idea of being more than a sports center - a gathering place for people who love the game, socializing, and good energy.",
+    "p2": "With 4 modern courts, 2 of which are indoor, the game is possible all year round, regardless of weather conditions.",
+    "p3": "But what makes \"Gravity\" special is not just the courts, but the atmosphere and community that is built on them every day.",
+    "p4": "Here we play, cheer, meet, and return for the energy we build together.",
+    "facilities_title": "WITHIN THE CENTER YOU'LL FIND:",
+    "f1": "Cafe with\na view of\nthe courts",
+    "f2": "Visitor\nparking",
+    "f3": "Locker rooms\nand showers",
+    "f4": "Equipment\nrental",
+    "cta_text": "Everything you need to come,\nplay, and be part of the team.",
+    "bookBtn": "Book a Court"
+  },
+  "Pricing": {
+    "tag": "PRICING",
+    "title1": "BOOK WITHOUT",
+    "title2": "WAITING.",
+    "subtitle": "Check available times and book your court online in seconds.",
+    "included1": "Rackets included in price",
+    "included2": "Balls included in price",
+    "free_coffee": "* Free coffee with morning session"
+  },
+  "Booking": {
+    "tag": "PLAY WHEN IT SUITS YOU",
+    "title": "MORNING TRAINING, AFTERNOON MATCH OR EVENING GAME UNDER THE LIGHTS.",
+    "subtitle": "It's up to you to choose the time.",
+    "t1_title": "MORNING",
+    "t1_desc": "Perfect for\ntraining & focus.",
+    "t2_title": "AFTERNOON",
+    "t2_desc": "Ideal for a game\nafter work.",
+    "t3_title": "EVENING",
+    "t3_desc": "Special atmosphere\nunder the lights."
+  },
+  "Footer": {
+    "desc": "The atmosphere from the courts, moments from matches, and the team that makes Gravity a special place for playing and socializing.",
+    "loc_tag": "LOCATION",
+    "loc_text": "Severna 7, \nSubotica, Serbia",
+    "contact_tag": "CONTACT",
+    "hours_tag": "WORKING HOURS",
+    "hours_text": "Every day \n08:00 — 23:00",
+    "links_tag": "QUICK LINKS",
+    "rights": "Padel Gravity Subotica.",
+    "bookBtn": "BOOKING"
+  },
+  "Blog": {
+    "tag": "OUR BLOG",
+    "title1": "LATEST",
+    "title2": "NEWS",
+    "subtitle": "Follow updates, game tips, and events from the Padel Gravity center.",
+    "readMore": "Read more",
+    "allPosts": "ALL POSTS"
+  },
+  "Gallery": {
+    "tag": "TAKE A LOOK AT THE COURTS",
+    "title1": "OUR",
+    "title2": "GALLERY",
+    "subtitle1": "The atmosphere from the courts, moments from matches, and the team that makes Gravity a special place for playing and socializing.",
+    "subtitle2": "See all pictures.",
+    "allPictures": "ALL PICTURES"
+  }
+}
