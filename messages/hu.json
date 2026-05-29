@@ -1,0 +1,103 @@
+{
+  "Navbar": {
+    "home": "FŐOLDAL",
+    "about": "RÓLUNK",
+    "booking": "FOGLALÁS",
+    "news": "HÍREK",
+    "gallery": "GALÉRIA",
+    "pricing": "ÁRLISTA",
+    "contact": "KAPCSOLAT",
+    "bookBtn": "Foglalj Pályát"
+  },
+  "Hero": {
+    "title1": "A JÁTÉK ITT",
+    "title2": "KEZDŐDIK.",
+    "subtitle1": "Szabadka legnagyobb padel központja!",
+    "subtitle2": "Üdvözlünk a Padel Gravity-ben.",
+    "bookBtn": "Foglalj Pályát",
+    "galleryBtn": "Galéria megtekintése",
+    "f1_title": "4 PÁLYA",
+    "f1_desc": "2 fedett\n2 nyitott",
+    "f2_title": "JÁTSSZ BÁRMELY\nNAPSZAKBAN",
+    "f2_desc": "Pályáink akkor állnak\nrendelkezésedre, amikor megfelel.",
+    "f3_title": "HELYSZÍN",
+    "f3_desc": "Szabadka,\nÉszaki BB",
+    "f4_title": "EDZŐI CSAPAT",
+    "f4_desc": "Profi edzők\nminden szintre.",
+    "nav1_title": "FOGLALÁS",
+    "nav1_desc": "Válaszd ki a neked megfelelő pályát és időpontot. Gyors és egyszerű.",
+    "nav1_link": "FOGLALJ MOST",
+    "nav2_title": "ÁRLISTA",
+    "nav2_desc": "Átlátható árak, rejtett költségek nélkül.",
+    "nav2_link": "ÁRAK MEGTEKINTÉSE",
+    "nav3_title": "HÍREK",
+    "nav3_desc": "Kövesd nyomon a tornákat, eseményeket és a központunk híreit.",
+    "nav3_link": "BŐVEBBEN",
+    "nav4_title": "RÓLUNK",
+    "nav4_desc": "Tudj meg többet központunkról, jövőképünkről és a csapatról.",
+    "nav4_link": "TUDJ MEG TÖBBET"
+  },
+  "About": {
+    "tag": "RÓLUNK",
+    "title1": "EGY HELY AHOL AZ",
+    "title2": "EMBEREK KAPCSOLÓDNAK",
+    "p1": "A \"Gravity\" padel központ azzal a céllal jött létre, hogy több legyen egy sportközpontnál - egy találkozóhely azok számára, akik szeretik a játékot, a társaságot és a jó energiákat.",
+    "p2": "A 4 modern pályával, melyből 2 fedett, a játék egész évben lehetséges, az időjárási viszonyoktól függetlenül.",
+    "p3": "De ami a \"Gravity\"-t különlegessé teszi, azok nem csak a pályák, hanem a hangulat és a közösség, amely minden nap épül rajtuk.",
+    "p4": "Nálunk játszunk, szurkolunk, találkozunk és visszatérünk a közösen épített energia miatt.",
+    "facilities_title": "A KÖZPONT TERÜLETÉN TALÁLHATÓ:",
+    "f1": "Kávézó\nkilátással a\npályákra",
+    "f2": "Látogatói\nparkoló",
+    "f3": "Öltözők\nés zuhanyzók",
+    "f4": "Felszerelés\nkölcsönzése",
+    "cta_text": "Minden, amire szükséged van ahhoz,\nhogy eljöjj, játssz és a csapat része légy.",
+    "bookBtn": "Foglalj Pályát"
+  },
+  "Pricing": {
+    "tag": "ÁRLISTA",
+    "title1": "FOGLALJ",
+    "title2": "VÁRAKOZÁS NÉLKÜL.",
+    "subtitle": "Ellenőrizd a szabad időpontokat, és foglalj pályát online másodpercek alatt.",
+    "included1": "Ütők az árban",
+    "included2": "Labdák az árban",
+    "free_coffee": "* Ingyenes kávé a reggeli időpontokhoz"
+  },
+  "Booking": {
+    "tag": "JÁTSSZ AMIKOR NEKED MEGFELEL",
+    "title": "REGGELI EDZÉS, DÉLUTÁNI MECCS VAGY ESTI JÁTÉK A REFLEKTOROK ALATT.",
+    "subtitle": "Csak rajtad áll, hogy kiválaszd az időpontot.",
+    "t1_title": "REGGEL",
+    "t1_desc": "Tökéletes az\nedzéshez és a fókuszhoz.",
+    "t2_title": "DÉLUTÁN",
+    "t2_desc": "Ideális egy játékhoz\nmunka után.",
+    "t3_title": "ESTE",
+    "t3_desc": "Különleges hangulat\na reflektorok alatt."
+  },
+  "Footer": {
+    "desc": "A pályák hangulata, a meccsek pillanatai és a csapat, amely a Gravity-t különleges hellyé teszi a játékhoz és a társasági élethez.",
+    "loc_tag": "HELYSZÍN",
+    "loc_text": "Severna 7, \nSzabadka, Szerbia",
+    "contact_tag": "KAPCSOLAT",
+    "hours_tag": "NYITVATARTÁS",
+    "hours_text": "Minden nap \n08:00 — 23:00",
+    "links_tag": "GYORS LINKEK",
+    "rights": "Padel Gravity Szabadka.",
+    "bookBtn": "FOGLALÁS"
+  },
+  "Blog": {
+    "tag": "BLOGUNK",
+    "title1": "LEGÚJABB",
+    "title2": "HÍREK",
+    "subtitle": "Kövesd a Padel Gravity központ frissítéseit, tippjeit és eseményeit.",
+    "readMore": "Bővebben",
+    "allPosts": "ÖSSZES BEJEGYZÉS"
+  },
+  "Gallery": {
+    "tag": "VESS EGY PILLANTÁST A PÁLYÁKRA",
+    "title1": "A MI",
+    "title2": "GALÉRIÁNK",
+    "subtitle1": "A pályák hangulata, a meccsek pillanatai és a csapat, amely a Gravity-t különleges hellyé teszi a játékhoz és a társasági élethez.",
+    "subtitle2": "Nézd meg az összes képet.",
+    "allPictures": "ÖSSZES KÉP"
+  }
+}

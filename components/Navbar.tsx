@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Phone, Calendar } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const TikTokIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
@@ -16,6 +18,7 @@ const FacebookIcon = () => (
 );
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations('Navbar');
 
   // Prevent scroll when menu is open
   useEffect(() => {
@@ -45,13 +48,13 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { name: 'POČETNA', href: '#' },
-    { name: 'O NAMA', href: '#about-us' },
-    { name: 'TERMINI', href: '#booking' },
-    { name: 'NOVOSTI', href: '#blog' },
-    { name: 'GALERIJA', href: '#gallery' },
-    { name: 'CENOVNIK', href: '#pricing' },
-    { name: 'KONTAKT', href: '#contact' },
+    { name: t('home'), href: '#' },
+    { name: t('about'), href: '#about-us' },
+    { name: t('booking'), href: '#booking' },
+    { name: t('news'), href: '#blog' },
+    { name: t('gallery'), href: '#gallery' },
+    { name: t('pricing'), href: '#pricing' },
+    { name: t('contact'), href: '#contact' },
   ];
 
   return (
@@ -114,11 +117,13 @@ export default function Navbar() {
 
           {/* Right section: CTA Button & Burger */}
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            
             <Link
               href="https://gravitysport.simplybook.me/v2/"
               className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-padel-blue text-white rounded-full font-black text-[11px] uppercase tracking-[0.1em] hover:bg-blue-600 transition-all duration-300 shadow-lg shadow-padel-blue/20 btn-press"
             >
-              Rezerviši termin
+              {t('bookBtn')}
               <Calendar size={16} />
             </Link>
 
@@ -162,7 +167,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
               className="flex items-center justify-center gap-2 w-full py-4 bg-padel-blue text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-2xl shadow-blue-600/20"
             >
-              Rezerviši termin
+              {t('bookBtn')}
               <Calendar size={18} />
             </Link>
           </div>

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Syne, Geist } from "next/font/google";
 import "./globals.css";
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from '@/lib/i18n';
 
 const syne = Syne({
   variable: "--font-syne",
@@ -75,17 +77,22 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages(locale);
+
   return (
-    <html lang="sr">
+    <html lang={locale}>
       <body
         className={`${syne.variable} ${geist.variable} font-sans antialiased bg-black text-white selection:bg-lime-400 selection:text-black`}
       >
-        {children}
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

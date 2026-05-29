@@ -5,23 +5,39 @@
   --font-display: var(--font-syne);
   --color-primary-orange: #f2b264;
   --color-accent-orange: #d97706;
-  --color-padel-blue: #0055FF;
+  --color-padel-blue: #0055ff;
   --color-midnight: #020617;
   --color-midnight-card: rgba(15, 23, 42, 0.5);
-  
+
   @keyframes fade-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @keyframes slide-in-right {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   @keyframes reveal {
-    from { clip-path: inset(0 100% 0 0); }
-    to { clip-path: inset(0 0 0 0); }
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
   }
 }
 
@@ -41,7 +57,9 @@ body {
   scroll-behavior: smooth;
 }
 
-section, footer, [id] {
+section,
+footer,
+[id] {
   scroll-margin-top: 100px;
 }
 
@@ -58,7 +76,7 @@ section, footer, [id] {
 
 @utility btn-press {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:active {
     transform: scale(0.96);
   }
@@ -73,7 +91,7 @@ section, footer, [id] {
 
 @utility btn-press {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:active {
     transform: scale(0.96);
   }
@@ -95,4 +113,15 @@ section, footer, [id] {
   text-shadow: 0 0 20px rgba(242, 178, 100, 0.3);
 }
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

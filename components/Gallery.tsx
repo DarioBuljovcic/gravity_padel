@@ -2,12 +2,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { getGalleryImages } from "@/lib/actions/gallery.actions";
 import { FadeIn } from "./FadeIn";
+import { getTranslations } from '@/lib/i18n';
+
 
 const ArrowRightIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 );
 
 export default async function Gallery() {
+  const t = await getTranslations('Gallery');
   const dbImages = await getGalleryImages();
 
   const defaultImages = [
@@ -33,20 +36,18 @@ export default async function Gallery() {
       <FadeIn className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div>
           <span className="text-slate-400 text-xs font-black uppercase tracking-[0.3em] block mb-4">
-            ZAVIRI NA TERENE
+            {t('tag')}
           </span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-black tracking-tight leading-[0.95] mb-4">
-            <span className="text-white">NAŠA</span>{" "}
-            <span className="text-padel-blue">GALERIJA</span>
+            <span className="text-white">{t('title1')}</span>{" "}
+            <span className="text-padel-blue">{t('title2')}</span>
           </h2>
           <div className="max-w-xl">
             <p className="text-slate-400 text-sm md:text-base font-medium">
-              Atmosfera sa terena, momenti sa mečeva i ekipa koja Gravity čini posebnim mestom za igru
-              i druženje.
-
+              {t('subtitle1')}
             </p>
             <p className="text-slate-400 text-sm md:text-base font-medium mt-1">
-              Pogledaj sve slike.
+              {t('subtitle2')}
             </p>
           </div>
         </div>
@@ -54,7 +55,7 @@ export default async function Gallery() {
           href="/galerija"
           className="group flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-padel-blue hover:text-white transition-all duration-300 md:mb-2"
         >
-          SVE SLIKE
+          {t('allPictures')}
           <ArrowRightIcon />
         </Link>
       </FadeIn>
