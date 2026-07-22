@@ -1,11 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { supabase, GalleryImage } from "@/lib/db";
-import { requireAuth } from "@/lib/auth";
+import type { GalleryImage } from "@/lib/db";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { requireAdmin } from "@/lib/auth";
 
 export async function getGalleryImages(): Promise<GalleryImage[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("gallery")
     .select("*")
     .order("created_at", { ascending: false });
@@ -19,9 +20,9 @@ export async function getGalleryImages(): Promise<GalleryImage[]> {
 }
 
 export async function addGalleryImage(url: string, alt?: string): Promise<GalleryImage | null> {
-  await requireAuth();
+  await requireAdmin();
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("gallery")
     .insert({ url, alt: alt || null })
     .select()
@@ -39,10 +40,10 @@ export async function addGalleryImage(url: string, alt?: string): Promise<Galler
 }
 
 export async function deleteGalleryImage(id: string): Promise<void> {
-  await requireAuth();
+  await requireAdmin();
 
   // First fetch the image to get the URL
-  const { data: image, error: fetchError } = await supabase
+  const { data: image, error: fetchError } = await supabaseAdmin
     .from("gallery")
     .select("url")
     .eq("id", id)
@@ -61,7 +62,7 @@ export async function deleteGalleryImage(id: string): Promise<void> {
 
   if (filename) {
     // Delete from storage
-    const { error: storageError } = await supabase.storage
+    const { error: storageError } = await supabaseAdmin.storage
       .from("gallery-images")
       .remove([filename]);
       
@@ -72,7 +73,7 @@ export async function deleteGalleryImage(id: string): Promise<void> {
   }
 
   // Delete from database
-  const { error: dbError } = await supabase
+  const { error: dbError } = await supabaseAdmin
     .from("gallery")
     .delete()
     .eq("id", id);

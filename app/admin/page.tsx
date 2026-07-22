@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { logoutAction } from "@/lib/actions/blog.actions";
+import { logoutAction } from "@/lib/actions/auth.actions";
+import { requireAdminPage } from "@/lib/auth";
 import Image from "next/image";
 import BlogsTab from "./_components/BlogsTab";
 import GalleryTab from "./_components/GalleryTab";
@@ -13,6 +14,7 @@ interface PageProps {
 }
 
 export default async function DashboardPage({ searchParams }: PageProps) {
+  await requireAdminPage();
   const params = await searchParams;
   const tab = params.tab || "blogs";
 

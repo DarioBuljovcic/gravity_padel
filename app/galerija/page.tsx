@@ -59,7 +59,7 @@ export default async function GalleryPage() {
 
         <div className="mt-20 text-center">
           <Link
-            href="https://gravitysport.simplybook.me/v2/"
+            href="/rezervacija"
             className="inline-flex px-8 py-4 bg-primary-orange text-slate-950 rounded-full font-black text-xs md:text-sm uppercase tracking-[0.2em] hover:bg-white transition-all duration-300 shadow-xl shadow-primary-orange/20 btn-press"
           >
             Rezerviši svoj termin

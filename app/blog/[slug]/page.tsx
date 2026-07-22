@@ -10,8 +10,13 @@ type Props = {
 
 // Generate static params for known slugs at build time
 export async function generateStaticParams() {
-  const blogs = await getBlogs();
-  return blogs.map((b) => ({ slug: b.slug }));
+  try {
+    const blogs = await getBlogs();
+    return blogs.map((blog) => ({ slug: blog.slug }));
+  } catch {
+    // Dynamic rendering still serves posts when Supabase is unavailable at build time.
+    return [];
+  }
 }
 
 export const revalidate = 3600;
