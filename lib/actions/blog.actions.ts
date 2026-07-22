@@ -2,8 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { supabase, Blog } from "@/lib/db";
-import { requireAuth } from "@/lib/auth";
+import type { Blog } from "@/lib/db";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { requireAdmin } from "@/lib/auth";
 
 type ActionState = { error: string } | null;
 
@@ -19,7 +20,7 @@ function slugify(title: string): string {
 // ─── Public reads ─────────────────────────────────────────────────────────────
 
 export async function getBlogs(): Promise<Blog[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("blogs")
     .select("*")
     .order("created_at", { ascending: false });
@@ -28,7 +29,7 @@ export async function getBlogs(): Promise<Blog[]> {
 }
 
 export async function getLatestBlogs(limit = 3): Promise<Blog[]> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("blogs")
     .select("*")
     .order("created_at", { ascending: false })
@@ -38,7 +39,7 @@ export async function getLatestBlogs(limit = 3): Promise<Blog[]> {
 }
 
 export async function getBlogBySlug(slug: string): Promise<Blog | null> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("blogs")
     .select("*")
     .eq("slug", slug)
@@ -48,7 +49,7 @@ export async function getBlogBySlug(slug: string): Promise<Blog | null> {
 }
 
 export async function getBlogById(id: string): Promise<Blog | null> {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("blogs")
     .select("*")
     .eq("id", id)
@@ -65,7 +66,7 @@ export async function createBlogFormAction(
   _prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  await requireAuth();
+  await requireAdmin();
 
   const title = (formData.get("title") as string)?.trim();
   const excerpt = (formData.get("excerpt") as string)?.trim();
@@ -74,7 +75,7 @@ export async function createBlogFormAction(
 
   if (!title || !body) return { error: "Title and body are required." };
 
-  const { error } = await supabase.from("blogs").insert({
+  const { error } = await supabaseAdmin.from("blogs").insert({
     title,
     slug: slugify(title),
     excerpt: excerpt || null,
@@ -100,7 +101,7 @@ export async function updateBlogFormAction(
   _prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
-  await requireAuth();
+  await requireAdmin();
 
   const title = (formData.get("title") as string)?.trim();
   const excerpt = (formData.get("excerpt") as string)?.trim();
@@ -108,7 +109,7 @@ export async function updateBlogFormAction(
   const body = (formData.get("body") as string)?.trim();
   if (!title || !body) return { error: "Title and body are required." };
 
-  const { error } = await supabase
+  const { error } = await supabaseAdmin
     .from("blogs")
     .update({
       title,
@@ -128,22 +129,22 @@ export async function updateBlogFormAction(
 }
 
 export async function deleteBlog(id: string): Promise<void> {
-  await requireAuth();
-  const { error } = await supabase.from("blogs").delete().eq("id", id);
+  await requireAdmin();
+  const { error } = await supabaseAdmin.from("blogs").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/blog");
   revalidatePath("/admin");
 }
 
 export async function deleteBlogImageFromStorage(url: string): Promise<void> {
-  await requireAuth();
+  await requireAdmin();
   if (!url) return;
 
   const urlParts = url.split("/");
   const filename = urlParts[urlParts.length - 1];
 
   if (filename) {
-    const { error } = await supabase.storage
+    const { error } = await supabaseAdmin.storage
       .from("blog-images")
       .remove([filename]);
 
@@ -151,35 +152,4 @@ export async function deleteBlogImageFromStorage(url: string): Promise<void> {
       console.error("Failed to delete from storage:", error);
     }
   }
-}
-
-// ─── Auth ─────────────────────────────────────────────────────────────────────
-
-export async function loginAction(
-  _prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> {
-  const username = formData.get("username") as string;
-  const password = formData.get("password") as string;
-
-  if (
-    username !== process.env.ADMIN_USERNAME ||
-    password !== process.env.ADMIN_PASSWORD
-  ) {
-    return { error: "Invalid credentials." };
-  }
-
-  const { getSession } = await import("@/lib/auth");
-  const session = await getSession();
-  session.isLoggedIn = true;
-  await session.save();
-
-  redirect("/admin");
-}
-
-export async function logoutAction(): Promise<void> {
-  const { getSession } = await import("@/lib/auth");
-  const session = await getSession();
-  session.destroy();
-  redirect("/admin/login");
 }

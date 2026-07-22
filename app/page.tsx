@@ -1,6 +1,5 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/components/Hero";
-import AboutCourts from "@/components/AboutCourts";
 import Pricing from "@/components/Pricing";
 import BookingCTA from "@/components/BookingCta";
 import Footer from "@/components/Footer";

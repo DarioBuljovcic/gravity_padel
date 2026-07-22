@@ -116,7 +116,7 @@ export default async function Hero() {
 
             <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
               <Link
-                href="https://gravitysport.simplybook.me/v2/"
+                href="/rezervacija"
                 className="flex items-center gap-2 px-8 py-4 bg-padel-blue text-white font-black uppercase tracking-widest text-sm hover:bg-blue-600 transition-all duration-300 rounded-lg shadow-lg shadow-padel-blue/20 btn-press"
               >
                 <CalendarIcon />

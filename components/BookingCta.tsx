@@ -1,18 +1,8 @@
-import Link from 'next/link';
 import Image from 'next/image';
 import { FadeIn } from './FadeIn';
-import { Calendar, Laptop, ArrowRight, Clock, CalendarCheck, Users, Sun, SunDim, Moon } from 'lucide-react';
+import { Sun, SunDim, Moon } from 'lucide-react';
 import { getTranslations } from '@/lib/i18n';
 
-
-
-// Inline SVGs
-const CalendarIcon = () => <Calendar size={20} strokeWidth={1.5} />;
-const LaptopIcon = () => <Laptop size={20} strokeWidth={1.5} />;
-const ArrowRightIcon = () => <ArrowRight size={16} strokeWidth={2} />;
-const ClockIcon = () => <Clock size={20} strokeWidth={1.5} />;
-const CalendarCheckIcon = () => <CalendarCheck size={20} strokeWidth={1.5} />;
-const UsersIcon = () => <Users size={20} strokeWidth={1.5} />;
 const SunIcon = () => <Sun size={24} strokeWidth={1.5} />;
 const SunDimIcon = () => <SunDim size={24} strokeWidth={1.5} />;
 const MoonIcon = () => <Moon size={24} strokeWidth={1.5} />;
@@ -20,37 +10,6 @@ const MoonIcon = () => <Moon size={24} strokeWidth={1.5} />;
 export default async function BookingCTA() {
   const t = await getTranslations('Booking');
   const bgImage = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/46e291e5-a877-45a4-87fa-94bbc57a7bbb.webp";
-  const leftFeatures = [
-    {
-      icon: <CalendarIcon />,
-      title: 'IZABERI TERMIN',
-      desc: 'Pogledaj dostupne termine u realnom vremenu i izaberi onaj koji ti odgovara.'
-    },
-    {
-      icon: <LaptopIcon />,
-      title: 'REZERVIŠI ONLINE',
-      desc: 'Brzo, jednostavno i sigurno plaćanje. Bez čekanja, bez poziva.'
-    }
-  ];
-
-  const rightCards = [
-    {
-      icon: <ClockIcon />,
-      title: '10 SEKUNDI',
-      desc: 'Potrebno da rezervišete termin.'
-    },
-    {
-      icon: <CalendarCheckIcon />,
-      title: 'UVEK DOSTUPNO',
-      desc: 'Rezerviši svoj termin kada god želiš, online.'
-    },
-    {
-      icon: <UsersIcon />,
-      title: '4 TERENA',
-      desc: '2 zatvorena i 2 otvorena terena dostupna tokom cele godine.'
-    }
-  ];
-
   const times = [
     { icon: <SunIcon />, title: t('t1_title'), desc: t('t1_desc') },
     { icon: <SunDimIcon />, title: t('t2_title'), desc: t('t2_desc') },
@@ -148,7 +107,7 @@ export default async function BookingCTA() {
 
 //   <div>
 //     <Link
-//       href="https://gravitysport.simplybook.me/v2/"
+//       href="/rezervacija"
 //       className="inline-flex items-center gap-2 px-8 py-4 bg-[#e8c68c] text-slate-900 font-black uppercase tracking-widest text-xs hover:bg-white transition-all duration-300 rounded-lg shadow-lg btn-press"
 //     >
 //       <CalendarIcon />

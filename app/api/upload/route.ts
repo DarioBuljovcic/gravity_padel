@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/db";
-import { requireAuth } from "@/lib/auth";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { AuthenticationError, requireAdmin } from "@/lib/auth";
 import sharp from "sharp";
 
 const ALLOWED_BUCKETS = new Set(["blog-images", "gallery-images"]);
@@ -9,7 +9,7 @@ const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
 export async function POST(request: Request) {
   try {
-    await requireAuth();
+    await requireAdmin();
 
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     const filename = `${uniqueId}.webp`;
 
     // Upload to Supabase Storage
-    const { error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabaseAdmin.storage
       .from(bucket)
       .upload(filename, webpBuffer, {
         contentType: "image/webp",
@@ -76,14 +76,17 @@ export async function POST(request: Request) {
     }
 
     // Get public URL
-    const { data: publicUrlData } = supabase.storage
+    const { data: publicUrlData } = supabaseAdmin.storage
       .from(bucket)
       .getPublicUrl(filename);
 
     return NextResponse.json({ url: publicUrlData.publicUrl }, { status: 200 });
   } catch (error) {
-    if (error instanceof Error && error.message === "Unauthorized") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (error instanceof AuthenticationError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.message === "Forbidden" ? 403 : 401 },
+      );
     }
 
     console.error("Error processing file upload:", error);
