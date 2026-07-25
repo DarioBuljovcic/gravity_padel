@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Syne, Geist } from "next/font/google";
+import { Syne, Geist, Inter } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from '@/lib/i18n';
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const syne = Syne({
   variable: "--font-syne",
@@ -86,7 +89,7 @@ export default async function RootLayout({
   const messages = await getMessages(locale);
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={cn("font-sans", inter.variable)}>
       <body
         className={`${syne.variable} ${geist.variable} font-sans antialiased bg-black text-white selection:bg-lime-400 selection:text-black`}
       >
