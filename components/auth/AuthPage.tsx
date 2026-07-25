@@ -21,7 +21,7 @@ const AuthPage = async ({ searchParams }: AuthPageProps) => {
                 PADEL <span className="text-padel-blue">GRAVITY</span>
             </Link>
             <h1 className="mb-6 text-3xl font-black uppercase text-white">Novi nalog</h1>
-            <AuthForm mode="signup" next={next} />
+            <AuthForm next={next} />
         </main>
     );
 }

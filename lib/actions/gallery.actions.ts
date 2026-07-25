@@ -15,11 +15,14 @@ export async function getGalleryImages(): Promise<GalleryImage[]> {
     console.error("Error fetching gallery images:", error);
     return [];
   }
-  
+
   return data ?? [];
 }
 
-export async function addGalleryImage(url: string, alt?: string): Promise<GalleryImage | null> {
+export async function addGalleryImage(
+  url: string,
+  alt?: string,
+): Promise<GalleryImage | null> {
   await requireAdmin();
 
   const { data, error } = await supabaseAdmin
@@ -35,7 +38,7 @@ export async function addGalleryImage(url: string, alt?: string): Promise<Galler
 
   revalidatePath("/admin");
   revalidatePath("/galerija");
-  
+
   return data;
 }
 
@@ -54,7 +57,7 @@ export async function deleteGalleryImage(id: string): Promise<void> {
   }
 
   const url = image.url;
-  
+
   // Extract filename from the Supabase public URL
   // Example: https://[projectId].supabase.co/storage/v1/object/public/gallery-images/filename.webp
   const urlParts = url.split("/");
@@ -65,7 +68,7 @@ export async function deleteGalleryImage(id: string): Promise<void> {
     const { error: storageError } = await supabaseAdmin.storage
       .from("gallery-images")
       .remove([filename]);
-      
+
     if (storageError) {
       console.error("Failed to delete from storage:", storageError);
       // We'll continue and delete the DB record anyway
