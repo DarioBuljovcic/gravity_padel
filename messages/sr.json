@@ -58,6 +58,10 @@
     "title1": "REZERVIŠI BEZ",
     "title2": "ČEKANJA.",
     "subtitle": "Pogledaj dostupne termine i rezerviši teren online za nekoliko sekundi.",
+    "t1_title": "Radni Dani",
+    "t1_desc": "Pre podne (09:00 - 16:00)",
+    "t2_title": "Radni Dani",
+    "t2_desc": "Posle podne (16:00 - 23:00)",
     "included1": "Reketi uključeni u cenu",
     "included2": "Loptice uključene u cenu",
     "free_coffee": "* Gratis kafa uz jutarnji termin"
@@ -99,5 +103,8 @@
     "subtitle1": "Atmosfera sa terena, momenti sa mečeva i ekipa koja Gravity čini posebnim mestom za igru i druženje.",
     "subtitle2": "Pogledaj sve slike.",
     "allPictures": "SVE SLIKE"
+  },
+  "CTAButton": {
+    "bookBtn": "Rezerviši termin"
   }
 }

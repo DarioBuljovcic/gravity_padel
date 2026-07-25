@@ -4,6 +4,7 @@ import { FadeIn } from './FadeIn';
 import { Check } from 'lucide-react';
 import { pricingData } from '@/lib/constants';
 import { useTranslations } from 'next-intl';
+import CTAButton from './CTAButton';
 
 
 const CheckIcon = () => <Check size={20} strokeWidth={2} />;
@@ -36,10 +37,10 @@ export default function Pricing() {
             <div className="h-full bg-slate-900/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 border border-white/5">
               <div className="flex flex-col mb-10">
                 <h3 className="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-tight">
-                  {pricingData.morning.title}
+                  {t('t1_title')}
                 </h3>
                 <span className="text-padel-blue font-bold text-sm uppercase tracking-wider mt-1">
-                  {pricingData.morning.subtitle} ({pricingData.morning.range})
+                  {t('t1_desc')}
                 </span>
                 <span className="text-slate-400 text-xs font-medium mt-2">
                   {t('free_coffee') || '* Gratis kafa uz jutarnji termin'}
@@ -69,10 +70,10 @@ export default function Pricing() {
             <div className="h-full bg-slate-900/60 backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 border border-white/5">
               <div className="flex flex-col mb-10">
                 <h3 className="text-2xl md:text-3xl font-display font-bold text-white uppercase tracking-tight">
-                  {pricingData.afternoon.title}
+                  {t('t2_title')}
                 </h3>
                 <span className="text-primary-orange font-bold text-sm uppercase tracking-wider mt-1">
-                  {pricingData.afternoon.subtitle} ({pricingData.afternoon.range})
+                  {t('t2_desc')}
                 </span>
               </div>
 
@@ -94,6 +95,9 @@ export default function Pricing() {
             </div>
           </FadeIn>
         </div>
+        <FadeIn className='mt-12 flex justify-center'>
+          <CTAButton />
+        </FadeIn>
 
         {/* Bottom Included Features */}
         <FadeIn delay={300} className="mt-12 flex flex-col sm:flex-row justify-center gap-6">
