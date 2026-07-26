@@ -43,7 +43,8 @@ export default function Schema() {
       "@type": "ReserveAction",
       "target": {
         "@type": "EntryPoint",
-        "urlTemplate": "https://padelgravity.rs/#booking",
+        // "urlTemplate": "https://padelgravity.rs/#booking",
+        "urlTemplate": "https://gravitysport.simplybook.me/v2/",
         "actionPlatform": [
           "http://schema.org/DesktopWebPlatform",
           "http://schema.org/MobileWebPlatform"

@@ -176,14 +176,25 @@ export function DetailsStep({ draft, error, submitting, onChange, onSubmit, onBa
   );
 }
 
+export type BookingMode = "public" | "admin";
+
 export type SuccessStepProps = {
   draft: ReservationInput;
   selectedPackage: BookingPackage;
   reservationId: string | null;
   isAuthenticated: boolean;
+  mode?: BookingMode;
 };
 
-export function SuccessStep({ draft, selectedPackage, reservationId, isAuthenticated }: SuccessStepProps) {
+export function SuccessStep({
+  draft,
+  selectedPackage,
+  reservationId,
+  isAuthenticated,
+  mode = "public",
+}: SuccessStepProps) {
+  const isAdmin = mode === "admin";
+
   return (
     <section className="mx-auto max-w-xl text-center">
       <div className="mb-6 text-6xl text-primary-orange">✓</div>
@@ -198,7 +209,7 @@ export function SuccessStep({ draft, selectedPackage, reservationId, isAuthentic
         </p>
         {reservationId && <p className="mt-3 text-xs text-slate-500">Broj: {reservationId}</p>}
       </div>
-      {!isAuthenticated && (
+      {!isAdmin && !isAuthenticated && (
         <div className="mb-6 rounded-2xl border border-padel-blue/30 bg-padel-blue/10 p-5">
           <p className="mb-3 text-sm text-slate-200">
             Napravite nalog da upravljate budućim rezervacijama i brže rezervišete ponovo.
@@ -209,10 +220,10 @@ export function SuccessStep({ draft, selectedPackage, reservationId, isAuthentic
         </div>
       )}
       <Link
-        href="/"
+        href={isAdmin ? "/admin?tab=reservations" : "/"}
         className="inline-block rounded-full bg-padel-blue px-8 py-3 font-black uppercase text-white"
       >
-        Početna
+        {isAdmin ? "Nazad na rezervacije" : "Početna"}
       </Link>
     </section>
   );

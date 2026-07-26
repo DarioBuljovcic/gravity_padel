@@ -15,6 +15,7 @@ import {
   getBusySlots,
 } from "@/lib/actions/reservation.actions";
 import type {
+  BookingMode,
   CourtStepProps,
   DateStepProps,
   DetailsStepProps,
@@ -33,6 +34,7 @@ export type BookingFlowProps = {
   defaultPackageId?: string;
   defaultCourtId?: number;
   isAuthenticated: boolean;
+  mode?: BookingMode;
   PackageStep: ComponentType<PackageStepProps>;
   DateStep: ComponentType<DateStepProps>;
   CourtStep: ComponentType<CourtStepProps>;
@@ -65,6 +67,7 @@ export default function BookingFlow({
   defaultPackageId,
   defaultCourtId,
   isAuthenticated,
+  mode = "public",
   PackageStep,
   DateStep,
   CourtStep,
@@ -217,6 +220,7 @@ export default function BookingFlow({
           selectedPackage={selectedPackage}
           reservationId={reservationId}
           isAuthenticated={isAuthenticated}
+          mode={mode}
         />
       )}
     </div>

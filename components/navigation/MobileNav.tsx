@@ -36,7 +36,10 @@ const MobileNav = ({ isOpen, setIsOpen, handleScroll }: MobileNavProps) => {
                 <div className={`mt-4 w-full max-w-xs transition-all duration-500 delay-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                     }`}>
                     <Link
-                        href="/rezervacija"
+                        // href="/rezervacija"
+                        href="https://gravitysport.simplybook.me/v2/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onClick={() => setIsOpen(false)}
                         className="flex items-center justify-center gap-2 w-full py-4 bg-padel-blue text-white rounded-2xl font-black uppercase tracking-widest text-sm shadow-2xl shadow-blue-600/20"
                     >

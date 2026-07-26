@@ -66,7 +66,8 @@ export default async function AccountPage() {
         <section id="bookings">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-black uppercase text-white">Predstojeće rezervacije</h2>
-            <Link href="/rezervacija" className="text-sm font-bold text-padel-blue">Nova rezervacija</Link>
+            {/* <Link href="/rezervacija" className="text-sm font-bold text-padel-blue">Nova rezervacija</Link> */}
+            <Link href="https://gravitysport.simplybook.me/v2/" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-padel-blue">Nova rezervacija</Link>
           </div>
           <div className="space-y-3">
             {upcoming.length === 0 ? (

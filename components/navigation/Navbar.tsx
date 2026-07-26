@@ -75,7 +75,10 @@ export default function Navbar() {
 
             <div className={`transition-opacity duration-300 ${isOpen ? 'opacity-0 pointer-events-none lg:opacity-100 lg:pointer-events-auto' : 'opacity-100'}`}>
               <Link
-                href="/rezervacija"
+                // href="/rezervacija"
+                href="https://gravitysport.simplybook.me/v2/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-padel-blue text-white rounded-full font-black text-[11px] uppercase tracking-[0.1em] hover:bg-blue-600 transition-all duration-300 shadow-lg shadow-padel-blue/20 btn-press"
               >
                 {t('bookBtn')}

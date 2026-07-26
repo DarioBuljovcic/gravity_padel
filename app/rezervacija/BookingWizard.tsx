@@ -1,5 +1,6 @@
 import BookingFlow from "./BookingFlow";
 import {
+  type BookingMode,
   CourtStep,
   DateStep,
   DetailsStep,
@@ -16,6 +17,7 @@ type BookingWizardProps = {
   defaultPackageId?: string;
   defaultCourtId?: number;
   isAuthenticated: boolean;
+  mode?: BookingMode;
 };
 
 export default function BookingWizard(props: BookingWizardProps) {

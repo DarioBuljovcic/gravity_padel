@@ -4,6 +4,9 @@ import {
   type ReservationFilters,
 } from "@/lib/actions/reservation.actions";
 import ReservationFiltersForm from "./ReservationFilters";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
+import Link from "next/link";
 
 type SearchParams = { [key: string]: string | undefined };
 
@@ -11,9 +14,9 @@ function parseFilters(params: SearchParams): ReservationFilters {
   const courtRaw = params.court ? Number(params.court) : undefined;
   const courtId =
     courtRaw != null &&
-    Number.isInteger(courtRaw) &&
-    courtRaw >= 1 &&
-    courtRaw <= 4
+      Number.isInteger(courtRaw) &&
+      courtRaw >= 1 &&
+      courtRaw <= 4
       ? courtRaw
       : undefined;
 
@@ -24,15 +27,15 @@ function parseFilters(params: SearchParams): ReservationFilters {
 
   const timeFrom =
     date &&
-    params.timeFrom &&
-    /^(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/.test(params.timeFrom)
+      params.timeFrom &&
+      /^(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/.test(params.timeFrom)
       ? params.timeFrom.slice(0, 5)
       : undefined;
 
   const timeTo =
     date &&
-    params.timeTo &&
-    /^(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/.test(params.timeTo)
+      params.timeTo &&
+      /^(?:[01]\d|2[0-3]):[0-5]\d(?::[0-5]\d)?$/.test(params.timeTo)
       ? params.timeTo.slice(0, 5)
       : undefined;
 
@@ -58,13 +61,21 @@ export default async function ReservationsTab({
 
   return (
     <section className="space-y-4">
-      <div className="rounded-2xl border border-white/10 bg-slate-900/50 p-6">
-        <h2 className="text-xl font-bold uppercase tracking-widest text-white">
-          Sve rezervacije
-        </h2>
-        <p className="mt-1 text-sm text-slate-400">
-          Pregled i upravljanje terminima
-        </p>
+      <div className="rounded-2xl border border-white/10 bg-slate-900/50 p-6 flex items-center justify-between">
+        <div className="flex flex-col items-start justify-between">
+          <h2 className="text-xl font-bold uppercase tracking-widest text-white">
+            Sve rezervacije
+          </h2>
+          <p className="mt-1 text-sm text-slate-400">
+            Pregled i upravljanje terminima
+          </p>
+        </div>
+        <Link href="/admin/rezervacije/nova">
+          <Button variant="accent" type="button">
+            <PlusIcon className="h-4 w-4" />
+            Dodaj rezervaciju
+          </Button>
+        </Link>
       </div>
 
       <ReservationFiltersForm key={filterKey} initial={filters} />
