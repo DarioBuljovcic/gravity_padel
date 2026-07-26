@@ -58,6 +58,10 @@
     "title1": "BOOK WITHOUT",
     "title2": "WAITING.",
     "subtitle": "Check available times and book your court online in seconds.",
+    "t1_title": "Weekdays",
+    "t1_desc": "Morning (09:00 - 16:00)",
+    "t2_title": "Weekdays",
+    "t2_desc": "Afternoon (16:00 - 23:00)",
     "included1": "Rackets included in price",
     "included2": "Balls included in price",
     "free_coffee": "* Free coffee with morning session"
@@ -99,5 +103,8 @@
     "subtitle1": "The atmosphere from the courts, moments from matches, and the team that makes Gravity a special place for playing and socializing.",
     "subtitle2": "See all pictures.",
     "allPictures": "ALL PICTURES"
+  },
+  "CTAButton": {
+    "bookBtn": "Book a Court"
   }
 }

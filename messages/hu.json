@@ -58,6 +58,10 @@
     "title1": "FOGLALJ",
     "title2": "VÁRAKOZÁS NÉLKÜL.",
     "subtitle": "Ellenőrizd a szabad időpontokat, és foglalj pályát online másodpercek alatt.",
+    "t1_title": "Hétköznapok",
+    "t1_desc": "Délelőtt (09:00 - 16:00)",
+    "t2_title": "Hétköznapok",
+    "t2_desc": "Délután (16:00 - 23:00)",
     "included1": "Ütők az árban",
     "included2": "Labdák az árban",
     "free_coffee": "* Ingyenes kávé a reggeli időpontokhoz"
@@ -99,5 +103,8 @@
     "subtitle1": "A pályák hangulata, a meccsek pillanatai és a csapat, amely a Gravity-t különleges hellyé teszi a játékhoz és a társasági élethez.",
     "subtitle2": "Nézd meg az összes képet.",
     "allPictures": "ÖSSZES KÉP"
+  },
+  "CTAButton": {
+    "bookBtn": "Foglalj Pályát"
   }
 }

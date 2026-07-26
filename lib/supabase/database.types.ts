@@ -93,6 +93,7 @@ export type Database = {
           status: "active" | "cancelled";
           user_id: string | null;
           created_at: string;
+          reminder_sent: boolean;
           date: string | null;
           time: string | null;
           terrain: Json | null;
@@ -112,6 +113,7 @@ export type Database = {
           status?: "active" | "cancelled";
           user_id?: string | null;
           created_at?: string;
+          reminder_sent?: boolean;
           date?: string | null;
           time?: string | null;
           terrain?: Json | null;
@@ -122,6 +124,7 @@ export type Database = {
           name?: string;
           phone?: string;
           email?: string;
+          reminder_sent?: boolean;
         };
         Relationships: [];
       };

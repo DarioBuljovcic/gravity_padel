@@ -1,11 +1,18 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { logoutAction } from "@/lib/actions/auth.actions";
 import { requireAdminPage } from "@/lib/auth";
-import Image from "next/image";
+import AdminTabShell from "./_components/AdminTabShell";
 import BlogsTab from "./_components/BlogsTab";
 import GalleryTab from "./_components/GalleryTab";
 import ReservationsTab from "./_components/ReservationsTab";
-import { Activity } from "react";
+import {
+  BlogsTabSkeleton,
+  GalleryTabSkeleton,
+  ReservationsTabSkeleton,
+} from "./_components/TabSkeletons";
+import { parseAdminTab } from "./lib/parseAdminTab";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +23,7 @@ interface PageProps {
 export default async function DashboardPage({ searchParams }: PageProps) {
   await requireAdminPage();
   const params = await searchParams;
-  const tab = params.tab || "blogs";
+  const initialTab = parseAdminTab(params.tab);
 
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 md:py-20 relative overflow-x-hidden">
@@ -61,48 +68,24 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           </div>
         </div>
 
-        {/* Tabs Navigation */}
-        <div className="flex items-center gap-8 mb-12 border-b border-white/10 px-2 lg:px-0">
-          <Link
-            href="?tab=blogs"
-            className={`pb-4 text-sm md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === "blogs"
-              ? "text-primary-orange border-primary-orange"
-              : "text-slate-500 border-transparent hover:text-white"
-              }`}
-          >
-            Blogovi
-          </Link>
-          <Link
-            href="?tab=gallery"
-            className={`pb-4 text-sm md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === "gallery"
-              ? "text-primary-orange border-primary-orange"
-              : "text-slate-500 border-transparent hover:text-white"
-              }`}
-          >
-            Galerija
-          </Link>
-          <Link
-            href="?tab=reservations"
-            className={`pb-4 text-sm md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === "reservations"
-              ? "text-primary-orange border-primary-orange"
-              : "text-slate-500 border-transparent hover:text-white"
-              }`}
-          >
-            Rezervacije
-          </Link>
-        </div>
-
-        {/* Content Area Based on Tab */}
-        <Activity mode={tab === "blogs" ? "visible" : "hidden"}>
-          <BlogsTab />
-        </Activity>
-        <Activity mode={tab === "gallery" ? "visible" : "hidden"}>
-          <GalleryTab />
-        </Activity>
-        <Activity mode={tab === "reservations" ? "visible" : "hidden"}>
-          <ReservationsTab />
-        </Activity>
-
+        <AdminTabShell
+          initialTab={initialTab}
+          blogs={
+            <Suspense fallback={<BlogsTabSkeleton />}>
+              <BlogsTab />
+            </Suspense>
+          }
+          gallery={
+            <Suspense fallback={<GalleryTabSkeleton />}>
+              <GalleryTab />
+            </Suspense>
+          }
+          reservations={
+            <Suspense fallback={<ReservationsTabSkeleton />}>
+              <ReservationsTab searchParams={params} />
+            </Suspense>
+          }
+        />
       </div>
     </main>
   );

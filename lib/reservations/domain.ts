@@ -110,6 +110,43 @@ export function isPastSlot(date: string, time: string, now = new Date()): boolea
   return timeToMinutes(time) <= getVenueTimeMinutes(now);
 }
 
+/** Convert a Europe/Belgrade local date+time to a UTC ISO string. */
+export function venueLocalToUtcIso(date: string, time: string): string {
+  const [year, month, day] = date.split("-").map(Number);
+  const [hour, minute] = time.split(":").map(Number);
+  const asUtc = Date.UTC(year, month - 1, day, hour, minute, 0);
+
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: VENUE_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(asUtc));
+  const zoned = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  const asZonedUtc = Date.UTC(
+    Number(zoned.year),
+    Number(zoned.month) - 1,
+    Number(zoned.day),
+    Number(zoned.hour),
+    Number(zoned.minute),
+    Number(zoned.second),
+  );
+  const offsetMs = asZonedUtc - asUtc;
+  return new Date(asUtc - offsetMs).toISOString();
+}
+
+export function venueDayBoundsUtc(date: string): { startIso: string; endIso: string } {
+  const startIso = venueLocalToUtcIso(date, "00:00");
+  const [year, month, day] = date.split("-").map(Number);
+  const next = new Date(Date.UTC(year, month - 1, day + 1));
+  const nextDate = `${next.getUTCFullYear()}-${String(next.getUTCMonth() + 1).padStart(2, "0")}-${String(next.getUTCDate()).padStart(2, "0")}`;
+  return { startIso, endIso: venueLocalToUtcIso(nextDate, "00:00") };
+}
+
 export function generateTimeSlots(item: BookingPackage, date?: string): string[] {
   const start = timeToMinutes(item.rangeStart);
   const end = timeToMinutes(item.rangeEnd);
