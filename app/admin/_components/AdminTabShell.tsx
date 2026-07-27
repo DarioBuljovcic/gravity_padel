@@ -38,14 +38,14 @@ export default function AdminTabShell({
   }
 
   const tabClass = (id: AdminTab) =>
-    `pb-4 text-sm md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === id
+    `pb-4 text-xs md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === id
       ? "text-primary-orange border-primary-orange"
       : "text-slate-500 border-transparent hover:text-white"
     }`;
 
   return (
     <>
-      <div className="flex items-center gap-8 mb-12 border-b border-white/10 px-2 lg:px-0">
+      <div className="flex items-center justify-center gap-8 mb-12 border-b border-white/10 px-2 lg:px-0">
         {TABS.map(({ id, label }) => (
           <button
             key={id}

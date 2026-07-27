@@ -59,8 +59,8 @@ export function ReservationsTabSkeleton() {
         <Skeleton className="mt-2 h-4 w-64 max-w-full bg-white/10" />
       </div>
       <div className="rounded-2xl border border-white/10 bg-slate-900/50 p-5 md:p-6">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {Array.from({ length: 5 }).map((_, index) => (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 2 }).map((_, index) => (
             <div key={index} className="space-y-2">
               <Skeleton className="h-4 w-16 bg-white/10" />
               <Skeleton className="h-9 w-full bg-white/10" />
@@ -72,22 +72,14 @@ export function ReservationsTabSkeleton() {
           <Skeleton className="h-9 w-24 bg-white/10" />
         </div>
       </div>
-      {Array.from({ length: 4 }).map((_, index) => (
-        <div key={index}>
-          <div className="rounded-2xl border border-white/10 bg-slate-900/50 p-5">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="space-y-2">
-                <Skeleton className="h-5 w-40 bg-white/10" />
-                <Skeleton className="h-4 w-56 bg-white/10" />
-              </div>
-              <Skeleton className="h-9 w-24 rounded-xl bg-white/10" />
-            </div>
-          </div>
-          <div className="-mt-3 rounded-b-2xl border border-t-0 border-white/10 bg-slate-900/40 px-5 pb-4 pt-5">
-            <Skeleton className="h-4 w-72 max-w-full bg-white/10" />
-          </div>
+      <div className="rounded-2xl border border-white/10 bg-slate-900/50 p-4">
+        <div className="mb-4 flex flex-wrap gap-2">
+          <Skeleton className="h-8 w-24 bg-white/10" />
+          <Skeleton className="h-8 w-24 bg-white/10" />
+          <Skeleton className="h-8 w-20 bg-white/10" />
         </div>
-      ))}
+        <Skeleton className="h-[min(70dvh,640px)] w-full rounded-xl bg-white/10" />
+      </div>
     </section>
   );
 }

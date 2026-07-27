@@ -16,9 +16,13 @@ import { createClient } from "@/lib/supabase/server";
 export type ReservationFilters = {
   courtId?: number;
   date?: string;
+  dateFrom?: string;
+  dateTo?: string;
   timeFrom?: string;
   timeTo?: string;
   name?: string;
+  /** When true, only active reservations are returned. */
+  activeOnly?: boolean;
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -101,12 +105,23 @@ export async function createReservation(
 export async function getReservations(filters: ReservationFilters = {}) {
   await requireAdmin();
   const supabase = await createClient();
+
+  const dateFrom =
+    filters.dateFrom && DATE_RE.test(filters.dateFrom)
+      ? filters.dateFrom
+      : undefined;
+  const dateTo =
+    filters.dateTo && DATE_RE.test(filters.dateTo)
+      ? filters.dateTo
+      : undefined;
+  const hasRange = Boolean(dateFrom || dateTo);
+
   let query = supabase
     .from("reservations")
     .select(
       "id,starts_at,ends_at,duration_minutes,court_id,package_id,price_amount,price_currency,name,phone,email,status,user_id,created_at",
     )
-    .order("starts_at", { ascending: false });
+    .order("starts_at", { ascending: hasRange });
 
   if (
     typeof filters.courtId === "number" &&
@@ -117,8 +132,14 @@ export async function getReservations(filters: ReservationFilters = {}) {
     query = query.eq("court_id", filters.courtId);
   }
 
+  if (filters.activeOnly) {
+    query = query.eq("status", "active");
+  }
+
   const date =
-    filters.date && DATE_RE.test(filters.date) ? filters.date : undefined;
+    !hasRange && filters.date && DATE_RE.test(filters.date)
+      ? filters.date
+      : undefined;
   const timeFrom =
     date && filters.timeFrom && TIME_RE.test(filters.timeFrom)
       ? normalizeTime(filters.timeFrom)
@@ -128,7 +149,13 @@ export async function getReservations(filters: ReservationFilters = {}) {
       ? normalizeTime(filters.timeTo)
       : undefined;
 
-  if (date) {
+  if (hasRange) {
+    const from = dateFrom ?? dateTo!;
+    const to = dateTo ?? dateFrom!;
+    const lower = venueDayBoundsUtc(from <= to ? from : to).startIso;
+    const upper = venueDayBoundsUtc(from <= to ? to : from).endIso;
+    query = query.gte("starts_at", lower).lt("starts_at", upper);
+  } else if (date) {
     const { startIso, endIso } = venueDayBoundsUtc(date);
     const lower = timeFrom ? venueLocalToUtcIso(date, timeFrom) : startIso;
     const upper = timeTo ? venueLocalToUtcIso(date, timeTo) : endIso;
