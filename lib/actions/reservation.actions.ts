@@ -111,9 +111,7 @@ export async function getReservations(filters: ReservationFilters = {}) {
       ? filters.dateFrom
       : undefined;
   const dateTo =
-    filters.dateTo && DATE_RE.test(filters.dateTo)
-      ? filters.dateTo
-      : undefined;
+    filters.dateTo && DATE_RE.test(filters.dateTo) ? filters.dateTo : undefined;
   const hasRange = Boolean(dateFrom || dateTo);
 
   let query = supabase

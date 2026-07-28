@@ -8,6 +8,7 @@ import ReservationsCalendar from "./ReservationsCalendar";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
+import ReservationStatistics from "./ReservationStatistics";
 
 type SearchParams = { [key: string]: string | undefined };
 
@@ -41,10 +42,12 @@ export default async function ReservationsTab({
     dateFrom: week.dateFrom,
     dateTo: week.dateTo,
   });
+
   const filterKey = [filters.courtId ?? "", filters.name ?? ""].join("|");
 
   return (
     <section className="space-y-4">
+      <ReservationStatistics />
       <div className="rounded-2xl border border-white/10 bg-slate-900/50 p-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col items-start justify-between">
           <h2 className="text-xl font-bold uppercase tracking-widest text-white">
