@@ -492,6 +492,9 @@ button.rbc-input::-moz-focus-inner {
   position: relative;
 }
 .rbc-day-slot .rbc-events-container {
+  width: 100%;
+  padding: 0 5px;
+  box-sizing: border-box;
   bottom: 0;
   left: 0;
   position: absolute;
@@ -517,6 +520,7 @@ button.rbc-input::-moz-focus-inner {
   align-items: flex-start;
   overflow: hidden;
   position: absolute;
+  padding: 5px;
 }
 .rbc-day-slot .rbc-event-label {
   -webkit-flex: none;
@@ -530,7 +534,8 @@ button.rbc-input::-moz-focus-inner {
   -webkit-flex: 1 1 0;
   -ms-flex: 1 1 0px;
   flex: 1 1 0;
-  word-wrap: break-word;
+  word-wrap: ellipsis;
+  overflow: hidden;
   line-height: 1;
   height: 100%;
   min-height: 1em;
@@ -975,3 +980,40 @@ button.rbc-input::-moz-focus-inner {
     font-size: 0.95rem;
   }
 }
+
+.rbc-event {
+  container-type: inline-size;
+}
+
+.calendar-event-content {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.calendar-event-name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-event-initials {
+  display: none;
+  text-align: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+
+/* Narrow event: show initials instead */
+@container (width < 60px) {
+  .calendar-event-name {
+    display: none;
+  }
+
+  .calendar-event-initials {
+    display: block;
+  }
+}
+
+/* Extremely narrow event: show only the colored block */

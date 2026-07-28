@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { getGalleryImages, deleteGalleryImage } from "@/lib/actions/gallery.actions";
-import GalleryUpload from "../gallery/GalleryUpload";
+import GalleryUpload from "./GalleryUpload";
 
 export default async function GalleryTab() {
   const images = await getGalleryImages();

@@ -4,14 +4,15 @@ import Image from "next/image";
 import { logoutAction } from "@/lib/actions/auth.actions";
 import { requireAdminPage } from "@/lib/auth";
 import AdminTabShell from "./_components/AdminTabShell";
-import BlogsTab from "./_components/BlogsTab";
-import GalleryTab from "./_components/GalleryTab";
-import ReservationsTab from "./_components/ReservationsTab";
+import QueryProvider from "./_components/QueryProvider";
 import {
   BlogsTabSkeleton,
   GalleryTabSkeleton,
   ReservationsTabSkeleton,
 } from "./_components/TabSkeletons";
+import BlogsTab from "./blogs/_components/BlogsTab";
+import GalleryTab from "./gallery/_components/GalleryTab";
+import ReservationsTab from "./reservations/_components/ReservationsTab";
 import { parseAdminTab } from "./lib/parseAdminTab";
 
 export const dynamic = "force-dynamic";
@@ -68,24 +69,26 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           </div>
         </div>
 
-        <AdminTabShell
-          initialTab={initialTab}
-          blogs={
-            <Suspense fallback={<BlogsTabSkeleton />}>
-              <BlogsTab />
-            </Suspense>
-          }
-          gallery={
-            <Suspense fallback={<GalleryTabSkeleton />}>
-              <GalleryTab />
-            </Suspense>
-          }
-          reservations={
-            <Suspense fallback={<ReservationsTabSkeleton />}>
-              <ReservationsTab searchParams={params} />
-            </Suspense>
-          }
-        />
+        <QueryProvider>
+          <AdminTabShell
+            initialTab={initialTab}
+            blogs={
+              <Suspense fallback={<BlogsTabSkeleton />}>
+                <BlogsTab />
+              </Suspense>
+            }
+            gallery={
+              <Suspense fallback={<GalleryTabSkeleton />}>
+                <GalleryTab />
+              </Suspense>
+            }
+            reservations={
+              <Suspense fallback={<ReservationsTabSkeleton />}>
+                <ReservationsTab searchParams={params} />
+              </Suspense>
+            }
+          />
+        </QueryProvider>
       </div>
     </main>
   );

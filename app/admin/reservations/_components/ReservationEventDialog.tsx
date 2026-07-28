@@ -8,6 +8,7 @@ import {
   getCourt,
   getPackage,
 } from "@/lib/reservations/domain";
+import type { CalendarReservation } from "@/lib/reservations/calendar-mapping";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,7 +18,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { CalendarReservation } from "./reservation-calendar-utils";
 
 type Props = {
   reservation: CalendarReservation | null;

@@ -1,38 +1,36 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
-import {
-  dateFnsLocalizer,
-  type View,
-} from "react-big-calendar";
-import {
-  format,
-  getDay,
-  parse,
-  startOfWeek,
-} from "date-fns";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useQueryClient, type QueryClient } from "@tanstack/react-query";
+import { dateFnsLocalizer, type View } from "react-big-calendar";
+import { addDays, format, getDay, parse, startOfWeek, subDays } from "date-fns";
 import { srLatn } from "date-fns/locale";
 import ShadcnBigCalendar from "@/components/shadcn-big-calendar/shadcn-big-calendar";
 import { Button } from "@/components/ui/button";
 import { CLOSING_HOUR, OPENING_HOUR } from "@/lib/constants";
-import type { ReservationFilters } from "@/lib/actions/reservation.actions";
-import { courts } from "@/lib/reservations/domain";
-import ReservationEventDialog from "./ReservationEventDialog";
+import {
+  getReservations,
+  type ReservationFilters,
+} from "@/lib/actions/reservation.actions";
 import {
   courtEventClassName,
   courtLegendColor,
-  fetchReservationsCached,
-  getCachedReservations,
-  getDefaultWeekRange,
-  getRangeForView,
-  markReservationCancelledInCache,
-  nowInVenue,
-  prefetchAdjacentRanges,
   reservationsToEvents,
-  seedReservationCache,
   type CalendarReservation,
   type ReservationEvent,
-} from "./reservation-calendar-utils";
+} from "@/lib/reservations/calendar-mapping";
+import {
+  getDefaultWeekRange,
+  getRangeForView,
+  nowInVenue,
+} from "@/lib/reservations/date-ranges";
+import {
+  reservationsRangeKey,
+  useReservationsRange,
+} from "@/lib/reservations/use-reservations-range";
+import { courts } from "@/lib/reservations/domain";
+import ReservationEventDialog from "./ReservationEventDialog";
+import CalendarEvent from "./CalendarEvent";
 
 const locales = { "sr-Latn": srLatn };
 
@@ -59,20 +57,17 @@ const messages = {
   showMore: (total: number) => `+${total} više`,
 };
 
+const timeRangeFormat = (
+  { start, end }: { start: Date; end: Date },
+  culture?: string,
+  loc?: { format: (value: Date, format: string, culture?: string) => string },
+) =>
+  `${loc?.format(start, "HH:mm", culture)} – ${loc?.format(end, "HH:mm", culture)}`;
+
 const calendarFormats = {
   timeGutterFormat: "HH:mm",
-  eventTimeRangeFormat: (
-    { start, end }: { start: Date; end: Date },
-    culture?: string,
-    loc?: { format: (value: Date, format: string, culture?: string) => string },
-  ) =>
-    `${loc?.format(start, "HH:mm", culture)} – ${loc?.format(end, "HH:mm", culture)}`,
-  agendaTimeRangeFormat: (
-    { start, end }: { start: Date; end: Date },
-    culture?: string,
-    loc?: { format: (value: Date, format: string, culture?: string) => string },
-  ) =>
-    `${loc?.format(start, "HH:mm", culture)} – ${loc?.format(end, "HH:mm", culture)}`,
+  eventTimeRangeFormat: timeRangeFormat,
+  agendaTimeRangeFormat: timeRangeFormat,
 };
 
 const DESKTOP_VIEWS: View[] = ["month", "week", "day", "agenda"];
@@ -96,10 +91,12 @@ const calendarScrollTo = (() => {
   return d;
 })();
 
-type Props = {
-  initialReservations: CalendarReservation[];
-  filters: Pick<ReservationFilters, "courtId" | "name">;
-};
+function getSafeView(view: View, mobile: boolean): View {
+  if (!mobile) return view;
+  return view === "week" || view === "month" || view === "work_week"
+    ? "day"
+    : view;
+}
 
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
@@ -115,35 +112,62 @@ function useIsMobile(breakpoint = 768) {
   return isMobile;
 }
 
+function prefetchAdjacentRanges(
+  queryClient: QueryClient,
+  filters: Pick<ReservationFilters, "courtId" | "name">,
+  date: Date,
+  view: View,
+) {
+  if (view === "month") return;
+
+  const daySpan = view === "agenda" ? 30 : view === "day" ? 1 : 7;
+  const prev = getRangeForView(subDays(date, daySpan), view);
+  const next = getRangeForView(addDays(date, daySpan), view);
+
+  for (const range of [prev, next]) {
+    void queryClient.prefetchQuery({
+      queryKey: reservationsRangeKey(filters, range),
+      queryFn: () => getReservations({ ...filters, ...range }),
+      staleTime: 60_000,
+    });
+  }
+}
+
+type Props = {
+  initialReservations: CalendarReservation[];
+  filters: Pick<ReservationFilters, "courtId" | "name">;
+};
+
 export default function ReservationsCalendar({
   initialReservations,
   filters,
 }: Props) {
+  const queryClient = useQueryClient();
   const isMobile = useIsMobile();
   const mobile = isMobile === true;
   const [date, setDate] = useState(() => nowInVenue());
   const [viewOverride, setViewOverride] = useState<View | null>(null);
-  const [reservations, setReservations] =
-    useState<CalendarReservation[]>(initialReservations);
   const [selected, setSelected] = useState<CalendarReservation | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showCancelled, setShowCancelled] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
   const requestedView = viewOverride ?? (mobile ? "day" : "week");
-  const view: View =
-    mobile &&
-    (requestedView === "week" ||
-      requestedView === "month" ||
-      requestedView === "work_week")
-      ? "day"
-      : requestedView;
+  const view = getSafeView(requestedView, mobile);
+  const range = getRangeForView(date, view);
+  const defaultWeek = getDefaultWeekRange();
+  const isDefaultWeek =
+    range.dateFrom === defaultWeek.dateFrom &&
+    range.dateTo === defaultWeek.dateTo;
 
-  // Seed cache with SSR data for the default week.
+  const { data: reservations = [], isFetching } = useReservationsRange(
+    filters,
+    range,
+    { initialData: isDefaultWeek ? initialReservations : undefined },
+  );
+
   useEffect(() => {
-    seedReservationCache(filters, getDefaultWeekRange(), initialReservations);
-    prefetchAdjacentRanges(filters, nowInVenue(), "week");
-  }, [filters, initialReservations]);
+    prefetchAdjacentRanges(queryClient, filters, date, view);
+  }, [queryClient, filters, date, view]);
 
   const events = useMemo(() => {
     const visible = showCancelled
@@ -152,37 +176,12 @@ export default function ReservationsCalendar({
     return reservationsToEvents(visible);
   }, [reservations, showCancelled]);
 
-  const loadRange = useCallback(
-    (nextDate: Date, nextView: View) => {
-      const range = getRangeForView(nextDate, nextView);
-      const cached = getCachedReservations(filters, range);
-      if (cached) {
-        setReservations(cached);
-        prefetchAdjacentRanges(filters, nextDate, nextView);
-        return;
-      }
-
-      startTransition(async () => {
-        const data = await fetchReservationsCached(filters, range);
-        setReservations(data);
-        prefetchAdjacentRanges(filters, nextDate, nextView);
-      });
-    },
-    [filters],
-  );
-
   function handleNavigate(nextDate: Date) {
     setDate(nextDate);
-    loadRange(nextDate, view);
   }
 
   function handleViewChange(nextView: View) {
-    const safeView =
-      mobile && (nextView === "week" || nextView === "month")
-        ? "day"
-        : nextView;
-    setViewOverride(safeView);
-    loadRange(date, safeView);
+    setViewOverride(getSafeView(nextView, mobile));
   }
 
   const handleSelectEvent = useCallback((event: ReservationEvent) => {
@@ -215,7 +214,7 @@ export default function ReservationsCalendar({
           ))}
         </div>
         <div className="flex items-center gap-2">
-          {isPending && (
+          {isFetching && (
             <span className="text-xs text-slate-500">Učitavanje…</span>
           )}
           <Button
@@ -251,7 +250,11 @@ export default function ReservationsCalendar({
           popup
           selectable={false}
           eventPropGetter={eventPropGetter}
+          dayLayoutAlgorithm="no-overlap"
           formats={calendarFormats}
+          components={{
+            event: CalendarEvent,
+          }}
         />
       </div>
 
@@ -260,12 +263,7 @@ export default function ReservationsCalendar({
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         onCancelled={(id) => {
-          markReservationCancelledInCache(id);
-          setReservations((prev) =>
-            prev.map((item) =>
-              item.id === id ? { ...item, status: "cancelled" } : item,
-            ),
-          );
+          void queryClient.invalidateQueries({ queryKey: ["reservations"] });
           setSelected((prev) =>
             prev?.id === id ? { ...prev, status: "cancelled" } : prev,
           );

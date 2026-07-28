@@ -2,9 +2,9 @@ import {
   getReservations,
   type ReservationFilters,
 } from "@/lib/actions/reservation.actions";
+import { getDefaultWeekRange } from "@/lib/reservations/date-ranges";
 import ReservationFiltersForm from "./ReservationFilters";
 import ReservationsCalendar from "./ReservationsCalendar";
-import { getDefaultWeekRange } from "./reservation-calendar-utils";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
