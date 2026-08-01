@@ -83,3 +83,32 @@ export function ReservationsTabSkeleton() {
     </section>
   );
 }
+
+export function StatisticsTabSkeleton() {
+  return (
+    <section className="space-y-4">
+      <div className="rounded-2xl border border-white/10 bg-slate-900/50 p-6">
+        <Skeleton className="h-7 w-40 bg-white/10" />
+        <Skeleton className="mt-2 h-4 w-64 max-w-full bg-white/10" />
+      </div>
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-8 w-56 bg-white/10" />
+          <Skeleton className="h-4 w-40 bg-white/10" />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {Array.from({ length: 7 }).map((_, index) => (
+            <div
+              key={index}
+              className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-slate-900/50 p-6"
+            >
+              <Skeleton className="h-4 w-32 bg-white/10" />
+              <Skeleton className="h-9 w-20 bg-white/10" />
+              <Skeleton className="h-4 w-40 bg-white/10" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

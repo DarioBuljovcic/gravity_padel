@@ -9,11 +9,13 @@ import {
   BlogsTabSkeleton,
   GalleryTabSkeleton,
   ReservationsTabSkeleton,
+  StatisticsTabSkeleton,
 } from "./_components/TabSkeletons";
 import BlogsTab from "./blogs/_components/BlogsTab";
 import GalleryTab from "./gallery/_components/GalleryTab";
 import ReservationsTab from "./reservations/_components/ReservationsTab";
 import { parseAdminTab } from "./lib/parseAdminTab";
+import StatisticsTab from "./statistika/StatisticsTab";
 
 export const dynamic = "force-dynamic";
 
@@ -85,6 +87,11 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             reservations={
               <Suspense fallback={<ReservationsTabSkeleton />}>
                 <ReservationsTab searchParams={params} />
+              </Suspense>
+            }
+            statistics={
+              <Suspense fallback={<StatisticsTabSkeleton />}>
+                <StatisticsTab />
               </Suspense>
             }
           />

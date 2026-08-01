@@ -2,20 +2,21 @@
 
 import { Activity, useEffect, useState, type ReactNode } from "react";
 
-export type AdminTab = "blogs" | "gallery" | "reservations";
+export type AdminTab = "blogs" | "gallery" | "reservations" | "statistics";
 
 const TABS: { id: AdminTab; label: string }[] = [
   { id: "blogs", label: "Blogovi" },
   { id: "gallery", label: "Galerija" },
   { id: "reservations", label: "Rezervacije" },
+  { id: "statistics", label: "Statistika" },
 ];
-
 
 type AdminTabShellProps = {
   initialTab: AdminTab;
   blogs: ReactNode;
   gallery: ReactNode;
   reservations: ReactNode;
+  statistics: ReactNode;
 };
 
 export default function AdminTabShell({
@@ -23,6 +24,7 @@ export default function AdminTabShell({
   blogs,
   gallery,
   reservations,
+  statistics,
 }: AdminTabShellProps) {
   const [tab, setTab] = useState<AdminTab>(initialTab);
 
@@ -38,9 +40,10 @@ export default function AdminTabShell({
   }
 
   const tabClass = (id: AdminTab) =>
-    `pb-4 text-xs md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${tab === id
-      ? "text-primary-orange border-primary-orange"
-      : "text-slate-500 border-transparent hover:text-white"
+    `pb-4 text-xs md:text-base font-black uppercase tracking-[0.2em] transition-all duration-300 border-b-2 ${
+      tab === id
+        ? "text-primary-orange border-primary-orange"
+        : "text-slate-500 border-transparent hover:text-white"
     }`;
 
   return (
@@ -65,8 +68,9 @@ export default function AdminTabShell({
       <Activity mode={tab === "reservations" ? "visible" : "hidden"}>
         {reservations}
       </Activity>
+      <Activity mode={tab === "statistics" ? "visible" : "hidden"}>
+        {statistics}
+      </Activity>
     </>
   );
 }
-
-
