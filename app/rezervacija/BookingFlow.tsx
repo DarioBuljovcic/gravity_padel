@@ -77,12 +77,14 @@ export default function BookingFlow({
   StepProgress,
 }: BookingFlowProps) {
   const initialPackage = getPackage(defaultPackageId ?? "") ?? bookingPackages[0];
+  const prefilledCourtId =
+    defaultCourtId && defaultCourtId >= 1 && defaultCourtId <= 4 ? defaultCourtId : undefined;
   const [step, setStep] = useState(defaultPackageId ? 2 : 1);
   const [draft, setDraft] = useState<Draft>({
     packageId: initialPackage.id,
     date: getVenueDate(),
     time: "",
-    courtId: defaultCourtId && defaultCourtId >= 1 && defaultCourtId <= 4 ? defaultCourtId : 1,
+    courtId: prefilledCourtId ?? 1,
     name: defaultName,
     phone: defaultPhone,
     email: defaultEmail,
@@ -170,6 +172,11 @@ export default function BookingFlow({
           days={days}
           onSelect={(date) => {
             setDraft((current) => ({ ...current, date, time: "" }));
+            if (prefilledCourtId) {
+              setLoadingSlots(true);
+              setStep(4);
+              return;
+            }
             setStep(3);
           }}
           onBack={() => setStep(1)}
@@ -199,7 +206,7 @@ export default function BookingFlow({
             setError(null);
             setStep(5);
           }}
-          onBack={() => setStep(3)}
+          onBack={() => setStep(prefilledCourtId ? 2 : 3)}
         />
       )}
 

@@ -144,3 +144,37 @@ export function reminderPlayerSubject(details: MailReservationDetails): string {
   const resolved = resolveDetails(details);
   return `Podsetnik — ${resolved.courtName}, ${resolved.date} u ${resolved.time}`;
 }
+
+export function cancelledBookingAdminHtml(
+  details: MailReservationDetails,
+): string {
+  return wrapEmail(
+    "Otkazana rezervacija",
+    "Igrač je otkazao rezervaciju. Detalji su ispod.",
+    details,
+  );
+}
+
+export function cancelledBookingAdminSubject(
+  details: MailReservationDetails,
+): string {
+  const resolved = resolveDetails(details);
+  return `Otkazana rezervacija — ${resolved.courtName}, ${resolved.date} ${resolved.time}`;
+}
+
+export function cancelledBookingPlayerHtml(
+  details: MailReservationDetails,
+): string {
+  return wrapEmail(
+    "Rezervacija otkazana",
+    "Vaša rezervacija je otkazana od strane kluba. Detalji termina su ispod.",
+    details,
+  );
+}
+
+export function cancelledBookingPlayerSubject(
+  details: MailReservationDetails,
+): string {
+  const resolved = resolveDetails(details);
+  return `Rezervacija otkazana — ${resolved.courtName}, ${resolved.date} u ${resolved.time}`;
+}

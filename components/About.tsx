@@ -134,10 +134,7 @@ const About = async () => {
               {t('cta_text')}
             </p>
             <Link
-              // href="/rezervacija"
-              href="https://gravitysport.simplybook.me/v2/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/rezervacija"
               className="flex-shrink-0 flex items-center justify-center gap-2 px-6 py-3 bg-[#e8c68c] text-slate-900 font-black uppercase tracking-widest text-xs hover:bg-white transition-all duration-300 rounded-lg shadow-lg btn-press"
             >
               {t('bookBtn')}

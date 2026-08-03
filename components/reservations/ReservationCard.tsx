@@ -61,10 +61,7 @@ export default function ReservationCard({
         <div className="flex gap-2">
           {canRebook && (
             <Link
-              // href={`/rezervacija?package=${encodeURIComponent(reservation.package_id)}&court=${reservation.court_id}`}
-              href="https://gravitysport.simplybook.me/v2/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/rezervacija?package=${encodeURIComponent(reservation.package_id)}&court=${reservation.court_id}`}
               className="rounded-lg bg-padel-blue px-4 py-2 text-xs font-black uppercase text-white"
             >
               Rezerviši ponovo

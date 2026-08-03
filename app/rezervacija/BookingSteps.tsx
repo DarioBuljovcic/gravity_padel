@@ -212,7 +212,12 @@ export function SuccessStep({
       {!isAdmin && !isAuthenticated && (
         <div className="mb-6 rounded-2xl border border-padel-blue/30 bg-padel-blue/10 p-5">
           <p className="mb-3 text-sm text-slate-200">
-            Napravite nalog da upravljate budućim rezervacijama i brže rezervišete ponovo.
+            Prijavite se ili napravite nalog da pratite i otkažete rezervacije. Rezervaciju možete
+            otkazati i pozivom na{" "}
+            <a href="tel:+381606558559" className="font-semibold text-padel-blue hover:underline">
+              +381 60 655 8559
+            </a>
+            .
           </p>
           <Link href="/signup" className="font-bold text-padel-blue hover:underline">
             Napravi nalog

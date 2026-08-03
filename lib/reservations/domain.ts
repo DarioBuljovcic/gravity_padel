@@ -11,12 +11,61 @@ export const courts = [
 ] as const;
 
 export const bookingPackages = [
-  { id: "morning_60", durationMinutes: 60, priceAmount: 1800, rangeStart: "09:00", rangeEnd: "16:00", label: "1h", period: "Pre podne" },
-  { id: "morning_90", durationMinutes: 90, priceAmount: 2700, rangeStart: "09:00", rangeEnd: "16:00", label: "1.5h", period: "Pre podne" },
-  { id: "morning_120", durationMinutes: 120, priceAmount: 3300, rangeStart: "09:00", rangeEnd: "16:00", label: "2h", period: "Pre podne" },
-  { id: "afternoon_60", durationMinutes: 60, priceAmount: 2400, rangeStart: "16:00", rangeEnd: "23:00", label: "1h", period: "Posle podne" },
-  { id: "afternoon_90", durationMinutes: 90, priceAmount: 3600, rangeStart: "16:00", rangeEnd: "23:00", label: "1.5h", period: "Posle podne" },
-  { id: "afternoon_120", durationMinutes: 120, priceAmount: 4400, rangeStart: "16:00", rangeEnd: "23:00", label: "2h", period: "Posle podne" },
+  {
+    id: "morning_60",
+    durationMinutes: 60,
+    priceAmount: 1800,
+    rangeStart: "09:00",
+    rangeEnd: "16:00",
+    label: "1h",
+    period: "Pre podne",
+  },
+  {
+    id: "afternoon_60",
+    durationMinutes: 60,
+    priceAmount: 2400,
+    rangeStart: "16:00",
+    rangeEnd: "23:00",
+    label: "1h",
+    period: "Posle podne",
+  },
+  {
+    id: "morning_90",
+    durationMinutes: 90,
+    priceAmount: 2700,
+    rangeStart: "09:00",
+    rangeEnd: "16:00",
+    label: "1.5h",
+    period: "Pre podne",
+  },
+  {
+    id: "afternoon_90",
+    durationMinutes: 90,
+    priceAmount: 3600,
+    rangeStart: "16:00",
+    rangeEnd: "23:00",
+    label: "1.5h",
+    period: "Posle podne",
+  },
+  {
+    id: "morning_120",
+    durationMinutes: 120,
+    priceAmount: 3300,
+    rangeStart: "09:00",
+    rangeEnd: "16:00",
+    label: "2h",
+    period: "Pre podne",
+  },
+
+  {
+    id: "afternoon_120",
+    durationMinutes: 120,
+    priceAmount: 4400,
+    rangeStart: "16:00",
+    rangeEnd: "23:00",
+    label: "2h",
+    period: "Posle podne",
+  },
 ] as const;
 
 export type BookingPackage = (typeof bookingPackages)[number];
@@ -88,7 +137,9 @@ export function getVenueDate(offsetDays = 0, now = new Date()): string {
     month: "2-digit",
     day: "2-digit",
   }).formatToParts(date);
-  const value = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  const value = Object.fromEntries(
+    parts.map((part) => [part.type, part.value]),
+  );
   return `${value.year}-${value.month}-${value.day}`;
 }
 
@@ -99,15 +150,32 @@ export function getVenueTimeMinutes(now = new Date()): number {
     minute: "2-digit",
     hourCycle: "h23",
   }).formatToParts(now);
-  const value = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  const value = Object.fromEntries(
+    parts.map((part) => [part.type, part.value]),
+  );
   return Number(value.hour) * 60 + Number(value.minute);
 }
 
-export function isPastSlot(date: string, time: string, now = new Date()): boolean {
+export function isPastSlot(
+  date: string,
+  time: string,
+  now = new Date(),
+): boolean {
   const today = getVenueDate(0, now);
   if (date < today) return true;
   if (date > today) return false;
   return timeToMinutes(time) <= getVenueTimeMinutes(now);
+}
+
+/** Players may cancel only when the slot starts more than `cutoffMinutes` from now. */
+export function canPlayerCancel(
+  startsAt: string,
+  now = new Date(),
+  cutoffMinutes = 60,
+): boolean {
+  return (
+    new Date(startsAt).getTime() - now.getTime() > cutoffMinutes * 60 * 1000
+  );
 }
 
 /** Convert a Europe/Belgrade local date+time to a UTC ISO string. */
@@ -126,7 +194,9 @@ export function venueLocalToUtcIso(date: string, time: string): string {
     second: "2-digit",
     hourCycle: "h23",
   }).formatToParts(new Date(asUtc));
-  const zoned = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  const zoned = Object.fromEntries(
+    parts.map((part) => [part.type, part.value]),
+  );
   const asZonedUtc = Date.UTC(
     Number(zoned.year),
     Number(zoned.month) - 1,
@@ -139,7 +209,10 @@ export function venueLocalToUtcIso(date: string, time: string): string {
   return new Date(asUtc - offsetMs).toISOString();
 }
 
-export function venueDayBoundsUtc(date: string): { startIso: string; endIso: string } {
+export function venueDayBoundsUtc(date: string): {
+  startIso: string;
+  endIso: string;
+} {
   const startIso = venueLocalToUtcIso(date, "00:00");
   const [year, month, day] = date.split("-").map(Number);
   const next = new Date(Date.UTC(year, month - 1, day + 1));
@@ -147,12 +220,19 @@ export function venueDayBoundsUtc(date: string): { startIso: string; endIso: str
   return { startIso, endIso: venueLocalToUtcIso(nextDate, "00:00") };
 }
 
-export function generateTimeSlots(item: BookingPackage, date?: string): string[] {
+export function generateTimeSlots(
+  item: BookingPackage,
+  date?: string,
+): string[] {
   const start = timeToMinutes(item.rangeStart);
   const end = timeToMinutes(item.rangeEnd);
   const slots: string[] = [];
 
-  for (let minutes = start; minutes + item.durationMinutes <= end; minutes += 30) {
+  for (
+    let minutes = start;
+    minutes + item.durationMinutes <= end;
+    minutes += 30
+  ) {
     const time = `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
     if (date && isPastSlot(date, time)) continue;
     slots.push(time);

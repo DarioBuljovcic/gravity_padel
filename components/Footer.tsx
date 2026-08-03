@@ -101,8 +101,7 @@ export default function Footer() {
             © {new Date().getFullYear()} {t('rights')}
           </p>
           <div className="flex flex-wrap justify-center md:justify-end gap-6 uppercase text-[10px] font-bold tracking-widest text-slate-500">
-            {/* <Link href="/rezervacija" className="hover:text-padel-blue transition-colors">{t('bookBtn')}</Link> */}
-            <Link href="https://gravitysport.simplybook.me/v2/" target="_blank" rel="noopener noreferrer" className="hover:text-padel-blue transition-colors">{t('bookBtn')}</Link>
+            <Link href="/rezervacija" className="hover:text-padel-blue transition-colors">{t('bookBtn')}</Link>
           </div>
         </div>
       </div>

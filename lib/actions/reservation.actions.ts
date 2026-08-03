@@ -1,9 +1,15 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { requireAdmin, requireUser } from "@/lib/auth";
-import { notifyAdminNewBooking } from "@/lib/mail/notify";
+import { isAdmin, requireAdmin, requireUser } from "@/lib/auth";
 import {
+  notifyAdminCancelledBooking,
+  notifyAdminNewBooking,
+  notifyPlayerCancelledBooking,
+} from "@/lib/mail/notify";
+import type { MailReservationDetails } from "@/lib/mail/templates";
+import {
+  canPlayerCancel,
   isPastSlot,
   reservationInputSchema,
   venueDayBoundsUtc,
@@ -34,6 +40,32 @@ function normalizeTime(value: string): string {
 
 function escapeIlike(value: string): string {
   return value.replace(/[%_\\]/g, "\\$&");
+}
+
+function toMailDetails(reservation: {
+  id: string;
+  starts_at: string;
+  duration_minutes: number;
+  court_id: number;
+  package_id: string;
+  price_amount: number;
+  name: string;
+  phone: string;
+  email: string;
+}): MailReservationDetails {
+  return {
+    reservationId: reservation.id,
+    name: reservation.name,
+    phone: reservation.phone,
+    email: reservation.email,
+    courtId: reservation.court_id,
+    packageId: reservation.package_id,
+    date: "",
+    time: "",
+    durationMinutes: reservation.duration_minutes,
+    priceAmount: reservation.price_amount,
+    startsAt: reservation.starts_at,
+  };
 }
 
 export type ReservationActionResult =
@@ -178,19 +210,60 @@ export async function getReservations(filters: ReservationFilters = {}) {
 }
 
 export async function cancelReservation(id: string) {
-  await requireUser();
+  const user = await requireUser();
+  const admin = await isAdmin(user.id);
   const supabase = await createClient();
+
+  const { data: reservation, error: fetchError } = await supabase
+    .from("reservations")
+    .select(
+      "id,starts_at,duration_minutes,court_id,package_id,price_amount,name,phone,email,status",
+    )
+    .eq("id", id)
+    .eq("status", "active")
+    .maybeSingle();
+
+  if (fetchError || !reservation) {
+    console.error("Error loading reservation for cancel:", fetchError);
+    return { success: false, error: "Rezervaciju nije moguće otkazati." };
+  }
+
+  if (!admin && !canPlayerCancel(reservation.starts_at)) {
+    return {
+      success: false,
+      error: "Rezervaciju nije moguće otkazati manje od 1 sat pre termina.",
+    };
+  }
+
   const { error } = await supabase.rpc("cancel_own_reservation", {
     p_reservation_id: id,
   });
 
   if (error) {
     console.error("Error cancelling reservation:", error);
+    if (error.code === "P0001") {
+      return {
+        success: false,
+        error: "Rezervaciju nije moguće otkazati manje od 1 sat pre termina.",
+      };
+    }
     return { success: false, error: "Rezervaciju nije moguće otkazati." };
   }
 
   revalidatePath("/admin");
   revalidatePath("/account");
+
+  const details = toMailDetails(reservation);
+  if (admin) {
+    void notifyPlayerCancelledBooking(details).catch((err) =>
+      console.error("player cancellation email failed", err),
+    );
+  } else {
+    void notifyAdminCancelledBooking(details).catch((err) =>
+      console.error("admin cancellation email failed", err),
+    );
+  }
+
   return { success: true };
 }
 
@@ -216,4 +289,40 @@ export async function getBusySlots(
     return [];
   }
   return data ?? [];
+}
+
+export async function getAccountReservationHistory(
+  offset = 0,
+  limit = 5,
+): Promise<{
+  reservations: {
+    id: string;
+    starts_at: string;
+    court_id: number;
+    package_id: string;
+    duration_minutes: number;
+    price_amount: number;
+    status: "active" | "cancelled";
+  }[];
+  hasMore: boolean;
+}> {
+  const user = await requireUser();
+  const supabase = await createClient();
+  const nowIso = new Date().toISOString();
+
+  const { data, error } = await supabase
+    .from("reservations")
+    .select("id,starts_at,court_id,package_id,duration_minutes,price_amount,status")
+    .eq("user_id", user.id)
+    .or(`status.eq.cancelled,starts_at.lt."${nowIso}"`)
+    .order("starts_at", { ascending: false })
+    .range(offset, offset + limit);
+
+  if (error) throw new Error("Unable to load booking history.");
+
+  const rows = data ?? [];
+  return {
+    reservations: rows.slice(0, limit),
+    hasMore: rows.length > limit,
+  };
 }

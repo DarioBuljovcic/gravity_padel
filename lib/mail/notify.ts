@@ -1,6 +1,10 @@
 import "server-only";
 
 import {
+  cancelledBookingAdminHtml,
+  cancelledBookingAdminSubject,
+  cancelledBookingPlayerHtml,
+  cancelledBookingPlayerSubject,
   newBookingAdminHtml,
   newBookingAdminSubject,
   reminderPlayerHtml,
@@ -28,6 +32,48 @@ export async function notifyAdminNewBooking(
 
   if (!result.ok) {
     console.error("admin booking email failed:", result.error);
+  }
+}
+
+export async function notifyAdminCancelledBooking(
+  details: MailReservationDetails,
+): Promise<void> {
+  const to = getAdminNotifyEmail();
+  if (!to) {
+    console.error(
+      "Skipping admin cancellation email: ADMIN_NOTIFY_EMAIL is not set.",
+    );
+    return;
+  }
+
+  const result = await sendMail({
+    to,
+    subject: cancelledBookingAdminSubject(details),
+    html: cancelledBookingAdminHtml(details),
+  });
+
+  if (!result.ok) {
+    console.error("admin cancellation email failed:", result.error);
+  }
+}
+
+export async function notifyPlayerCancelledBooking(
+  details: MailReservationDetails,
+): Promise<void> {
+  const to = details.email.trim();
+  if (!to) {
+    console.error("Skipping player cancellation email: reservation has no email.");
+    return;
+  }
+
+  const result = await sendMail({
+    to,
+    subject: cancelledBookingPlayerSubject(details),
+    html: cancelledBookingPlayerHtml(details),
+  });
+
+  if (!result.ok) {
+    console.error("player cancellation email failed:", result.error);
   }
 }
 

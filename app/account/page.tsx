@@ -4,31 +4,33 @@ import Footer from "@/components/Footer";
 import ReservationCard from "@/components/reservations/ReservationCard";
 import { logoutAction } from "@/lib/actions/auth.actions";
 import { updateProfile } from "@/lib/actions/profile.actions";
+import { getAccountReservationHistory } from "@/lib/actions/reservation.actions";
 import { requireUserPage } from "@/lib/auth";
+import { canPlayerCancel } from "@/lib/reservations/domain";
 import { createClient } from "@/lib/supabase/server";
+import ReservationHistory from "./ReservationHistory";
+
+const HISTORY_INITIAL_LIMIT = 5;
 
 export default async function AccountPage() {
   const user = await requireUserPage("/account");
   const supabase = await createClient();
-  const [{ data: profile }, { data: reservations, error }] = await Promise.all([
-    supabase.from("profiles").select("full_name,phone").eq("id", user.id).maybeSingle(),
-    supabase
-      .from("reservations")
-      .select("id,starts_at,court_id,package_id,duration_minutes,price_amount,status")
-      .eq("user_id", user.id)
-      .order("starts_at", { ascending: false }),
-  ]);
-  if (error) throw new Error("Unable to load booking history.");
+  const nowIso = new Date().toISOString();
 
-  // Server-rendered booking groups intentionally use request time.
-  // eslint-disable-next-line react-hooks/purity
-  const now = Date.now();
-  const upcoming = (reservations ?? []).filter(
-    (reservation) => reservation.status === "active" && new Date(reservation.starts_at).getTime() >= now,
-  );
-  const history = (reservations ?? []).filter(
-    (reservation) => reservation.status !== "active" || new Date(reservation.starts_at).getTime() < now,
-  );
+  const [{ data: profile }, { data: upcoming, error: upcomingError }, history] =
+    await Promise.all([
+      supabase.from("profiles").select("full_name,phone").eq("id", user.id).maybeSingle(),
+      supabase
+        .from("reservations")
+        .select("id,starts_at,court_id,package_id,duration_minutes,price_amount,status")
+        .eq("user_id", user.id)
+        .eq("status", "active")
+        .gte("starts_at", nowIso)
+        .order("starts_at", { ascending: true }),
+      getAccountReservationHistory(0, HISTORY_INITIAL_LIMIT),
+    ]);
+
+  if (upcomingError) throw new Error("Unable to load booking history.");
 
   return (
     <main className="min-h-screen bg-slate-950">
@@ -66,27 +68,27 @@ export default async function AccountPage() {
         <section id="bookings">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-black uppercase text-white">Predstojeće rezervacije</h2>
-            {/* <Link href="/rezervacija" className="text-sm font-bold text-padel-blue">Nova rezervacija</Link> */}
-            <Link href="https://gravitysport.simplybook.me/v2/" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-padel-blue">Nova rezervacija</Link>
+            <Link href="/rezervacija" className="text-sm font-bold text-padel-blue">Nova rezervacija</Link>
           </div>
           <div className="space-y-3">
-            {upcoming.length === 0 ? (
+            {(upcoming ?? []).length === 0 ? (
               <p className="rounded-2xl border border-white/10 p-6 text-slate-500">Nemate predstojećih rezervacija.</p>
-            ) : upcoming.map((reservation) => (
-              <ReservationCard key={reservation.id} reservation={reservation} canCancel />
+            ) : (upcoming ?? []).map((reservation) => (
+              <ReservationCard
+                key={reservation.id}
+                reservation={reservation}
+                canCancel={canPlayerCancel(reservation.starts_at)}
+              />
             ))}
           </div>
         </section>
 
         <section>
           <h2 className="mb-5 text-2xl font-black uppercase text-white">Istorija</h2>
-          <div className="space-y-3">
-            {history.length === 0 ? (
-              <p className="rounded-2xl border border-white/10 p-6 text-slate-500">Istorija rezervacija je prazna.</p>
-            ) : history.map((reservation) => (
-              <ReservationCard key={reservation.id} reservation={reservation} canRebook />
-            ))}
-          </div>
+          <ReservationHistory
+            initialReservations={history.reservations}
+            initialHasMore={history.hasMore}
+          />
         </section>
       </div>
       <Footer />
