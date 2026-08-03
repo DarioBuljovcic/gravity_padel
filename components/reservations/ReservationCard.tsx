@@ -3,8 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { cancelReservation } from "@/lib/actions/reservation.actions";
-import { formatPrice, getCourt, getPackage } from "@/lib/reservations/domain";
+import { formatPrice, getPackage } from "@/lib/reservations/domain";
+
+const localeToDateLocale: Record<string, string> = {
+  sr: "sr-RS",
+  en: "en-GB",
+  hu: "hu-HU",
+};
 
 type ReservationCardProps = {
   reservation: {
@@ -25,24 +32,25 @@ export default function ReservationCard({
   canCancel = false,
   canRebook = false,
 }: ReservationCardProps) {
+  const t = useTranslations("ReservationCard");
+  const locale = useLocale();
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const court = getCourt(reservation.court_id);
   const bookingPackage = getPackage(reservation.package_id);
-  const startsAt = new Intl.DateTimeFormat("sr-RS", {
+  const startsAt = new Intl.DateTimeFormat(localeToDateLocale[locale] ?? "sr-RS", {
     dateStyle: "medium",
     timeStyle: "short",
     timeZone: "Europe/Belgrade",
   }).format(new Date(reservation.starts_at));
 
   async function cancel() {
-    if (!confirm("Da li želite da otkažete ovu rezervaciju?")) return;
+    if (!confirm(t("cancelConfirm"))) return;
     setPending(true);
     setError(null);
     const result = await cancelReservation(reservation.id);
     setPending(false);
-    if (!result.success) return setError(result.error ?? "Rezervaciju nije moguće otkazati.");
+    if (!result.success) return setError(result.error ?? t("cancelError"));
     router.refresh();
   }
 
@@ -52,10 +60,10 @@ export default function ReservationCard({
         <div>
           <p className="text-lg font-black text-white">{startsAt}</p>
           <p className="mt-1 text-sm text-slate-400">
-            {court?.name ?? `Teren ${reservation.court_id}`} · {bookingPackage?.label ?? `${reservation.duration_minutes} min`} · {formatPrice(reservation.price_amount)}
+            {t("courtFallback", { id: reservation.court_id })} · {bookingPackage?.label ?? `${reservation.duration_minutes} min`} · {formatPrice(reservation.price_amount)}
           </p>
           <p className={`mt-2 text-xs font-bold uppercase ${reservation.status === "active" ? "text-green-400" : "text-red-400"}`}>
-            {reservation.status === "active" ? "Aktivna" : "Otkazana"}
+            {reservation.status === "active" ? t("statusActive") : t("statusCancelled")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -64,7 +72,7 @@ export default function ReservationCard({
               href={`/rezervacija?package=${encodeURIComponent(reservation.package_id)}&court=${reservation.court_id}`}
               className="rounded-lg bg-padel-blue px-4 py-2 text-xs font-black uppercase text-white"
             >
-              Rezerviši ponovo
+              {t("rebook")}
             </Link>
           )}
           {canCancel && reservation.status === "active" && (
@@ -73,7 +81,7 @@ export default function ReservationCard({
               onClick={cancel}
               className="rounded-lg border border-red-500/30 px-4 py-2 text-xs font-black uppercase text-red-400 disabled:opacity-50"
             >
-              {pending ? "Otkazivanje…" : "Otkaži"}
+              {pending ? t("cancelling") : t("cancel")}
             </button>
           )}
         </div>

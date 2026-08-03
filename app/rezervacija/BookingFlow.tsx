@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type ComponentType, type FormEvent } from "react";
+import { useLocale } from "next-intl";
 import {
   bookingPackages,
   generateTimeSlots,
@@ -24,6 +25,12 @@ import type {
   SuccessStepProps,
   TimeStepProps,
 } from "./BookingSteps";
+
+const localeToDateLocale: Record<string, string> = {
+  sr: "sr-RS",
+  en: "en-GB",
+  hu: "hu-HU",
+};
 
 type Draft = ReservationInput;
 
@@ -76,6 +83,8 @@ export default function BookingFlow({
   SuccessStep,
   StepProgress,
 }: BookingFlowProps) {
+  const locale = useLocale();
+  const dateLocale = localeToDateLocale[locale] ?? "sr-RS";
   const initialPackage = getPackage(defaultPackageId ?? "") ?? bookingPackages[0];
   const prefilledCourtId =
     defaultCourtId && defaultCourtId >= 1 && defaultCourtId <= 4 ? defaultCourtId : undefined;
@@ -117,13 +126,13 @@ export default function BookingFlow({
         const displayDate = new Date(`${value}T12:00:00Z`);
         return {
           value,
-          weekday: displayDate.toLocaleDateString("sr-RS", { weekday: "short", timeZone: "UTC" }),
+          weekday: displayDate.toLocaleDateString(dateLocale, { weekday: "short", timeZone: "UTC" }),
           day: displayDate.getUTCDate(),
-          month: displayDate.toLocaleDateString("sr-RS", { month: "short", timeZone: "UTC" }),
+          month: displayDate.toLocaleDateString(dateLocale, { month: "short", timeZone: "UTC" }),
           available: generateTimeSlots(selectedPackage, value).length > 0,
         };
       }),
-    [selectedPackage],
+    [dateLocale, selectedPackage],
   );
 
   function isBusy(time: string): boolean {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useTranslations } from "next-intl";
 import ReservationCard from "@/components/reservations/ReservationCard";
 import { getAccountReservationHistory } from "@/lib/actions/reservation.actions";
 
@@ -25,6 +26,7 @@ export default function ReservationHistory({
   initialReservations,
   initialHasMore,
 }: ReservationHistoryProps) {
+  const t = useTranslations("Account");
   const [reservations, setReservations] = useState(initialReservations);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export default function ReservationHistory({
         setReservations((current) => [...current, ...result.reservations]);
         setHasMore(result.hasMore);
       } catch {
-        setError("Nije moguće učitati više rezervacija.");
+        setError(t("loadMoreError"));
       }
     });
   }
@@ -46,7 +48,7 @@ export default function ReservationHistory({
   if (reservations.length === 0) {
     return (
       <p className="rounded-2xl border border-white/10 p-6 text-slate-500">
-        Istorija rezervacija je prazna.
+        {t("historyEmpty")}
       </p>
     );
   }
@@ -63,7 +65,7 @@ export default function ReservationHistory({
           onClick={loadMore}
           className="w-full rounded-xl border border-white/10 px-5 py-3 text-xs font-black uppercase text-slate-300 transition hover:border-white/20 hover:text-white disabled:opacity-50"
         >
-          {pending ? "Učitavanje…" : "Učitaj još"}
+          {pending ? t("loading") : t("loadMore")}
         </button>
       )}
       {error && <p className="text-sm text-red-400">{error}</p>}

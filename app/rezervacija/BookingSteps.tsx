@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { FormEvent } from "react";
+import { useTranslations } from "next-intl";
 import {
   bookingPackages,
   courts,
@@ -25,14 +26,16 @@ export type PackageStepProps = {
 };
 
 export function PackageStep({ onSelect }: PackageStepProps) {
+  const t = useTranslations("Reservation");
+
   return (
     <section>
-      <StepHeading title="Izaberite paket" subtitle="Odaberite trajanje i period igre." />
+      <StepHeading title={t("packageTitle")} subtitle={t("packageSubtitle")} />
       <div className="grid gap-4 md:grid-cols-2">
         {bookingPackages.map((item) => (
           <button key={item.id} className={stepButtonClass} onClick={() => onSelect(item.id)}>
             <span className="block text-lg font-black">
-              {item.label} · {item.period}
+              {item.label} · {item.id.startsWith("morning") ? t("periodMorning") : t("periodAfternoon")}
             </span>
             <span className="text-sm text-slate-400">
               {item.rangeStart}–{item.rangeEnd}
@@ -52,9 +55,11 @@ export type DateStepProps = {
 };
 
 export function DateStep({ days, onSelect, onBack }: DateStepProps) {
+  const t = useTranslations("Reservation");
+
   return (
     <section>
-      <StepHeading title="Izaberite datum" subtitle="Rezervacije su otvorene za narednih 14 dana." />
+      <StepHeading title={t("dateTitle")} subtitle={t("dateSubtitle")} />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-7">
         {days.map((day) => (
           <button
@@ -80,14 +85,18 @@ export type CourtStepProps = {
 };
 
 export function CourtStep({ onSelect, onBack }: CourtStepProps) {
+  const t = useTranslations("Reservation");
+
   return (
     <section>
-      <StepHeading title="Izaberite teren" subtitle="Dostupnost vremena se prikazuje za izabrani teren." />
+      <StepHeading title={t("courtTitle")} subtitle={t("courtSubtitle")} />
       <div className="grid gap-4 sm:grid-cols-2">
         {courts.map((court) => (
           <button key={court.id} className={stepButtonClass} onClick={() => onSelect(court.id)}>
-            <span className="block text-xl font-black">{court.name}</span>
-            <span className="text-sm text-slate-400">{court.description}</span>
+            <span className="block text-xl font-black">{t("courtName", { id: court.id })}</span>
+            <span className="text-sm text-slate-400">
+              {court.id <= 2 ? t("courtDescOpen") : t("courtDescCovered")}
+            </span>
           </button>
         ))}
       </div>
@@ -115,11 +124,13 @@ export function TimeStep({
   onSelect,
   onBack,
 }: TimeStepProps) {
+  const t = useTranslations("Reservation");
+
   return (
     <section>
       <StepHeading
-        title="Izaberite vreme"
-        subtitle={loadingSlots ? "Učitavanje dostupnosti…" : "Zauzeti termini nisu dostupni."}
+        title={t("timeTitle")}
+        subtitle={loadingSlots ? t("timeLoading") : t("timeSubtitle")}
       />
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
         {generateTimeSlots(selectedPackage, date).map((time) => {
@@ -152,13 +163,15 @@ export type DetailsStepProps = {
 };
 
 export function DetailsStep({ draft, error, submitting, onChange, onSubmit, onBack }: DetailsStepProps) {
+  const t = useTranslations("Reservation");
+
   return (
     <section className="mx-auto max-w-xl">
-      <StepHeading title="Vaši podaci" subtitle="Podaci služe za potvrdu i upravljanje rezervacijom." />
+      <StepHeading title={t("detailsTitle")} subtitle={t("detailsSubtitle")} />
       <form onSubmit={onSubmit} className="space-y-4 rounded-3xl border border-white/10 bg-slate-900/70 p-8">
-        <ContactInput label="Ime i prezime" value={draft.name} onChange={(name) => onChange({ name })} />
-        <ContactInput label="Telefon" type="tel" value={draft.phone} onChange={(phone) => onChange({ phone })} />
-        <ContactInput label="Email" type="email" value={draft.email} onChange={(email) => onChange({ email })} />
+        <ContactInput label={t("fullName")} value={draft.name} onChange={(name) => onChange({ name })} />
+        <ContactInput label={t("phone")} type="tel" value={draft.phone} onChange={(phone) => onChange({ phone })} />
+        <ContactInput label={t("email")} type="email" value={draft.email} onChange={(email) => onChange({ email })} />
         {error && (
           <p role="alert" className="text-sm text-red-400">
             {error}
@@ -168,7 +181,7 @@ export function DetailsStep({ draft, error, submitting, onChange, onSubmit, onBa
           disabled={submitting}
           className="w-full rounded-xl bg-primary-orange py-4 font-black uppercase text-slate-950 disabled:opacity-50"
         >
-          {submitting ? "Čuvanje…" : "Rezerviši"}
+          {submitting ? t("submitting") : t("submit")}
         </button>
         <Back onClick={onBack} disabled={submitting} />
       </form>
@@ -193,34 +206,36 @@ export function SuccessStep({
   isAuthenticated,
   mode = "public",
 }: SuccessStepProps) {
+  const t = useTranslations("Reservation");
   const isAdmin = mode === "admin";
 
   return (
     <section className="mx-auto max-w-xl text-center">
       <div className="mb-6 text-6xl text-primary-orange">✓</div>
-      <StepHeading title="Termin je rezervisan" subtitle="Vidimo se na terenu!" />
+      <StepHeading title={t("successTitle")} subtitle={t("successSubtitle")} />
       <div className="mb-6 rounded-2xl border border-white/10 bg-slate-900/70 p-6 text-left text-slate-300">
-        <p>
-          {draft.date} u {draft.time}
-        </p>
-        <p>{courts.find((court) => court.id === draft.courtId)?.name}</p>
+        <p>{t("successWhen", { date: draft.date, time: draft.time })}</p>
+        <p>{t("courtName", { id: draft.courtId })}</p>
         <p>
           {selectedPackage.label} · {formatPrice(selectedPackage.priceAmount)}
         </p>
-        {reservationId && <p className="mt-3 text-xs text-slate-500">Broj: {reservationId}</p>}
+        {reservationId && (
+          <p className="mt-3 text-xs text-slate-500">{t("reservationNumber", { id: reservationId })}</p>
+        )}
       </div>
       {!isAdmin && !isAuthenticated && (
         <div className="mb-6 rounded-2xl border border-padel-blue/30 bg-padel-blue/10 p-5">
           <p className="mb-3 text-sm text-slate-200">
-            Prijavite se ili napravite nalog da pratite i otkažete rezervacije. Rezervaciju možete
-            otkazati i pozivom na{" "}
-            <a href="tel:+381606558559" className="font-semibold text-padel-blue hover:underline">
-              +381 60 655 8559
-            </a>
-            .
+            {t.rich("guestPrompt", {
+              phone: (chunks) => (
+                <a href="tel:+381606558559" className="font-semibold text-padel-blue hover:underline">
+                  {chunks}
+                </a>
+              ),
+            })}
           </p>
           <Link href="/signup" className="font-bold text-padel-blue hover:underline">
-            Napravi nalog
+            {t("createAccount")}
           </Link>
         </div>
       )}
@@ -228,7 +243,7 @@ export function SuccessStep({
         href={isAdmin ? "/admin?tab=reservations" : "/"}
         className="inline-block rounded-full bg-padel-blue px-8 py-3 font-black uppercase text-white"
       >
-        {isAdmin ? "Nazad na rezervacije" : "Početna"}
+        {isAdmin ? t("backToReservations") : t("home")}
       </Link>
     </section>
   );

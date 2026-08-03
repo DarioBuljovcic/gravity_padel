@@ -1,3 +1,7 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
 export function StepHeading({ title, subtitle }: { title: string; subtitle: string }) {
   return (
     <div className="mb-8 text-center">
@@ -8,6 +12,8 @@ export function StepHeading({ title, subtitle }: { title: string; subtitle: stri
 }
 
 export function Back({ onClick, disabled = false }: { onClick: () => void; disabled?: boolean }) {
+  const t = useTranslations("Reservation");
+
   return (
     <button
       type="button"
@@ -15,7 +21,7 @@ export function Back({ onClick, disabled = false }: { onClick: () => void; disab
       onClick={onClick}
       className="mt-6 w-full text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-white disabled:opacity-50"
     >
-      Nazad
+      {t("back")}
     </button>
   );
 }
