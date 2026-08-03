@@ -6,6 +6,7 @@ import {
   notifyAdminCancelledBooking,
   notifyAdminNewBooking,
   notifyPlayerCancelledBooking,
+  notifyPlayerNewBooking,
 } from "@/lib/mail/notify";
 import type { MailReservationDetails } from "@/lib/mail/templates";
 import {
@@ -130,6 +131,11 @@ export async function createReservation(
     ...parsed.data,
     reservationId: data,
   }).catch((err) => console.error("admin booking email failed", err));
+
+  void notifyPlayerNewBooking({
+    ...parsed.data,
+    reservationId: data,
+  }).catch((err) => console.error("player booking email failed", err));
 
   return { success: true, reservationId: data };
 }

@@ -7,6 +7,8 @@ import {
   cancelledBookingPlayerSubject,
   newBookingAdminHtml,
   newBookingAdminSubject,
+  newBookingPlayerHtml,
+  newBookingPlayerSubject,
   reminderPlayerHtml,
   reminderPlayerSubject,
   type MailReservationDetails,
@@ -32,6 +34,26 @@ export async function notifyAdminNewBooking(
 
   if (!result.ok) {
     console.error("admin booking email failed:", result.error);
+  }
+}
+
+export async function notifyPlayerNewBooking(
+  details: MailReservationDetails,
+): Promise<void> {
+  const to = details.email.trim();
+  if (!to) {
+    console.error("Skipping player booking email: reservation has no email.");
+    return;
+  }
+
+  const result = await sendMail({
+    to,
+    subject: newBookingPlayerSubject(details),
+    html: newBookingPlayerHtml(details),
+  });
+
+  if (!result.ok) {
+    console.error("player booking email failed:", result.error);
   }
 }
 
@@ -62,7 +84,9 @@ export async function notifyPlayerCancelledBooking(
 ): Promise<void> {
   const to = details.email.trim();
   if (!to) {
-    console.error("Skipping player cancellation email: reservation has no email.");
+    console.error(
+      "Skipping player cancellation email: reservation has no email.",
+    );
     return;
   }
 

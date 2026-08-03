@@ -6,8 +6,8 @@ export const CURRENCY = "RSD";
 export const courts = [
   { id: 1, name: "Teren 1", description: "Panoramic WPT Standard" },
   { id: 2, name: "Teren 2", description: "Panoramic WPT Standard" },
-  { id: 3, name: "Teren 3", description: "Panoramic WPT Standard" },
-  { id: 4, name: "Teren 4", description: "Panoramic WPT Standard" },
+  { id: 3, name: "Teren 3", description: "Panoramic WPT Standard (Sa krovom)" },
+  { id: 4, name: "Teren 4", description: "Panoramic WPT Standard (Sa krovom)" },
 ] as const;
 
 export const bookingPackages = [

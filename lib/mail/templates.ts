@@ -132,6 +132,19 @@ export function newBookingAdminSubject(details: MailReservationDetails): string 
   return `Nova rezervacija — ${resolved.courtName}, ${resolved.date} ${resolved.time}`;
 }
 
+export function newBookingPlayerHtml(details: MailReservationDetails): string {
+  return wrapEmail(
+    "Potvrda rezervacije",
+    "Vaša rezervacija je uspešno sačuvana. Detalji termina su ispod. Vidimo se na terenu!",
+    details,
+  );
+}
+
+export function newBookingPlayerSubject(details: MailReservationDetails): string {
+  const resolved = resolveDetails(details);
+  return `Potvrda rezervacije — ${resolved.courtName}, ${resolved.date} u ${resolved.time}`;
+}
+
 export function reminderPlayerHtml(details: MailReservationDetails): string {
   return wrapEmail(
     "Podsetnik za termin",
