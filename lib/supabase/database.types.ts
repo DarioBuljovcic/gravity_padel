@@ -91,6 +91,8 @@ export type Database = {
           phone: string;
           email: string;
           status: "active" | "cancelled";
+          kind: "booking" | "event";
+          event_group_id: string | null;
           user_id: string | null;
           created_at: string;
           reminder_sent: boolean;
@@ -111,6 +113,8 @@ export type Database = {
           phone: string;
           email: string;
           status?: "active" | "cancelled";
+          kind?: "booking" | "event";
+          event_group_id?: string | null;
           user_id?: string | null;
           created_at?: string;
           reminder_sent?: boolean;
@@ -121,6 +125,8 @@ export type Database = {
         };
         Update: {
           status?: "active" | "cancelled";
+          kind?: "booking" | "event";
+          event_group_id?: string | null;
           name?: string;
           phone?: string;
           email?: string;
@@ -153,8 +159,22 @@ export type Database = {
         };
         Returns: string;
       };
+      create_occupancy_block: {
+        Args: {
+          p_title: string;
+          p_local_date: string;
+          p_start_time: string;
+          p_end_time: string;
+          p_court_ids: number[];
+        };
+        Returns: string;
+      };
       cancel_own_reservation: {
         Args: { p_reservation_id: string };
+        Returns: undefined;
+      };
+      cancel_occupancy_block: {
+        Args: { p_event_group_id: string };
         Returns: undefined;
       };
       get_busy_slots: {

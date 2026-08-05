@@ -907,6 +907,14 @@ button.rbc-input::-moz-focus-inner {
   opacity: 0.7;
   text-decoration: line-through;
 }
+.rbc-event.event-occupancy {
+  --event-bg: color-mix(in oklab, #f59e0b 75%, #0f172a);
+  --event-color: #fff7ed;
+  --event-border: color-mix(in oklab, #f59e0b 70%, white);
+}
+.rbc-event.event-occupancy:hover {
+  --event-bg: color-mix(in oklab, #f59e0b 85%, #0f172a);
+}
 
 /* Admin dark shell tweaks */
 .admin-reservations-calendar .rbc-calendar {

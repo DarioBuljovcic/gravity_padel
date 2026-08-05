@@ -31,6 +31,10 @@ import {
 import { courts } from "@/lib/reservations/domain";
 import ReservationEventDialog from "./ReservationEventDialog";
 import CalendarEvent from "./CalendarEvent";
+import OccupancyBlockModal, {
+  slotInfoToOccupancyDraft,
+  type OccupancyBlockDraft,
+} from "./occupancy-block-modal";
 
 const locales = { "sr-Latn": srLatn };
 
@@ -150,6 +154,9 @@ export default function ReservationsCalendar({
   const [selected, setSelected] = useState<CalendarReservation | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showCancelled, setShowCancelled] = useState(false);
+  const [occupancyOpen, setOccupancyOpen] = useState(false);
+  const [occupancyDraft, setOccupancyDraft] =
+    useState<OccupancyBlockDraft | null>(null);
 
   const requestedView = viewOverride ?? (mobile ? "day" : "week");
   const view = getSafeView(requestedView, mobile);
@@ -189,11 +196,25 @@ export default function ReservationsCalendar({
     setDialogOpen(true);
   }, []);
 
+  const canSelectSlots = view === "week" || view === "day";
+
+  const handleSelectSlot = useCallback(
+    (slot: { start: Date; end: Date; action?: "select" | "click" | "doubleClick" }) => {
+      if (!canSelectSlots) return;
+      const draft = slotInfoToOccupancyDraft(slot, filters.courtId);
+      if (!draft) return;
+      setOccupancyDraft(draft);
+      setOccupancyOpen(true);
+    },
+    [canSelectSlots, filters.courtId],
+  );
+
   const eventPropGetter = useCallback(
     (event: ReservationEvent) => ({
       className: courtEventClassName(
         event.resource.court_id,
         event.resource.status,
+        event.resource.kind,
       ),
     }),
     [],
@@ -212,6 +233,15 @@ export default function ReservationsCalendar({
               {court.name}
             </span>
           ))}
+          <span className="inline-flex items-center gap-1.5">
+            <span className="size-2.5 rounded-sm bg-amber-500/80" />
+            Događaj / zauzeto
+          </span>
+          {canSelectSlots && (
+            <span className="text-slate-500">
+              Prevucite prazan termin da označite zauzeto
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2">
           {isFetching && (
@@ -239,6 +269,7 @@ export default function ReservationsCalendar({
           onNavigate={handleNavigate}
           onView={handleViewChange}
           onSelectEvent={handleSelectEvent}
+          onSelectSlot={handleSelectSlot}
           views={mobile ? MOBILE_VIEWS : DESKTOP_VIEWS}
           messages={messages}
           style={{ height: "min(70dvh, 640px)" }}
@@ -248,7 +279,7 @@ export default function ReservationsCalendar({
           step={30}
           timeslots={2}
           popup
-          selectable={false}
+          selectable={canSelectSlots}
           eventPropGetter={eventPropGetter}
           dayLayoutAlgorithm="no-overlap"
           formats={calendarFormats}
@@ -257,6 +288,18 @@ export default function ReservationsCalendar({
           }}
         />
       </div>
+
+      <OccupancyBlockModal
+        open={occupancyOpen}
+        onOpenChange={(next) => {
+          setOccupancyOpen(next);
+          if (!next) setOccupancyDraft(null);
+        }}
+        draft={occupancyDraft}
+        onCreated={() => {
+          void queryClient.invalidateQueries({ queryKey: ["reservations"] });
+        }}
+      />
 
       <ReservationEventDialog
         reservation={selected}

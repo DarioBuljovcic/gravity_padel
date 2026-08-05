@@ -71,6 +71,8 @@ export const bookingPackages = [
 export type BookingPackage = (typeof bookingPackages)[number];
 export type Court = (typeof courts)[number];
 export type ReservationStatus = "active" | "cancelled";
+export type ReservationKind = "booking" | "event";
+export const EVENT_PACKAGE_ID = "event";
 
 const packageIds = bookingPackages.map((item) => item.id) as [
   BookingPackage["id"],
@@ -95,13 +97,15 @@ export type Reservation = {
   ends_at: string;
   duration_minutes: number;
   court_id: number;
-  package_id: BookingPackage["id"];
+  package_id: BookingPackage["id"] | typeof EVENT_PACKAGE_ID;
   price_amount: number;
   price_currency: typeof CURRENCY;
   name: string;
   phone: string;
   email: string;
   status: ReservationStatus;
+  kind: ReservationKind;
+  event_group_id: string | null;
   user_id: string | null;
   created_at: string;
 };

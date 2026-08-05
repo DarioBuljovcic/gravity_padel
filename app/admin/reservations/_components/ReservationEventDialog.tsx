@@ -38,6 +38,7 @@ export default function ReservationEventDialog({
 
   if (!reservation) return null;
 
+  const isEvent = reservation.kind === "event";
   const court = getCourt(reservation.court_id);
   const bookingPackage = getPackage(reservation.package_id);
   const startsAt = new Intl.DateTimeFormat("sr-RS", {
@@ -52,13 +53,21 @@ export default function ReservationEventDialog({
 
   async function cancel() {
     if (!reservation) return;
-    if (!confirm("Da li želite da otkažete ovu rezervaciju?")) return;
+    const message = isEvent
+      ? "Da li želite da uklonite ovu zauzetost sa svih terena u grupi?"
+      : "Da li želite da otkažete ovu rezervaciju?";
+    if (!confirm(message)) return;
     setPending(true);
     setError(null);
     const result = await cancelReservation(reservation.id);
     setPending(false);
     if (!result.success) {
-      setError(result.error ?? "Rezervaciju nije moguće otkazati.");
+      setError(
+        result.error ??
+          (isEvent
+            ? "Događaj nije moguće otkazati."
+            : "Rezervaciju nije moguće otkazati."),
+      );
       return;
     }
     onCancelled?.(reservation.id);
@@ -84,28 +93,50 @@ export default function ReservationEventDialog({
 
         <dl className="grid gap-3 text-sm">
           <div className="flex justify-between gap-4">
+            <dt className="text-slate-500">Tip</dt>
+            <dd className="text-right text-xs font-bold uppercase text-amber-300">
+              {isEvent ? "Događaj / zauzeto" : "Rezervacija"}
+            </dd>
+          </div>
+          <div className="flex justify-between gap-4">
             <dt className="text-slate-500">Teren</dt>
             <dd className="text-right text-slate-200">
               {court?.name ?? `Teren ${reservation.court_id}`}
+              {isEvent && reservation.event_group_id
+                ? " (deo grupe)"
+                : null}
             </dd>
           </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-slate-500">Paket</dt>
-            <dd className="text-right text-slate-200">
-              {bookingPackage?.label ?? `${reservation.duration_minutes} min`} ·{" "}
-              {formatPrice(reservation.price_amount)}
-            </dd>
-          </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-slate-500">Telefon</dt>
-            <dd className="text-right text-slate-200">{reservation.phone}</dd>
-          </div>
-          <div className="flex justify-between gap-4">
-            <dt className="text-slate-500">Email</dt>
-            <dd className="break-all text-right text-slate-200">
-              {reservation.email}
-            </dd>
-          </div>
+          {!isEvent && (
+            <>
+              <div className="flex justify-between gap-4">
+                <dt className="text-slate-500">Paket</dt>
+                <dd className="text-right text-slate-200">
+                  {bookingPackage?.label ??
+                    `${reservation.duration_minutes} min`}{" "}
+                  · {formatPrice(reservation.price_amount)}
+                </dd>
+              </div>
+              <div className="flex justify-between gap-4">
+                <dt className="text-slate-500">Telefon</dt>
+                <dd className="text-right text-slate-200">{reservation.phone}</dd>
+              </div>
+              <div className="flex justify-between gap-4">
+                <dt className="text-slate-500">Email</dt>
+                <dd className="break-all text-right text-slate-200">
+                  {reservation.email}
+                </dd>
+              </div>
+            </>
+          )}
+          {isEvent && (
+            <div className="flex justify-between gap-4">
+              <dt className="text-slate-500">Trajanje</dt>
+              <dd className="text-right text-slate-200">
+                {reservation.duration_minutes} min
+              </dd>
+            </div>
+          )}
           <div className="flex justify-between gap-4">
             <dt className="text-slate-500">Status</dt>
             <dd
@@ -138,7 +169,11 @@ export default function ReservationEventDialog({
               disabled={pending}
               onClick={cancel}
             >
-              {pending ? "Otkazivanje…" : "Otkaži"}
+              {pending
+                ? "Otkazivanje…"
+                : isEvent
+                  ? "Ukloni zauzetost"
+                  : "Otkaži"}
             </Button>
           )}
         </DialogFooter>

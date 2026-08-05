@@ -5,6 +5,7 @@ import {
 import { getDefaultWeekRange } from "@/lib/reservations/date-ranges";
 import ReservationFiltersForm from "./ReservationFilters";
 import ReservationsCalendar from "./ReservationsCalendar";
+import OccupancyBlockButton from "./OccupancyBlockButton";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
@@ -55,12 +56,15 @@ export default async function ReservationsTab({
             Kalendar termina po terenima
           </p>
         </div>
-        <Link href="/admin/rezervacije/nova">
-          <Button variant="accent" type="button">
-            <PlusIcon className="h-4 w-4" />
-            Dodaj rezervaciju
-          </Button>
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <OccupancyBlockButton />
+          <Link href="/admin/rezervacije/nova">
+            <Button variant="accent" type="button">
+              <PlusIcon className="h-4 w-4" />
+              Dodaj rezervaciju
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <ReservationFiltersForm initial={filters} />

@@ -14,6 +14,8 @@ export type CalendarReservation = {
   phone: string;
   email: string;
   status: Reservation["status"];
+  kind: Reservation["kind"];
+  event_group_id: string | null;
   user_id: string | null;
   created_at: string;
 };
@@ -39,7 +41,7 @@ export function reservationsToEvents(
 ): ReservationEvent[] {
   return reservations.map((reservation) => ({
     id: reservation.id,
-    title: `${reservation.name}`,
+    title: reservation.name,
     start: toVenueWallDate(reservation.starts_at),
     end: toVenueWallDate(reservation.ends_at),
     resource: reservation,
@@ -49,8 +51,10 @@ export function reservationsToEvents(
 export function courtEventClassName(
   courtId: number,
   status: CalendarReservation["status"],
+  kind: CalendarReservation["kind"] = "booking",
 ): string {
   if (status === "cancelled") return "event-cancelled";
+  if (kind === "event") return "event-occupancy";
   if (courtId >= 1 && courtId <= 4) return `event-court-${courtId}`;
   return "event-variant-primary";
 }

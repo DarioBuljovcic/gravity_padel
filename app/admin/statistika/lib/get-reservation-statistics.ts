@@ -20,6 +20,7 @@ export async function getReservationStatistics(
     dateFrom,
     dateTo,
     activeOnly: true,
+    kind: "booking",
   });
 
   const statistics = calculateReservationStatistics(reservations, now);

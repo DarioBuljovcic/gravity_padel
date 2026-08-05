@@ -28,6 +28,7 @@ export async function GET(request: Request) {
       "id,starts_at,duration_minutes,court_id,package_id,price_amount,name,phone,email,reminder_sent",
     )
     .eq("status", "active")
+    .eq("kind", "booking")
     .eq("reminder_sent", false)
     .gte("starts_at", startIso)
     .lt("starts_at", endIso);

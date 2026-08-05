@@ -30,6 +30,8 @@ export type ReservationFilters = {
   name?: string;
   /** When true, only active reservations are returned. */
   activeOnly?: boolean;
+  /** When set, filter by reservation kind. */
+  kind?: "booking" | "event";
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -155,7 +157,7 @@ export async function getReservations(filters: ReservationFilters = {}) {
   let query = supabase
     .from("reservations")
     .select(
-      "id,starts_at,ends_at,duration_minutes,court_id,package_id,price_amount,price_currency,name,phone,email,status,user_id,created_at",
+      "id,starts_at,ends_at,duration_minutes,court_id,package_id,price_amount,price_currency,name,phone,email,status,kind,event_group_id,user_id,created_at",
     )
     .order("starts_at", { ascending: hasRange });
 
@@ -170,6 +172,10 @@ export async function getReservations(filters: ReservationFilters = {}) {
 
   if (filters.activeOnly) {
     query = query.eq("status", "active");
+  }
+
+  if (filters.kind === "booking" || filters.kind === "event") {
+    query = query.eq("kind", filters.kind);
   }
 
   const date =
@@ -223,7 +229,7 @@ export async function cancelReservation(id: string) {
   const { data: reservation, error: fetchError } = await supabase
     .from("reservations")
     .select(
-      "id,starts_at,duration_minutes,court_id,package_id,price_amount,name,phone,email,status",
+      "id,starts_at,duration_minutes,court_id,package_id,price_amount,name,phone,email,status,kind,event_group_id",
     )
     .eq("id", id)
     .eq("status", "active")
@@ -232,6 +238,24 @@ export async function cancelReservation(id: string) {
   if (fetchError || !reservation) {
     console.error("Error loading reservation for cancel:", fetchError);
     return { success: false, error: "Rezervaciju nije moguće otkazati." };
+  }
+
+  if (reservation.kind === "event") {
+    if (!admin || !reservation.event_group_id) {
+      return { success: false, error: "Rezervaciju nije moguće otkazati." };
+    }
+
+    const { error: blockError } = await supabase.rpc("cancel_occupancy_block", {
+      p_event_group_id: reservation.event_group_id,
+    });
+
+    if (blockError) {
+      console.error("Error cancelling occupancy block:", blockError);
+      return { success: false, error: "Događaj nije moguće otkazati." };
+    }
+
+    revalidatePath("/admin");
+    return { success: true };
   }
 
   if (!admin && !canPlayerCancel(reservation.starts_at)) {
