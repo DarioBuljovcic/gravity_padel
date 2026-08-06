@@ -31,6 +31,7 @@ import {
 import { courts } from "@/lib/reservations/domain";
 import ReservationEventDialog from "./ReservationEventDialog";
 import CalendarEvent from "./CalendarEvent";
+import CalendarToolbar from "./CalendarToolbar";
 import OccupancyBlockModal, {
   slotInfoToOccupancyDraft,
   type OccupancyBlockDraft,
@@ -285,6 +286,7 @@ export default function ReservationsCalendar({
           formats={calendarFormats}
           components={{
             event: CalendarEvent,
+            toolbar: CalendarToolbar,
           }}
         />
       </div>
