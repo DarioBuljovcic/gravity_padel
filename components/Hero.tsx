@@ -22,7 +22,7 @@ const ArrowRightIcon = () => <ArrowRight size={16} strokeWidth={2} />;
 
 export default async function Hero() {
   const t = await getTranslations('Hero');
-  const bgImage = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/f7837eaa-ee5c-42d4-b254-fbaf49db63bd.webp";
+  const bgImage = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/bd6e1117-2ea9-42e2-a7b8-0d0780a18355.webp";
   const featureItems = [
     {
       icon: <CourtIcon />,
