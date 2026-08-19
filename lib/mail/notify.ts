@@ -9,6 +9,8 @@ import {
   newBookingAdminSubject,
   newBookingPlayerHtml,
   newBookingPlayerSubject,
+  passwordResetHtml,
+  passwordResetSubject,
   reminderPlayerHtml,
   reminderPlayerSubject,
   type MailReservationDetails,
@@ -114,4 +116,22 @@ export async function sendPlayerReminder(
     subject: reminderPlayerSubject(details),
     html: reminderPlayerHtml(details),
   });
+}
+
+export async function sendPasswordResetEmail(input: {
+  to: string;
+  resetUrl: string;
+}): Promise<void> {
+  const to = input.to.trim();
+  if (!to) return;
+
+  const result = await sendMail({
+    to,
+    subject: passwordResetSubject(),
+    html: passwordResetHtml(input.resetUrl),
+  });
+
+  if (!result.ok) {
+    console.error("password reset email failed:", result.error);
+  }
 }

@@ -1,0 +1,80 @@
+---
+description: "Use when React code involves useEffect, derived state, synchronization, event-driven logic, subscriptions, browser APIs, or duplicated/synchronized state."
+alwaysApply: false
+---
+
+# Effects, Derived State & React Synchronization
+
+**Impact: HIGH**
+
+`useEffect` is an escape hatch for synchronizing React with something outside React. It is not a general-purpose place for application data flow.
+
+## Before adding an Effect
+
+Ask in order:
+
+1. Can this value be calculated from props/state/query data during render? → calculate it.
+2. Is this caused by a user action? → run it in the event handler/mutation.
+3. Is this server data? → use the repository's data-fetching layer.
+4. Does resetting state follow identity? → consider component boundaries/`key` rather than an Effect.
+5. Are we synchronizing with an external system? → an Effect may be correct.
+
+## Valid Effect use cases
+
+Examples include:
+
+- browser/platform subscriptions;
+- timers with cleanup;
+- imperative third-party widgets;
+- DOM APIs that cannot be expressed declaratively;
+- synchronizing with external storage or non-React state when a dedicated subscription hook is not more appropriate;
+- network synchronization only when the repository's query/server layer cannot model it.
+
+## Avoid derived-state Effects
+
+**Incorrect:**
+
+```tsx
+const [fullName, setFullName] = useState("");
+
+useEffect(() => {
+  setFullName(`${firstName} ${lastName}`);
+}, [firstName, lastName]);
+```
+
+**Correct:**
+
+```tsx
+const fullName = `${firstName} ${lastName}`;
+```
+
+Do not store filtered/sorted query results, counts, labels, validation summaries, or other pure derivations in separate state.
+
+## Events belong in events
+
+If code should run because the user clicked/submitted/selected something, put it in the corresponding handler or mutation flow rather than setting state and waiting for an Effect to notice.
+
+## Dependencies are part of correctness
+
+- Effect dependency arrays reflect every reactive value the Effect reads.
+- **MUST NOT** disable exhaustive-dependency linting simply to stop reruns.
+- Refactor unstable objects/functions, move code, or use the appropriate React primitive instead.
+- A suppression requires a concrete documented invariant, not convenience.
+
+## Cleanup and Strict Mode
+
+Effects that subscribe, start timers, attach listeners, create external instances, or begin cancellable work **MUST** clean up correctly.
+
+Development Strict Mode may run setup/cleanup more than once to expose unsafe synchronization. Fix the Effect so repeated setup/cleanup is safe; do not add flags solely to defeat Strict Mode behavior.
+
+## Refs
+
+Use `useRef` for mutable values that must persist without causing a render (for example an imperative instance or latest external handle). Do not use refs to hide render state that the UI depends on.
+
+## Layout Effects
+
+`useLayoutEffect` SHOULD be rare. Use it only when work must happen before paint, typically layout measurement/imperative positioning. Prefer `useEffect` otherwise.
+
+## Custom hooks
+
+Extract a custom hook when it gives a reusable synchronization/state abstraction with a meaningful contract. Do not create a hook merely to move five lines out of a component.

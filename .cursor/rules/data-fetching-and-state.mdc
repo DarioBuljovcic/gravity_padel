@@ -1,0 +1,102 @@
+---
+description: "Use when adding or changing data fetching, TanStack Query, server state, local/client state, URL state, caching, mutations, loading/error/empty states, or async UX in React/Next.js."
+alwaysApply: false
+---
+
+# Data Fetching, State & Async UX
+
+**Impact: CRITICAL**
+
+State is chosen by ownership. Do not default everything to `useState`, Context, or TanStack Query.
+
+## Classify state first
+
+Use this decision order:
+
+1. **Can the value be derived from current props/state/query data?** Derive it during render; do not store it.
+2. **Should the value survive refresh, be shareable, or define navigation?** Prefer URL/search params.
+3. **Is it server-owned data?** Use server rendering/data access or the query cache depending on runtime needs.
+4. **Is it form input/validation state?** Let the form system own it.
+5. **Is it temporary UI state local to one subtree?** `useState` or `useReducer`.
+6. **Is it truly cross-cutting UI/application state?** Context or an existing external store may be appropriate.
+
+Do not introduce Redux/Zustand/another global store without a concrete need that URL state, server state, form state, local state, or Context cannot reasonably solve.
+
+## React SPA — server state
+
+When the repository uses Orval-generated TanStack Query hooks, client server-state **SHOULD** use those generated hooks instead of hand-rolled `fetch`/`axios` calls in components.
+
+- Import through the repository's established generated API modules.
+- Generated code is read-only; change the OpenAPI/config source and run the configured generator.
+- Wrap a generated hook in a feature/shared hook only when the wrapper adds reusable behavior, configuration, composition, authorization-aware shaping, or domain semantics.
+- Do not create a wrapper that only renames a generated hook.
+
+If Orval/TanStack Query is not installed/configured, follow the repository's existing data layer rather than introducing it automatically.
+
+## Next App Router — server state
+
+For data needed to render a Server Component, prefer server-side data access through the repository's server-safe API client, `fetch`, ORM, or service layer.
+
+**MUST NOT** convert a Server Component to a Client Component merely to call a query hook.
+
+Use TanStack Query in Client Components when client cache behavior is actually required, such as:
+
+- background refetching/polling;
+- optimistic updates;
+- shared client cache across interactive components;
+- client-triggered pagination/infinite queries;
+- offline/client persistence behavior;
+- other genuinely client-owned server-state interactions.
+
+If server-prefetched data is hydrated into TanStack Query, use the repository's established hydration pattern and keep query keys/data ownership consistent.
+
+## Query ownership
+
+- Query keys **MUST** have one canonical owner. Use generated keys/factories when provided.
+- Do not copy query data into local state just to filter, sort, map, select, or display it.
+- Use query `select`/derived values/render calculations for transformations that do not need independent state.
+- Avoid duplicate requests caused by slightly different keys for the same resource.
+
+## Async UX — distinguish the states
+
+A data-driven view handles the states that can actually occur:
+
+- initial pending/loading with no usable data;
+- initial error with no usable data;
+- successful empty result;
+- successful content;
+- background refetch while content remains usable;
+- refetch failure while stale/previous data remains usable;
+- mutation pending;
+- mutation failure;
+- mutation success when user feedback is useful.
+
+Do not collapse all fetching into a blocking skeleton. Background refetch usually keeps current content visible.
+
+Do not show duplicate error feedback by default. For example, a full-page error state plus an identical toast is usually redundant. Toasts are most useful for mutations and background failures where the current UI remains visible.
+
+## Mutations
+
+Every mutation **MUST** define what happens after success:
+
+- invalidate/refetch affected queries;
+- update cache directly;
+- trigger framework revalidation/refresh;
+- navigate;
+- or intentionally do nothing because returned state is already authoritative.
+
+Avoid broad cache invalidation when a narrower key is known.
+
+Prevent accidental duplicate submissions where the operation is not idempotent. Expose pending state in the UI.
+
+## Client state
+
+Use `useState` for simple local UI state. Use `useReducer` when transitions are meaningfully state-machine-like or several values change together.
+
+Context is for genuinely shared concerns across a subtree (for example theme/session adapter), not as a default replacement for props or a global dumping ground.
+
+## URL state
+
+Filters, sort order, pagination, tabs, selected IDs, and other state that users reasonably expect to bookmark/share/back-button through SHOULD live in URL/search params when practical.
+
+Do not mirror the same source of truth in both URL and local state unless synchronization is intentionally required and one side is clearly authoritative.

@@ -1,0 +1,84 @@
+---
+globs: "**/*.ts, **/*.tsx"
+alwaysApply: false
+---
+
+# Colocation — Constants, Types & Static Data
+
+**Impact: MEDIUM-HIGH**
+
+Place definitions at the narrowest stable owner that all real consumers can import without crossing architectural boundaries.
+
+## Prop types
+
+A prop type used by one component is **colocated in that component file** as a named type above the component.
+
+Do not create a separate `types.ts` for one private prop shape.
+
+When multiple files share the exact same type, extract it to the nearest common owner, for example `UserPoints.types.ts` or a domain-level types file.
+
+## Constants/static data
+
+Keep a literal local when it is clear and used once.
+
+Extract when:
+
+- the same semantic value is used in multiple files;
+- it represents a meaningful domain concept even if currently used once;
+- central ownership prevents drift (routes, permission names, shared limits, feature configuration);
+- the object/array obscures the component's responsibility.
+
+Do not extract every string/number merely to avoid literals.
+
+## Ownership shapes
+
+One component owns it:
+
+```text
+UserPoints/
+  UserPoints.tsx
+  UserPoints.constants.ts
+```
+
+Multiple sibling components own it together:
+
+```text
+NavigationLinks/
+  DesktopLinks/
+  MobileNavDrawer/
+  navLinks.ts
+```
+
+Domain-wide concept:
+
+```text
+features/reservations/
+  reservation.constants.ts
+```
+
+Truly application-wide infrastructure may live in a focused global module such as `src/lib/routes.ts` or `src/config/permissions.ts`. Avoid a giant undifferentiated `src/constants/index.ts`.
+
+## One source of truth
+
+Two files MUST NOT redeclare the same semantic list/key map independently.
+
+If a value changes conceptually in one place, all consumers should receive the change through imports rather than manual synchronization.
+
+## Literal unions vs enums
+
+For simple string keys, prefer literal unions or `as const` maps unless an enum's runtime behavior provides a concrete benefit.
+
+```ts
+export const POINT_KEYS = {
+  spend: "spend",
+  share: "share",
+} as const;
+
+export type PointKey = (typeof POINT_KEYS)[keyof typeof POINT_KEYS];
+```
+
+Do not create a runtime object when a plain union type is sufficient.
+
+## Query keys and generated contracts
+
+Use generated/canonical query-key factories when the data layer provides them. Do not manually duplicate generated endpoint types, response shapes, or query keys in feature constants.

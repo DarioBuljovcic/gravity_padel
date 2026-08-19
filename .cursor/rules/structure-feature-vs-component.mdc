@@ -1,0 +1,82 @@
+---
+description: "Use when deciding where new React/Next code belongs, moving code between features/shared folders, creating shared abstractions, or reviewing dependency direction and ownership."
+alwaysApply: false
+---
+
+# Feature Folder vs Shared Code
+
+**Impact: HIGH**
+
+Ownership follows domain meaning and real reuse, not the hope that something might be reusable later.
+
+## Default locations
+
+- `src/features/<domain>/` — domain-specific UI, hooks, schemas, constants, services and feature composition.
+- `src/components/` — genuinely cross-feature application components with no domain ownership.
+- `src/components/ui/` — shadcn/design-system primitives only.
+- `src/lib/` — framework/infrastructure utilities and adapters, not miscellaneous domain logic.
+
+## Default to feature-local
+
+When a component/hook/helper is first created for one feature, keep it in that feature unless it is obviously infrastructure/design-system level.
+
+Do **not** promote code to `src/components/`, `src/hooks/`, or `src/lib/` merely because a second feature might someday use it.
+
+Promote to shared when there is a **real independent consumer** and the abstraction is genuinely the same for both consumers.
+
+## Ownership decision
+
+Ask in order:
+
+1. Does it encode domain data, business rules, domain API behavior, domain wording, or feature state? → `features/<domain>/`.
+2. Does it compose multiple parts that only make sense for one product capability? → feature-local.
+3. Is it a generic primitive/infrastructure piece intentionally usable across unrelated domains? → shared.
+4. Is there already a second unrelated consumer that needs the exact same abstraction? → consider promoting to shared.
+5. Do consumers need meaningfully different behavior? → keep separate; do not force a generic abstraction.
+
+## Dependency direction
+
+Preferred direction:
+
+```text
+routes/app
+   ↓
+features
+   ↓
+shared components / lib / infrastructure
+```
+
+- Shared code **MUST NOT** import from a feature.
+- Feature A SHOULD NOT deep-import Feature B internals.
+- When two features need the same non-domain primitive, extract the shared primitive.
+- When a route needs two features to coordinate, compose them at the route/page or another higher owner rather than making the features mutually depend on each other.
+
+## Cross-feature domain dependencies
+
+If one domain genuinely depends on another domain's capability, expose a narrow intentional service/hook/contract or move the common domain concept to a better owner. Do not reach into another feature's nested component tree.
+
+## Avoid shared dumping grounds
+
+Names such as `common`, `helpers`, `misc`, `sharedUtils`, or a huge global `hooks/` folder are warning signs when they hide ownership.
+
+Prefer the most specific owner that makes sense.
+
+## Example
+
+```text
+features/reservations/
+  components/
+  hooks/
+  reservation.schema.ts
+  reservation.constants.ts
+
+components/
+  DataTable/
+  EmptyState/
+
+components/ui/
+  button.tsx
+  dialog.tsx
+```
+
+Reservation business rules stay in the reservation feature. A generic DataTable can be shared after it truly serves unrelated domains. shadcn primitives remain isolated in `components/ui`.

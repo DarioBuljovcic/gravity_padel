@@ -1,0 +1,61 @@
+---
+description: "Use when performance is relevant: client bundle size, useMemo/useCallback/memo, React Compiler, dynamic imports, request waterfalls, list rendering, caching, images, or measured render/network bottlenecks."
+alwaysApply: false
+---
+
+# Performance — Measure First, Protect Architecture
+
+**Impact: MEDIUM-HIGH**
+
+Performance work should remove real cost without making the codebase harder to reason about.
+
+## Do not memoize by reflex
+
+Do not automatically wrap handlers in `useCallback`, calculations in `useMemo`, or components in `memo`.
+
+Use manual memoization when there is a concrete reason, such as:
+
+- an expensive calculation measured or obviously large;
+- stable identity required by a memoized child/external API;
+- a real rerender bottleneck;
+- repository/compiler constraints that make it beneficial.
+
+Correctness must not depend on memoization.
+
+## Server/client cost in Next
+
+In App Router, keep components server-renderable unless they require client capabilities. An unnecessary `'use client'` boundary increases client JavaScript and hydration work.
+
+Do not move data fetching/client state upward in the tree just for convenience.
+
+## Avoid request waterfalls
+
+When multiple server/data requests are independent, start them in parallel rather than awaiting one before beginning the next.
+
+Use sequential requests only when a later request actually depends on an earlier result.
+
+## Cache deliberately
+
+Do not add caching merely because data fetching exists. Cache when repeated work/freshness requirements justify it and the invalidation model is understood.
+
+In Next, do not rely on remembered caching defaults; use the installed version's supported behavior explicitly where freshness matters.
+
+## Lists
+
+Render normal lists normally. Virtualization/pagination/infinite loading SHOULD be introduced when dataset size/render cost/user workflow warrants it, not as a default abstraction for every map.
+
+Stable keys represent item identity; do not use array indexes as keys for mutable/reorderable lists.
+
+## Images and assets
+
+In Next, prefer the framework image optimization component for normal raster content when it fits the asset source/layout. Preserve dimensions/aspect ratio to reduce layout shift.
+
+Do not optimize tiny decorative assets with complex machinery when CSS/SVG is simpler.
+
+## Code splitting
+
+Use dynamic/lazy loading for meaningfully heavy, non-critical client features. Do not split tiny modules purely to increase chunk count.
+
+## Measure before invasive optimization
+
+For non-obvious performance changes, use profiler/bundle/network evidence or a reproducible slow path. Document the bottleneck the optimization is intended to remove.

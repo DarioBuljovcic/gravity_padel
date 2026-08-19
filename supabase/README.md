@@ -17,6 +17,23 @@ Enable Google in Supabase Authentication if OAuth login is required, and add
 `https://your-domain/auth/callback` plus the local callback URL to the allowed
 redirect URLs.
 
+## Password reset
+
+Recovery emails are sent with Resend (`RESEND_API_KEY`, `MAIL_FROM`), not the
+Supabase Auth mailer. The app generates a recovery token with
+`auth.admin.generateLink` and emails a link to `/auth/confirm`.
+
+In Auth URL configuration, keep Site URL on the production origin
+(`https://padelgravity.rs`) and allow:
+
+- `http://localhost:3000/auth/confirm`
+- `https://padelgravity.rs/auth/confirm`
+- existing `/auth/callback` entries
+
+You do not need to customize the dashboard Reset password template for this
+flow. Signup confirmation still uses Supabase email unless you change that
+separately.
+
 ## Reservation emails
 
 Required env vars (see `.env.example`): `RESEND_API_KEY`, `MAIL_FROM`,

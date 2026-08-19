@@ -2,6 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/Footer";
 import ReservationCard from "@/components/reservations/ReservationCard";
+import ChangePasswordForm from "@/components/auth/ChangePasswordForm";
 import { logoutAction } from "@/lib/actions/auth.actions";
 import { updateProfile } from "@/lib/actions/profile.actions";
 import { getAccountReservationHistory } from "@/lib/actions/reservation.actions";
@@ -10,6 +11,7 @@ import { getTranslations } from "@/lib/i18n";
 import { canPlayerCancel } from "@/lib/reservations/domain";
 import { createClient } from "@/lib/supabase/server";
 import ReservationHistory from "./ReservationHistory";
+import { Button } from "@/components/ui/button";
 
 const HISTORY_INITIAL_LIMIT = 5;
 
@@ -61,11 +63,25 @@ export default async function AccountPage() {
               {t("phone")}
               <input name="phone" type="tel" required defaultValue={profile?.phone ?? ""} className="mt-2 w-full rounded-xl border border-white/10 bg-slate-800 p-3 text-base normal-case text-white" />
             </label>
-            <button className="rounded-xl bg-primary-orange px-5 py-3 text-xs font-black uppercase text-slate-950 sm:col-span-2 sm:justify-self-start">
+            <Button variant="orange" className="font-black uppercase disabled:opacity-50 sm:col-span-2 sm:justify-self-start">
               {t("saveProfile")}
-            </button>
+            </Button>
           </form>
         </section>
+
+        <ChangePasswordForm
+          copy={{
+            title: t("changePassword"),
+            newPassword: t("newPassword"),
+            confirmPassword: t("confirmPassword"),
+            save: t("savePassword"),
+            pending: t("passwordPending"),
+            success: t("passwordUpdated"),
+            tooShortError: t("passwordTooShort"),
+            mismatchError: t("passwordMismatch"),
+            failedError: t("passwordUpdateError"),
+          }}
+        />
 
         <section id="bookings">
           <div className="mb-5 flex items-center justify-between">

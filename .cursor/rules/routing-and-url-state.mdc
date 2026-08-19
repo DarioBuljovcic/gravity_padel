@@ -1,0 +1,55 @@
+---
+description: "Use when creating or changing routes, navigation, search params, filters, pagination, tabs, deep-linkable UI state, redirects, or route ownership."
+alwaysApply: false
+---
+
+# Routing & URL State
+
+**Impact: HIGH**
+
+Routes are product state. Navigation and shareable state should remain predictable across refresh, deep links, and browser history.
+
+## Route files stay thin
+
+Page/route entry files SHOULD primarily:
+
+- read/validate route params and search params;
+- perform route-level server data access when appropriate;
+- compose feature-level UI;
+- define route metadata/loading/error boundaries where the framework expects them.
+
+Do not turn route files into large feature implementations when the logic belongs to `src/features/<domain>/`.
+
+## URL is the owner of navigational state
+
+Prefer route/search params for state that users reasonably expect to:
+
+- bookmark;
+- share;
+- refresh without losing;
+- navigate with Back/Forward;
+- open directly.
+
+Typical examples: filters, sort order, page number, active tab when it represents navigation, search query, selected resource ID.
+
+Avoid keeping one authoritative value in both URL state and `useState`.
+
+## Parse and validate URL input
+
+Route params/search params are untrusted strings. Parse and validate them before using them as IDs, enums, dates, numeric limits, sort keys, or authorization inputs.
+
+Use a safe default or route error/not-found behavior when a value is invalid; do not blindly cast.
+
+## Navigation APIs
+
+Use the framework/router navigation APIs for internal navigation so history, transitions and client routing behave correctly.
+
+Use plain anchors/links for real navigation semantics. Use buttons for actions. Do not use clickable `div`s as navigation controls.
+
+A hard `window.location` navigation SHOULD be reserved for cases that genuinely require a full document navigation or leave the application.
+
+## Route ownership
+
+Route composition may depend on multiple features. Shared code should not become route-aware merely to avoid passing route input down through the correct feature boundary.
+
+Keep domain logic out of generic router helpers.

@@ -1,0 +1,73 @@
+---
+description: "Use when creating, refactoring, or reviewing React components for responsibility boundaries, component extraction, orchestration, repeated markup, or over/under-componentization."
+alwaysApply: false
+---
+
+# Split Components by Concern — Maximize Cohesion
+
+**Impact: HIGH**
+
+The goal is **high cohesion**, not the smallest possible component or the deepest possible tree.
+
+## Extract when there is a strong reason
+
+A child component SHOULD be extracted when at least one of these is true:
+
+- it has its own meaningful state/effect/interaction;
+- it represents an independently understandable UI concept;
+- it contains repeated non-trivial markup;
+- it has an independent data/permission/loading boundary;
+- it is reused by another real consumer;
+- the parent mixes multiple responsibilities and is difficult to reason about/test;
+- separating it gives a clear interface between orchestration and presentation.
+
+## Do not extract for arbitrary size
+
+Do **not** extract merely because:
+
+- a file passed a line-count threshold;
+- JSX has several nested `div`s;
+- a fragment can technically be given a name;
+- a one-line wrapper would exist only to reduce parent line count;
+- a hypothetical future consumer might reuse it.
+
+There is no required "leaf component" end state.
+
+## Orchestrator vs presentational ownership
+
+A parent/orchestrator SHOULD own coordination that spans its children: shared query result, mutation, selection, or workflow state.
+
+Pass data to presentational children when they are part of the same data boundary.
+
+Do not make every child independently call the same feature hook just to avoid props. A child SHOULD fetch independently only when it genuinely owns an independent data lifecycle/cache boundary.
+
+## Repeated items
+
+Extract a repeated row/card/item when the repeated markup has meaningful behavior/structure or benefits from independent testing. A trivial two-element map can remain inline when extraction would add indirection without meaning.
+
+## State placement
+
+Keep state at the lowest common owner that needs to coordinate it.
+
+Do not lift state to a route/global context merely to avoid passing a few props. Do not push state into each child if siblings need one coherent source of truth.
+
+## Example
+
+```tsx
+const UserPoints = () => {
+  const points = useUserPoints();
+
+  return (
+    <>
+      <PointsPill points={points} />
+      <PointsDescription points={points} />
+    </>
+  );
+};
+```
+
+If `PointsDescription` contains a meaningful breakdown list, extracting `PointsBreakdown` and a non-trivial repeated `PointDisplay` can be justified. If it is only three static lines, keep it cohesive instead of manufacturing component depth.
+
+## Review question
+
+After splitting, each component should have a sentence that explains its responsibility without using "and" repeatedly. If the sentence is still a list of unrelated jobs, the boundary may still be wrong. If the component's only explanation is "it wraps this `div`", the extraction may be unnecessary.

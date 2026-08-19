@@ -1,0 +1,69 @@
+---
+globs: "**/*.tsx"
+alwaysApply: false
+---
+
+# Accessibility — Semantic UI Is Correct UI
+
+**Impact: HIGH**
+
+Accessibility is part of component correctness, not optional polish.
+
+## Semantic HTML first
+
+Use the native element that matches the behavior:
+
+- `<button>` for actions;
+- `<a>`/router Link for navigation;
+- `<label>` for form labels;
+- headings in logical hierarchy;
+- lists/tables only for list/tabular semantics.
+
+Do not use clickable `div`/`span` elements when a native interactive element exists.
+
+ARIA supplements semantics; it should not recreate native behavior unnecessarily.
+
+## Keyboard access
+
+All interactive behavior **MUST** be operable by keyboard when the underlying interaction is keyboard-operable.
+
+Do not implement mouse-only click, hover, drag, menu, dialog, popover or custom control behavior without an accessible keyboard path.
+
+Prefer shadcn/Radix/native primitives for complex interaction semantics.
+
+## Focus
+
+- Focus indicators **MUST** remain visible for keyboard users.
+- Do not globally remove outlines without an equally visible replacement.
+- Dialogs/popovers/menus SHOULD use primitives that manage focus appropriately.
+- After validation/navigation/dialog actions, focus behavior should remain understandable; move focus intentionally only when it improves the workflow.
+
+## Forms
+
+Every control has a programmatically associated label or appropriate accessible name.
+
+Placeholders are not replacements for labels.
+
+Errors SHOULD identify the affected field and be associated with it when practical. Do not communicate required/error/success state by color alone.
+
+## Images and icons
+
+- Informative images need meaningful alternative text.
+- Decorative images/icons use empty/hidden semantics so they are not announced as noise.
+- Icon-only buttons need an accessible name.
+
+Do not use file names such as `IMG_1234` as alt text.
+
+## Dynamic content
+
+Loading, errors, toasts and async status changes should be understandable without relying solely on visual animation/color. Use the accessible behavior already provided by the chosen primitive/library where possible.
+
+Do not add aggressive live-region announcements for every minor visual update.
+
+## Motion
+
+Respect reduced-motion preferences for non-essential animation. Do not make critical information available only through animation/hover.
+
+## Testing priority
+
+Accessibility-friendly queries (`getByRole`, label/name/text) are preferred in tests because they verify the same semantics users and assistive technologies depend on.

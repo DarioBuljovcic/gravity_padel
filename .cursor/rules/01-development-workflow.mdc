@@ -1,0 +1,122 @@
+---
+alwaysApply: true
+---
+
+# Development Workflow — Inspect, Plan, Implement, Verify
+
+**Impact: CRITICAL**
+
+The implementation starts with repository inspection, not code generation.
+
+## 1. Understand the change
+
+Before editing, identify:
+
+- requested behavior and acceptance criteria;
+- affected route/feature/domain;
+- whether this is a bug fix, refactor, new feature, migration, or infrastructure change;
+- user-visible loading, empty, error and success behavior;
+- security/authorization implications;
+- whether existing behavior must remain backward compatible.
+
+If the task is underspecified but a safe implementation can be inferred from the repository, inspect first and make the smallest reasonable assumption. Do not invent a new architecture just to resolve minor ambiguity.
+
+## 2. Inspect repository truth
+
+**MUST** inspect the relevant configuration before choosing architecture:
+
+- `package.json` scripts and dependencies;
+- `tsconfig` aliases/strictness;
+- ESLint/formatting rules;
+- Next/Vite configuration when relevant;
+- codegen configuration and generated directories;
+- test setup;
+- the nearest existing implementation of the same type of feature.
+
+Search for existing components, hooks, schemas, utilities, query keys, API methods, routes and primitives before creating new ones.
+
+## 3. Classify the architecture
+
+For each change, explicitly determine the following in the implementation plan:
+
+- **Runtime:** server, client, or both?
+- **Data owner:** server, query cache, URL, form, context, or local component?
+- **Trust boundary:** where must input be validated and permissions checked?
+- **Render states:** initial loading, error, empty, content, background update?
+- **Mutation behavior:** pending, success, failure, cache/revalidation impact?
+- **Component ownership:** route, feature, or shared?
+- **Testing level:** unit/component/integration/E2E based on risk?
+
+Do not write code before these choices are understood for non-trivial changes.
+
+## 4. Plan the minimum coherent change
+
+The plan SHOULD name the files that need to change or be created.
+
+**MUST NOT**:
+
+- perform unrelated refactors;
+- create abstractions for hypothetical future use;
+- add state that can be derived;
+- move logic to the client merely because client hooks are familiar;
+- create duplicate schemas/constants/types that already have an owner;
+- edit generated code instead of its source/generator.
+
+When existing code is messy, improve only the portion required to make the requested change correct and maintainable.
+
+## 5. Implement from boundaries inward
+
+A reliable implementation order is:
+
+1. types/schema/contracts;
+2. server/data-access/security boundary;
+3. state/query/mutation behavior;
+4. feature logic;
+5. components and UX states;
+6. tests.
+
+This is a default, not a required file order. Preserve the repository's established patterns where they are sound.
+
+## 6. Re-read the diff
+
+Before declaring the task complete, inspect the actual diff and check for:
+
+- accidental unrelated changes;
+- duplicate sources of truth;
+- unsafe casts or ignored TypeScript errors;
+- forgotten debug code/logging;
+- dead imports/branches;
+- unnecessary `use client`, `useEffect`, memoization, context or global state;
+- missing loading/error/empty/mutation states;
+- missing authorization or server validation;
+- accessibility regressions;
+- tests that assert implementation details instead of behavior.
+
+A green linter is not proof that architectural rules were followed.
+
+## 7. Verify with repository commands
+
+Use the scripts that actually exist in `package.json`.
+
+For a meaningful code change, run the applicable subset of:
+
+- typecheck;
+- lint;
+- relevant unit/component tests;
+- E2E tests for critical flows or async Server Component behavior;
+- production build when routing, rendering, server/client boundaries, codegen, framework config, or bundling could be affected.
+
+Do not invent command names. If a command is unavailable, use the nearest repository-supported verification and report the gap.
+
+## Definition of done
+
+A change is not done until:
+
+- requested behavior is implemented;
+- ownership/boundaries are coherent;
+- user-visible async states are handled where applicable;
+- server-side validation and authorization exist where required;
+- no avoidable TypeScript escape hatch was added;
+- relevant tests pass;
+- relevant lint/type/build checks pass;
+- the final diff contains no unrelated cleanup or generated-file edits.

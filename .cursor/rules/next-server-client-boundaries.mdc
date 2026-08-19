@@ -1,0 +1,77 @@
+---
+description: "Use when planning or changing a Next.js App Router feature, Server/Client Component boundary, Server Function/Action, Route Handler, or server/client data flow."
+alwaysApply: false
+---
+
+# Next.js — Server / Client Boundaries
+
+**Impact: CRITICAL**
+
+Apply App Router rules only when the repository uses the App Router. Do not force Server Component patterns onto a Pages Router file.
+
+## App Router default
+
+- Components are **Server Components by default**.
+- Add `'use client'` only when the component genuinely requires client capabilities such as:
+  - event handlers;
+  - local React state/reducers;
+  - Effects;
+  - browser-only APIs;
+  - client-only context/hooks/libraries.
+- **MUST NOT** add `'use client'` merely to fetch data with a familiar hook.
+- Push the client boundary as low as practical so server-renderable parents and siblings remain server code.
+
+## Composition
+
+A Server Component MAY render a Client Component and pass serializable props to it.
+
+**MUST NOT** pass non-serializable server values across the Server → Client boundary (for example database handles, arbitrary class instances, secrets, or server-only functions that are not valid Server Functions).
+
+Interactive children do not require the whole page/layout to become a Client Component.
+
+## Data access
+
+Server Components SHOULD read server data directly through the repository's server-safe data-access layer, generated server-safe client, `fetch`, ORM, or equivalent.
+
+**MUST NOT** call the application's own Route Handler from a Server Component just to reach data already available on the server. Call the underlying data-access/service function directly unless an actual HTTP boundary is required.
+
+Client Components use the client data strategy defined in `data-fetching-and-state.mdc`.
+
+## Server Functions / Actions
+
+Treat every Server Function/Action as a server entry point, not as trusted internal code.
+
+Each action **MUST**:
+
+- validate untrusted input on the server;
+- authenticate when the operation requires a user;
+- authorize the specific operation/resource;
+- return only the data the client needs;
+- handle cache/revalidation/query consistency intentionally.
+
+When a Server Function must be imported by a Client Component, place it in a dedicated server file using the framework-supported server directive/pattern.
+
+Do not rely on the fact that a button/form is only rendered to authorized users. The server operation itself enforces authorization.
+
+## Route Handlers
+
+Use Route Handlers when an HTTP endpoint is genuinely part of the design, for example:
+
+- third-party webhooks/callbacks;
+- public or external API consumers;
+- protocol-specific request/response behavior;
+- downloads/streaming/custom HTTP handling.
+
+Do not create Route Handlers as an unnecessary internal proxy between a Server Component and the same application's server data layer.
+
+## Server-only code and secrets
+
+Server-only modules containing secrets, privileged data access, or private environment variables **MUST NOT** be imported into client code.
+
+Use the repository/framework server-only guard when available for modules that must never enter the client graph.
+
+## Caching and rendering semantics
+
+Do not assume Next.js caching defaults from memory. Caching/revalidation behavior can be version/config dependent.
+
+When correctness depends on freshness or persistence, make the intended behavior explicit using the APIs supported by the installed Next version and verify it against the repository configuration.

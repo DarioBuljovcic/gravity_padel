@@ -1,0 +1,102 @@
+---
+description: "Use when creating or changing forms, validation schemas, React Hook Form, Zod, Server Actions/Functions, submit behavior, field errors, or form mutation UX."
+alwaysApply: false
+---
+
+# Forms — Validation, React Hook Form & Server Mutations
+
+**Impact: HIGH**
+
+The form tool is chosen by interaction needs. Validation at the server/API trust boundary is mandatory regardless of client UX validation.
+
+## Choose the form architecture
+
+### Rich interactive client form
+
+Use the repository's React Hook Form + Zod + shadcn Form stack when the form needs substantial client behavior such as:
+
+- immediate field validation;
+- conditional fields;
+- dynamic arrays;
+- complex dirty/touched state;
+- client-side multi-step behavior;
+- rich controlled widgets.
+
+### Simple Next App Router mutation form
+
+A native form using a Server Function/Action is valid and often preferable when the client does not need a full client form-state system.
+
+Do not add React Hook Form only to submit two simple fields if the native/server-action flow already provides the required UX.
+
+## Schema is the source of truth
+
+Use Zod (when it is the repository's validation library) as the source of truth for values and validation. Derive TypeScript types from the schema; do not duplicate the shape manually.
+
+```tsx
+const profileSchema = z.object({
+  name: z.string().trim().min(1),
+});
+
+type ProfileValues = z.infer<typeof profileSchema>;
+```
+
+When client and server both need the same validation contract, colocate the schema in a shared server-safe `*.schema.ts` file owned by the feature/domain.
+
+Do not import client-only code into a schema module shared with the server.
+
+## Server validation is mandatory
+
+Client validation improves UX; it is not a security boundary.
+
+Every mutation endpoint/Server Function/API handler **MUST** validate untrusted input again on the server before using it.
+
+**MUST NOT** cast `FormData`, request JSON, search params, or external payloads to the desired type and treat the TypeScript cast as validation.
+
+## React Hook Form defaults
+
+Provide intentional `defaultValues` so reset/dirty behavior has a stable baseline. Avoid `undefined` for controlled values when an empty string/null/explicit value is the real form state.
+
+```tsx
+const form = useForm<ProfileValues>({
+  resolver: zodResolver(profileSchema),
+  defaultValues: {
+    name: "",
+  },
+});
+```
+
+Do not mirror RHF field values into `useState` unless a separate state owner is genuinely required.
+
+## Submission behavior
+
+A form handles:
+
+- pending state;
+- field validation errors;
+- server/domain errors;
+- successful completion;
+- duplicate-submission prevention when needed.
+
+Map server validation errors to the corresponding fields when possible. Use a form-level error for failures that are not tied to one field.
+
+Do not rely only on a toast for a field-level validation problem.
+
+## Mutation consistency
+
+After successful submission, explicitly choose the correct follow-up:
+
+- reset form;
+- navigate;
+- close dialog;
+- invalidate/update query cache;
+- revalidate/refresh server data;
+- preserve entered values because the workflow continues.
+
+Do not clear user input on failure unless the product intentionally requires it.
+
+## Accessibility
+
+- Every form control has a programmatically associated label or an appropriate accessible name.
+- Error text is connected to the field where practical.
+- Required/invalid state is communicated semantically, not by color alone.
+- Submit behavior must work from the keyboard and preserve understandable focus/error flow.

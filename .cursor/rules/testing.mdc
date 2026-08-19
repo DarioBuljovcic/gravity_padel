@@ -1,0 +1,102 @@
+---
+description: "Use when creating or changing non-trivial behavior, fixing a regression, adding interactions/validation/permissions, deciding test coverage, or writing/reviewing Vitest, Testing Library, integration, or E2E tests."
+alwaysApply: false
+---
+
+# Testing — Risk-Based Behavior Tests
+
+**Impact: HIGH**
+
+Tests protect important behavior. They are not a quota and should not be coupled to implementation details.
+
+## Test when risk justifies it
+
+Tests **MUST** cover:
+
+- non-trivial business logic;
+- bug regressions when a stable automated reproduction is practical;
+- hooks/utilities containing meaningful branching/transformation logic;
+- validation/transformation logic with edge cases;
+- interactive shared components with meaningful behavior;
+- security/permission behavior where the test level can exercise it safely.
+
+Tests **SHOULD** cover complex feature interactions and important async states.
+
+A test is not required merely because a component is shared. A trivial wrapper around a primitive does not need a test that only proves React can render it.
+
+## Tooling
+
+Use the repository's configured tools. When Vitest + Testing Library are configured, use them for utilities, hooks and client component behavior.
+
+For Next App Router async Server Components and full routing/auth/mutation journeys, prefer E2E coverage (for example Playwright when configured) rather than forcing them into unsupported/fragile component-test patterns.
+
+Do not add a second test framework without a real requirement.
+
+## Test behavior, not implementation
+
+Prefer user-observable outcomes:
+
+```tsx
+render(<UserPoints />);
+expect(screen.getByRole("button", { name: /points/i })).toBeVisible();
+```
+
+Avoid asserting:
+
+- internal state values;
+- private helper calls;
+- class names as the main behavioral assertion;
+- component implementation structure;
+- exact hook call counts unless that count is itself required behavior.
+
+## Query priority
+
+Prefer semantic queries in this order when applicable:
+
+1. role + accessible name;
+2. label text;
+3. visible text;
+4. other user-facing semantic selectors;
+5. `data-testid` only as an escape hatch when no meaningful user-facing selector exists.
+
+Do not add a test ID when fixing the component's semantics gives the test a better selector.
+
+## Mock boundaries, not internals
+
+Mock external boundaries (network, time, browser API, third-party integration) when necessary.
+
+Do not mock the unit's own implementation helpers just to make assertions easy. Prefer realistic fixtures and behavior.
+
+Avoid mocking generated query hooks at every layer if a network-level mock can exercise the feature more faithfully without excessive setup.
+
+## Async states
+
+When relevant, test meaningful transitions such as:
+
+- loading → content;
+- loading → error;
+- empty result;
+- mutation pending → success;
+- mutation pending → server/domain error;
+- stale content surviving a background refetch failure.
+
+Do not write every permutation when it adds no additional risk coverage.
+
+## Snapshots
+
+Snapshots MAY be used for stable serialized output where they add value. Do not use broad component snapshots as a substitute for behavior assertions.
+
+## Location
+
+Colocate component tests near their owner when that is the repository convention:
+
+```text
+DataTable/
+  DataTable.tsx
+  __tests__/
+    DataTable.test.tsx
+```
+
+## Before finishing
+
+Run the relevant repository test command(s). Keep the changed behavior covered and the existing suite green. Do not update snapshots/expectations solely to make a failing test pass without confirming that the behavior change is intended.

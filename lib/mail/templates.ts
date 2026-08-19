@@ -191,3 +191,34 @@ export function cancelledBookingPlayerSubject(
   const resolved = resolveDetails(details);
   return `Rezervacija otkazana — ${resolved.courtName}, ${resolved.date} u ${resolved.time}`;
 }
+
+export function passwordResetSubject(): string {
+  return "Resetovanje lozinke — Padel Gravity";
+}
+
+export function passwordResetHtml(resetUrl: string): string {
+  const safeUrl = escapeHtml(resetUrl);
+  return `<!DOCTYPE html>
+<html lang="sr">
+  <body style="margin:0;padding:24px;background:#f8fafc;font-family:Arial,Helvetica,sans-serif;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;">
+      <tr>
+        <td style="padding:28px 28px 8px;">
+          <p style="margin:0 0 4px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#0284c7;font-weight:700;">Padel Gravity</p>
+          <h1 style="margin:0 0 12px;font-size:22px;color:#0f172a;">Resetovanje lozinke</h1>
+          <p style="margin:0 0 20px;font-size:15px;line-height:1.5;color:#334155;">Primili smo zahtev za novu lozinku. Otvorite link ispod da je postavite. Ako niste vi zatražili ovo, ignorišite email.</p>
+          <p style="margin:0 0 20px;">
+            <a href="${safeUrl}" style="display:inline-block;padding:12px 20px;background:#f97316;color:#0f172a;font-weight:700;text-decoration:none;border-radius:8px;">Postavi novu lozinku</a>
+          </p>
+          <p style="margin:0;font-size:13px;line-height:1.5;color:#64748b;">Link ističe nakon kratkog vremena i može se iskoristiti samo jednom.</p>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:8px 28px 28px;font-size:12px;color:#94a3b8;">
+          Ova poruka je automatski poslata sa padelgravity.rs.
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+}

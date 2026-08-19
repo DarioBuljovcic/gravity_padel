@@ -1,0 +1,80 @@
+---
+globs: "**/*.tsx"
+alwaysApply: false
+---
+
+# Component File Anatomy
+
+**Impact: MEDIUM-HIGH**
+
+This rule applies to hand-written application components. It does not override framework-required files, generated code, tests, or vendor/shadcn primitive conventions.
+
+## Standard component shape
+
+1. **One exported application component per file.**
+2. Components use an arrow function by project convention.
+3. Props use a named `type` declared immediately above the component.
+4. The application component is default-exported unless the framework/library context requires another export shape.
+5. Reusable feature/shared components live in a PascalCase folder with a matching PascalCase file.
+6. Component files SHOULD export the component only. Shared constants/styles/types/hooks belong in their owned colocated files.
+
+```tsx
+// PointsBreakdown/PointsBreakdown.tsx
+
+type PointsBreakdownProps = {
+  className?: string;
+};
+
+const PointsBreakdown = ({ className }: PointsBreakdownProps) => {
+  return <div className={cn("flex flex-col gap-4", className)} />;
+};
+
+export default PointsBreakdown;
+```
+
+## Props
+
+Application components with props SHOULD use a named prop type. Do not use an inline object type in the function signature merely because the component currently has one or two props.
+
+The prop type stays in the component file when only that component consumes it. Extract to `ComponentName.types.ts` (or a domain-owned types file) only when multiple files need the same type.
+
+Prefer `ComponentNameProps` when the generic name `Props` would be ambiguous in the surrounding file/tooling context.
+
+## File exports
+
+Do not turn component files into mini barrels/utilities.
+
+Instead of:
+
+```tsx
+export const pillClass = "...";
+export const getLabel = () => "...";
+const PointsPill = () => null;
+export default PointsPill;
+```
+
+use ownership-based colocated files when those values are shared:
+
+```text
+PointsPill/
+  PointsPill.tsx
+  PointsPill.constants.ts
+```
+
+A tiny private helper used only inside the component MAY stay in the file if it is not itself a component/public contract and extraction would reduce clarity.
+
+## Folders
+
+Feature/shared reusable components use:
+
+```text
+ComponentName/
+  ComponentName.tsx
+  ComponentName.constants.ts   # only if needed
+  ComponentName.types.ts       # only if shared by multiple files
+  __tests__/                   # when tests are warranted
+```
+
+Do not create empty companion files "for consistency".
+
+Route/framework files (`page.tsx`, `layout.tsx`, `loading.tsx`, etc.) follow framework naming rather than PascalCase-folder rules.

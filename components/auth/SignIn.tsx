@@ -1,4 +1,4 @@
-import React from 'react'
+import Link from "next/link";
 
 type SignInProps = {
     email: string;
@@ -33,6 +33,14 @@ const SignIn = ({ email, isSignup, setEmail, password, setPassword, error, messa
                 placeholder="Lozinka (najmanje 8 znakova)"
                 className="w-full rounded-xl border border-white/10 bg-slate-800 p-4 text-white outline-none focus:border-padel-blue"
             />
+            {!isSignup && (
+                <Link
+                    href="/forgot-password"
+                    className="block text-sm font-bold text-padel-blue hover:underline"
+                >
+                    Zaboravili ste lozinku?
+                </Link>
+            )}
             {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
             {message && <p role="status" className="text-sm text-green-400">{message}</p>}
             <button

@@ -1,0 +1,62 @@
+---
+globs: "**/*.tsx"
+alwaysApply: false
+---
+
+# Styling — Tailwind, `cn()`, cva & shadcn
+
+**Impact: MEDIUM**
+
+Prefer the existing design system and semantic primitives over one-off styling inventions.
+
+## `className`
+
+Static classes do not need `cn()`:
+
+```tsx
+<div className="flex items-center gap-2" />
+```
+
+Use `cn()` when classes are conditional, composed, or merged with caller-provided `className`:
+
+```tsx
+<div
+  className={cn(
+    "flex items-center gap-2",
+    isActive && "bg-accent",
+    className,
+  )}
+/>
+```
+
+A reusable component accepting `className` SHOULD merge its base classes with `cn()` so caller overrides resolve predictably.
+
+## Variants
+
+Use `class-variance-authority` when styling variants are a meaningful part of a reusable component's public API (`size`, `variant`, `intent`, etc.).
+
+Do not create a `cva` definition for a single local boolean that is clearer as `cn(condition && "...")`.
+
+## shadcn / Radix
+
+Reach for existing shadcn/Radix primitives before hand-rolling dialogs, popovers, menus, tabs, form controls, tooltips and other interaction primitives.
+
+`src/components/ui/` contains design-system/shadcn primitives only. Application/domain components do not live there.
+
+Do not rewrite generated shadcn code merely to make it match application-component anatomy unless the repository intentionally owns/customizes that primitive.
+
+## Tokens before arbitrary values
+
+Prefer existing semantic tokens and Tailwind theme utilities (`bg-background`, `text-muted-foreground`, spacing/radius scale, etc.) over hard-coded hex values or arbitrary dimensions.
+
+Use arbitrary values only when the design genuinely requires a value not represented by the system. Repeated arbitrary values SHOULD become a token/owned constant/theme decision.
+
+## Responsive behavior
+
+Use mobile-first responsive classes unless the repository/design system clearly follows another convention.
+
+Do not duplicate entire components only to change a few responsive layout classes. Separate desktop/mobile components when behavior/structure genuinely differs, not just spacing.
+
+## Shared styling
+
+If multiple sibling components require the same non-trivial class recipe, place it at their nearest shared owner or model it as a reusable variant/component. Do not export unrelated shared styles from a component file just because that file used them first.

@@ -1,0 +1,80 @@
+---
+description: "Use when code crosses a trust boundary: authentication, authorization, Server Actions/Functions, API/Route Handlers, webhooks, mutations, secrets, user input, unsafe HTML, or privileged data access."
+alwaysApply: false
+---
+
+# Security & Trust Boundaries
+
+**Impact: CRITICAL**
+
+Client code is untrusted. Hidden UI, disabled buttons, TypeScript types, and client-side validation are not authorization controls.
+
+## Server entry points are trust boundaries
+
+Treat every externally callable server entry point as hostile-input capable, including:
+
+- Server Functions/Actions;
+- Route Handlers/API routes;
+- webhook/callback handlers;
+- server mutations called by client code.
+
+Each relevant entry point **MUST**:
+
+1. parse/validate input;
+2. authenticate the caller when identity is required;
+3. authorize the exact operation and resource;
+4. perform the operation using server-owned facts;
+5. return the minimum data required.
+
+Do not trust client-supplied ownership, role, price, account, tenant, or permission fields when the server can determine them from the authenticated session/resource.
+
+## Authentication is not authorization
+
+A logged-in user is not automatically allowed to operate on every resource.
+
+Check resource ownership/role/capability at the operation boundary. Do this even when the calling page is itself protected.
+
+## Validate all untrusted input
+
+Validate and constrain:
+
+- request/form bodies;
+- route params and search params;
+- headers/cookies when interpreted as application data;
+- webhook payloads;
+- external API data before relying on its shape where trust is not guaranteed.
+
+TypeScript types disappear at runtime. Use runtime validation where correctness/security depends on the shape.
+
+## Secrets and environment variables
+
+- Secrets stay server-only.
+- Only values intentionally safe for every browser user may use public/client-exposed environment-variable mechanisms.
+- **MUST NOT** embed privileged credentials in Client Components, static bundles, logs, query keys, URLs, or error messages.
+- Keep server-only data-access modules out of the client dependency graph.
+
+## Data minimization
+
+Do not pass entire database/user objects to the client when only a few fields are needed. Define/derive a safe DTO/view model at the server boundary.
+
+Avoid accidental leakage through serialized props, error objects, debug logs, or analytics payloads.
+
+## HTML and XSS
+
+Prefer normal React rendering, which escapes text.
+
+`dangerouslySetInnerHTML` **MUST NOT** receive untrusted raw HTML. If HTML rendering is a real requirement, use a proven sanitization/trust pipeline and keep the trust decision explicit.
+
+## Redirects and URLs
+
+Do not redirect to arbitrary client-provided URLs without validating them against an allowed destination policy. Avoid open-redirect patterns.
+
+## Errors
+
+User-facing errors should be useful without exposing stack traces, secrets, raw database errors, internal service topology, or sensitive identifiers.
+
+Log enough server-side context to diagnose failures, but do not log credentials/tokens/secrets or unnecessarily sensitive payloads.
+
+## Frontend checks are UX only
+
+Client-side role checks, hidden menu items, route guards, and disabled controls MAY improve UX. They do not replace server authorization.

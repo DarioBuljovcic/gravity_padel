@@ -1,0 +1,68 @@
+---
+globs: "**/*.ts, **/*.tsx"
+alwaysApply: false
+---
+
+# TypeScript, Imports, Functions & Naming
+
+**Impact: HIGH for type safety; MEDIUM for style conventions**
+
+A green lint run does not prove architecture/type safety. Read the diff.
+
+## Type safety — MUST-level
+
+- Avoid `any`. Use precise types or `unknown` + narrowing at untrusted boundaries.
+- **MUST NOT** silence a type mismatch with a broad `as SomeType` cast merely to make compilation pass.
+- **MUST NOT** use `@ts-ignore` or `@ts-expect-error` without a concrete unavoidable reason and a comment explaining the invariant/temporary compatibility issue.
+- Avoid non-null assertions (`value!`) unless an invariant makes null impossible and that invariant is clear at the use site.
+- Derive types from schemas/generated API contracts/data where possible instead of redeclaring them manually.
+- Use `import type` for type-only imports when supported/enforced by the repo.
+
+At runtime trust boundaries, TypeScript is not validation; see `security-and-trust-boundaries.mdc` and `forms.mdc`.
+
+## Functions — project convention
+
+Use arrow functions for application components, handlers and helpers:
+
+```tsx
+const DataTable = ({ rows }: DataTableProps) => {};
+```
+
+Use a function declaration only when hoisting/generator/framework conventions make it meaningfully clearer or required.
+
+Prefer `type` over `interface` as the project convention. Use an interface only when declaration merging/extension semantics are a concrete benefit or a library pattern requires it.
+
+## Imports
+
+- Use `./` for files inside the same local component/feature folder when locality is clearer.
+- Use the `@/` alias for imports across feature/shared/root boundaries.
+- **MUST NOT** use deep parent traversal such as `../../../...`.
+- Avoid duplicate imports from the same module.
+- No broad barrel `index.ts` re-export trees by default; import directly from the owning source file.
+
+A small intentional public entry point MAY exist when a package/feature truly needs a stable external API and the repository deliberately supports it. Do not create barrels only to shorten import paths.
+
+## Naming
+
+- Handlers: `handleX` internally, passed as `onX` callback props.
+- Booleans: prefer `is` / `has` / `should` / `can` when they read naturally.
+- Variables/functions: `camelCase`.
+- Components/types: `PascalCase`.
+- True fixed constants: `UPPER_SNAKE_CASE`.
+- Files follow the structure rule for their kind rather than one naming scheme for everything.
+
+Names should describe product/technical meaning, not implementation history (`newThing`, `tempData`, `helper2`).
+
+## Control flow
+
+Prefer early returns/guard clauses when they reduce nesting.
+
+Do not use an Effect to derive state or handle an event; see `effects-and-derived-state.mdc`.
+
+Avoid clever one-liners when an explicit branch communicates invariants/errors more clearly.
+
+## Errors and logging
+
+Handle expected errors at the boundary that can act on them. Do not swallow rejected promises.
+
+Use the repository's logger/observability approach when present. Remove debug logging before finishing. `console.error` may be acceptable only where repository lint/rules allow it and no better logger exists.

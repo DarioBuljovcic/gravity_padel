@@ -1,0 +1,77 @@
+---
+alwaysApply: true
+---
+
+# Rule System — Precedence, Strength & Applicability
+
+**Impact: CRITICAL**
+
+These rules are engineering constraints, not a substitute for inspecting the repository. Apply them deliberately.
+
+## Rule strength
+
+- **MUST / MUST NOT** — correctness, security, framework, or repository invariant. Do not violate silently.
+- **SHOULD / SHOULD NOT** — default engineering decision. Deviate only when a concrete repository or task reason makes another choice better.
+- **MAY** — optional tool or pattern. Use only when it improves the implementation.
+
+Words such as "prefer" and "default" are SHOULD-level guidance unless explicitly marked otherwise.
+
+## Precedence
+
+When instructions conflict, use this order:
+
+1. Explicit user/task requirements.
+2. Framework/compiler/runtime requirements for the installed versions.
+3. Repository configuration and machine-enforced constraints (`package.json`, TypeScript, ESLint, generated-client config, test/build config).
+4. **MUST** rules in this pack.
+5. Established local architecture when it is not contradicted by a higher rule.
+6. **SHOULD** rules in this pack.
+7. Style preferences and examples.
+
+A local anti-pattern does not become correct merely because it already exists. Preserve unrelated legacy code, but do not copy a known-bad pattern into new code.
+
+## Applicability — inspect before applying
+
+Before using a framework/library-specific rule, determine what the repository actually uses:
+
+- React SPA vs Next.js.
+- Next App Router vs Pages Router vs mixed migration.
+- Installed Next/React versions.
+- Existing data layer: Orval, TanStack Query, server data-access modules, ORM, GraphQL client, etc.
+- Existing form, validation, test, styling and auth libraries.
+- Existing generated-code directories and codegen commands.
+
+**MUST NOT** introduce a library merely because a rule mentions it when the repository does not use it and the task does not require it.
+
+## Exempt/generated code
+
+Unless a task explicitly targets them, do not force application conventions onto:
+
+- generated API/client files;
+- shadcn/vendor-generated primitives;
+- third-party or vendored code;
+- migrations;
+- framework-required files whose export shape is prescribed;
+- configuration files where the framework/tool requires a different style.
+
+Generated files are read-only unless their generator explicitly expects manual edits.
+
+## Framework drift
+
+Framework behavior changes. If a rule depends on version-specific caching, rendering, mutation, compiler, or router behavior and the repository does not make it clear:
+
+1. inspect the installed version;
+2. prefer the installed framework's official API/config over memory;
+3. avoid baking assumptions about old defaults into new code.
+
+Do not "modernize" unrelated code during a focused task.
+
+## Deviations
+
+A **SHOULD** rule may be intentionally violated when the alternative is clearly better. Keep the deviation narrow and make the reason visible in the implementation or final change summary when it is non-obvious.
+
+A **MUST** rule may only be violated when a higher-precedence requirement makes compliance impossible. Do not hide that conflict.
+
+## Examples are not extra requirements
+
+Examples demonstrate the rule they sit under. Names, folder depth, libraries, CSS values, and domain concepts in an example are not requirements unless the prose says they are.
