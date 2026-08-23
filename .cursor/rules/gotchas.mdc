@@ -1,0 +1,19 @@
+---
+alwaysApply: true
+---
+
+# Incident catalog
+
+**Impact: HIGH**
+
+Non-obvious break/fix cases live in `.cursor/skills/gotchas/catalog.md`, not in this rule.
+
+When the task matches a past failure (auth, Supabase keys, middleware, logged-in-only slowness, silent hangs):
+
+1. **MUST** read that catalog before changing the same area.
+2. Follow the invariant in the matching entry.
+
+After fixing a surprising production or local failure (no useful error, only showed up when logged in, env/key/SDK mismatch, gateway timeout):
+
+- **MUST** append a short entry to the catalog. Use the template in `.cursor/skills/gotchas/SKILL.md`.
+- Do not turn the story into a new always-on rule. Keep this pointer short.
