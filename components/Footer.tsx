@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { MapPin, Mail, Phone, Clock, ChevronRight } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { SocialIcons } from './Icons';
 import { navLinks } from '@/constants/navLinks';
@@ -10,6 +11,7 @@ import { handleScroll } from './navigation/handleScroll';
 export default function Footer() {
   const t = useTranslations('Footer');
   const tNav = useTranslations('Navbar');
+  const pathname = usePathname();
 
   return (
     <footer id="contact" className="relative bg-slate-950 text-white pt-32 pb-16 px-6 border-t border-white/10">
@@ -83,7 +85,7 @@ export default function Footer() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    onClick={(e) => handleScroll(e, link.href, () => {})}
+                    onClick={(e) => handleScroll(e, link.href, pathname)}
                     className="flex items-center gap-2 hover:text-padel-blue transition-colors group"
                   >
                     <ChevronRight size={16} className="text-padel-blue/50 group-hover:text-padel-blue transition-colors" />

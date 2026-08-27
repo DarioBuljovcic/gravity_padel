@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type MouseEvent } from 'react';
+import { usePathname } from 'next/navigation';
 import { Calendar, UserRound } from 'lucide-react';
 import LanguageSwitcher from '../LanguageSwitcher';
 import MobileNav from './MobileNav';
@@ -13,7 +14,12 @@ import { handleScroll } from './handleScroll';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
   const t = useTranslations("Navbar");
+
+  const onNavLinkClick = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
+    handleScroll(e, href, pathname, setIsOpen);
+  };
 
 
   useEffect(() => {
@@ -59,7 +65,7 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleScroll(e, link.href, setIsOpen)}
+                onClick={(e) => onNavLinkClick(e, link.href)}
                 className="text-xs font-bold uppercase tracking-widest text-slate-300 hover:text-white transition-colors"
               >
                 {link.name}
@@ -105,7 +111,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <MobileNav isOpen={isOpen} setIsOpen={setIsOpen} handleScroll={handleScroll} />
+      <MobileNav isOpen={isOpen} setIsOpen={setIsOpen} handleScroll={onNavLinkClick} />
     </>
   );
 }

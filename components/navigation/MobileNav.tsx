@@ -9,7 +9,7 @@ import { navLinks } from '@/constants/navLinks';
 type MobileNavProps = {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
-    handleScroll: (e: React.MouseEvent<HTMLAnchorElement>, href: string, setIsOpen: (isOpen: boolean) => void) => void;
+    handleScroll: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
 }
 
 const MobileNav = ({ isOpen, setIsOpen, handleScroll }: MobileNavProps) => {
@@ -24,7 +24,7 @@ const MobileNav = ({ isOpen, setIsOpen, handleScroll }: MobileNavProps) => {
                     <Link
                         key={link.name}
                         href={link.href}
-                        onClick={(e) => handleScroll(e, link.href, setIsOpen)}
+                        onClick={(e) => handleScroll(e, link.href)}
                         className={`text-3xl font-display font-black text-white tracking-tight hover:text-padel-blue transition-all duration-300 ${isOpen ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                             }`}
                         style={{ transitionDelay: `${i * 50}ms` }}

@@ -1,30 +1,32 @@
-import { usePathname } from "next/navigation";
+import type { MouseEvent } from "react";
 
 export const handleScroll = (
-  e: React.MouseEvent<HTMLAnchorElement>,
+  e: MouseEvent<HTMLAnchorElement>,
   href: string,
-  setIsOpen: (isOpen: boolean) => void,
+  pathname: string,
+  setIsOpen?: (isOpen: boolean) => void,
 ) => {
-  const pathname = usePathname();
+  setIsOpen?.(false);
 
   const hash = href.startsWith("/#") ? href.slice(2) : null;
 
-  if (pathname === "/" && hash !== null) {
-    e.preventDefault();
-
-    if (hash) {
-      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
-      window.history.replaceState(null, "", href);
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      window.history.replaceState(null, "", "/");
-    }
-
-    setIsOpen(false);
+  if (pathname !== "/" || hash === null) {
     return;
   }
 
-  // Let Next.js navigate from non-home pages; the hash target is scrolled
-  // into view after the root page renders.
-  setIsOpen(false);
+  e.preventDefault();
+  document.body.style.overflow = "unset";
+
+  const scrollToHash = () => {
+    if (hash) {
+      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      window.history.replaceState(null, "", href);
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.history.replaceState(null, "", "/");
+  };
+
+  requestAnimationFrame(scrollToHash);
 };
