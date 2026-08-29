@@ -15,6 +15,7 @@ import {
   createReservation,
   getBusySlots,
 } from "@/lib/actions/reservation.actions";
+import type { LabeledCourt } from "@/lib/courts";
 import type {
   BookingMode,
   CourtStepProps,
@@ -41,6 +42,7 @@ export type BookingFlowProps = {
   defaultPackageId?: string;
   defaultCourtId?: number;
   isAuthenticated: boolean;
+  courts: LabeledCourt[];
   mode?: BookingMode;
   PackageStep: ComponentType<PackageStepProps>;
   DateStep: ComponentType<DateStepProps>;
@@ -74,6 +76,7 @@ export default function BookingFlow({
   defaultPackageId,
   defaultCourtId,
   isAuthenticated,
+  courts,
   mode = "public",
   PackageStep,
   DateStep,
@@ -194,6 +197,7 @@ export default function BookingFlow({
 
       {step === 3 && (
         <CourtStep
+          courts={courts}
           onSelect={(courtId) => {
             setDraft((current) => ({ ...current, courtId, time: "" }));
             setLoadingSlots(true);
@@ -236,6 +240,10 @@ export default function BookingFlow({
           selectedPackage={selectedPackage}
           reservationId={reservationId}
           isAuthenticated={isAuthenticated}
+          courtName={
+            courts.find((court) => court.id === draft.courtId)?.displayName ??
+            `Teren ${draft.courtId}`
+          }
           mode={mode}
         />
       )}

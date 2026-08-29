@@ -93,6 +93,7 @@ export function calculateReservationStatistics(
 
     mostUsedCourt: {
       courtId: mostUsedCourtId,
+      courtName: null,
       bookedMinutes: mostUsedCourtMinutes,
       previousBookedMinutes: previousMostUsedCourtMinutes,
       percentageChange: calculatePercentageChange(

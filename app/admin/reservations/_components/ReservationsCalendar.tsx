@@ -24,11 +24,11 @@ import {
   getRangeForView,
   nowInVenue,
 } from "@/lib/reservations/date-ranges";
+import type { LabeledCourt } from "@/lib/courts";
 import {
   reservationsRangeKey,
   useReservationsRange,
 } from "@/lib/reservations/use-reservations-range";
-import { courts } from "@/lib/reservations/domain";
 import ReservationEventDialog from "./ReservationEventDialog";
 import CalendarEvent from "./CalendarEvent";
 import CalendarToolbar from "./CalendarToolbar";
@@ -141,11 +141,13 @@ function prefetchAdjacentRanges(
 type Props = {
   initialReservations: CalendarReservation[];
   filters: Pick<ReservationFilters, "courtId" | "name">;
+  courts: LabeledCourt[];
 };
 
 export default function ReservationsCalendar({
   initialReservations,
   filters,
+  courts,
 }: Props) {
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
@@ -231,7 +233,7 @@ export default function ReservationsCalendar({
                 className="size-2.5 rounded-sm"
                 style={{ backgroundColor: courtLegendColor(court.id) }}
               />
-              {court.name}
+              {court.displayName}
             </span>
           ))}
           <span className="inline-flex items-center gap-1.5">
@@ -298,6 +300,7 @@ export default function ReservationsCalendar({
           if (!next) setOccupancyDraft(null);
         }}
         draft={occupancyDraft}
+        courts={courts}
         onCreated={() => {
           void queryClient.invalidateQueries({ queryKey: ["reservations"] });
         }}
@@ -307,6 +310,7 @@ export default function ReservationsCalendar({
         reservation={selected}
         open={dialogOpen}
         onOpenChange={setDialogOpen}
+        courts={courts}
         onCancelled={(id) => {
           void queryClient.invalidateQueries({ queryKey: ["reservations"] });
           setSelected((prev) =>

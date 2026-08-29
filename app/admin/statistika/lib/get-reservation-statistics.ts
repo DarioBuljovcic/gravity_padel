@@ -3,6 +3,11 @@ import "server-only";
 import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
 
 import { getReservations } from "@/lib/actions/reservation.actions";
+import {
+  formatCourtDisplayName,
+  getCourt,
+  serbianCourtLabel,
+} from "@/lib/courts";
 import { CURRENCY } from "@/lib/reservations/domain";
 import type { ReservationStatisticsResponse } from "../types";
 import { calculateReservationStatistics } from "./calculate";
@@ -25,6 +30,10 @@ export async function getReservationStatistics(
 
   const statistics = calculateReservationStatistics(reservations, now);
   const currency = reservations[0]?.price_currency ?? CURRENCY;
+  const mostUsedCourtId = statistics.mostUsedCourt.courtId;
+  const mostUsedCourt = mostUsedCourtId != null
+    ? await getCourt(mostUsedCourtId)
+    : undefined;
 
   return {
     reportMonth: statistics.reportMonth.toISOString(),
@@ -33,7 +42,16 @@ export async function getReservationStatistics(
     totalReservations: statistics.totalReservations,
     totalRevenue: statistics.totalRevenue,
     utilization: statistics.utilization,
-    mostUsedCourt: statistics.mostUsedCourt,
+    mostUsedCourt: {
+      ...statistics.mostUsedCourt,
+      courtName:
+        mostUsedCourtId != null
+          ? formatCourtDisplayName(
+              mostUsedCourt?.name ?? null,
+              serbianCourtLabel(mostUsedCourtId),
+            )
+          : null,
+    },
     bestDay: statistics.bestDay,
     bestRevenueDay: statistics.bestRevenueDay,
     morningReservations: statistics.morningReservations,

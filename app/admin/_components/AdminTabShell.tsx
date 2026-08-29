@@ -2,13 +2,19 @@
 
 import { Activity, useEffect, useState, type ReactNode } from "react";
 
-export type AdminTab = "blogs" | "gallery" | "reservations" | "statistics";
+export type AdminTab =
+  | "blogs"
+  | "gallery"
+  | "reservations"
+  | "statistics"
+  | "courts";
 
 const TABS: { id: AdminTab; label: string }[] = [
   { id: "blogs", label: "Blogovi" },
   { id: "gallery", label: "Galerija" },
   { id: "reservations", label: "Rezervacije" },
   { id: "statistics", label: "Statistika" },
+  { id: "courts", label: "Tereni" },
 ];
 
 type AdminTabShellProps = {
@@ -17,6 +23,7 @@ type AdminTabShellProps = {
   gallery: ReactNode;
   reservations: ReactNode;
   statistics: ReactNode;
+  courts: ReactNode;
 };
 
 export default function AdminTabShell({
@@ -25,6 +32,7 @@ export default function AdminTabShell({
   gallery,
   reservations,
   statistics,
+  courts,
 }: AdminTabShellProps) {
   const [tab, setTab] = useState<AdminTab>(initialTab);
 
@@ -69,6 +77,9 @@ export default function AdminTabShell({
       </Activity>
       <Activity mode={tab === "statistics" ? "visible" : "hidden"}>
         {statistics}
+      </Activity>
+      <Activity mode={tab === "courts" ? "visible" : "hidden"}>
+        {courts}
       </Activity>
     </>
   );

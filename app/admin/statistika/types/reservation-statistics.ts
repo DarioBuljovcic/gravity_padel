@@ -6,6 +6,7 @@ export type ReservationStatistic = {
 
 export type MostUsedCourtStatistic = {
   courtId: number | null;
+  courtName: string | null;
   bookedMinutes: number;
   previousBookedMinutes: number;
   percentageChange: number | null;

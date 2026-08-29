@@ -1,14 +1,15 @@
 "use client";
 
-import { courts } from "@/lib/reservations/domain";
+import type { LabeledCourt } from "@/lib/courts";
 import { ALL_COURT_IDS } from "./constants";
 
 type Props = {
   value: number[];
   onChange: (courtIds: number[]) => void;
+  courts: LabeledCourt[];
 };
 
-export default function CourtMultiSelect({ value, onChange }: Props) {
+export default function CourtMultiSelect({ value, onChange, courts }: Props) {
   const allSelected =
     ALL_COURT_IDS.length > 0 &&
     ALL_COURT_IDS.every((id) => value.includes(id));
@@ -53,7 +54,7 @@ export default function CourtMultiSelect({ value, onChange }: Props) {
                   : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
               }`}
             >
-              {court.name}
+              {court.displayName}
             </button>
           );
         })}

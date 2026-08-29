@@ -57,11 +57,7 @@ export default function ReservationStatistics() {
         />
         <StatCard
           label="Najkorišćeniji teren"
-          value={
-            data.mostUsedCourt.courtId !== null
-              ? `Teren ${data.mostUsedCourt.courtId}`
-              : "—"
-          }
+          value={data.mostUsedCourt.courtName ?? "—"}
           detail={
             <p className="text-sm text-padel-blue">
               {formatDuration(data.mostUsedCourt.bookedMinutes)} rezervisano

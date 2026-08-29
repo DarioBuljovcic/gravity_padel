@@ -23,12 +23,14 @@ type ReservationCardProps = {
     price_amount: number;
     status: "active" | "cancelled";
   };
+  courtName: string;
   canCancel?: boolean;
   canRebook?: boolean;
 };
 
 export default function ReservationCard({
   reservation,
+  courtName,
   canCancel = false,
   canRebook = false,
 }: ReservationCardProps) {
@@ -60,7 +62,7 @@ export default function ReservationCard({
         <div>
           <p className="text-lg font-black text-white">{startsAt}</p>
           <p className="mt-1 text-sm text-slate-400">
-            {t("courtFallback", { id: reservation.court_id })} · {bookingPackage?.label ?? `${reservation.duration_minutes} min`} · {formatPrice(reservation.price_amount)}
+            {courtName} · {bookingPackage?.label ?? `${reservation.duration_minutes} min`} · {formatPrice(reservation.price_amount)}
           </p>
           <p className={`mt-2 text-xs font-bold uppercase ${reservation.status === "active" ? "text-green-400" : "text-red-400"}`}>
             {reservation.status === "active" ? t("statusActive") : t("statusCancelled")}

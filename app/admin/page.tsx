@@ -7,11 +7,13 @@ import AdminTabShell from "./_components/AdminTabShell";
 import QueryProvider from "./_components/QueryProvider";
 import {
   BlogsTabSkeleton,
+  CourtsTabSkeleton,
   GalleryTabSkeleton,
   ReservationsTabSkeleton,
   StatisticsTabSkeleton,
 } from "./_components/TabSkeletons";
 import BlogsTab from "./blogs/_components/BlogsTab";
+import CourtsTab from "./courts/_components/CourtsTab";
 import GalleryTab from "./gallery/_components/GalleryTab";
 import ReservationsTab from "./reservations/_components/ReservationsTab";
 import { parseAdminTab } from "./lib/parseAdminTab";
@@ -92,6 +94,11 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             statistics={
               <Suspense fallback={<StatisticsTabSkeleton />}>
                 <StatisticsTab />
+              </Suspense>
+            }
+            courts={
+              <Suspense fallback={<CourtsTabSkeleton />}>
+                <CourtsTab />
               </Suspense>
             }
           />

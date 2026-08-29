@@ -112,3 +112,26 @@ export function StatisticsTabSkeleton() {
     </section>
   );
 }
+
+export function CourtsTabSkeleton() {
+  return (
+    <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-2">
+        <Skeleton className="h-7 w-32 bg-white/10" />
+        <Skeleton className="h-5 w-80 max-w-full bg-white/10" />
+      </div>
+      <div className="grid gap-4">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div
+            key={index}
+            className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-slate-900/50 p-6"
+          >
+            <Skeleton className="h-4 w-24 bg-white/10" />
+            <Skeleton className="h-5 w-40 bg-white/10" />
+            <Skeleton className="h-12 w-full rounded-xl bg-white/10" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

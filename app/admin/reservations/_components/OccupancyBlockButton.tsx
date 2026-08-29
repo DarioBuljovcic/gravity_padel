@@ -5,8 +5,15 @@ import { useQueryClient } from "@tanstack/react-query";
 import { CalendarOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import OccupancyBlockModal from "./occupancy-block-modal";
+import type { LabeledCourt } from "@/lib/courts";
 
-export default function OccupancyBlockButton() {
+type OccupancyBlockButtonProps = {
+  courts: LabeledCourt[];
+};
+
+export default function OccupancyBlockButton({
+  courts,
+}: OccupancyBlockButtonProps) {
   const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
 
@@ -24,6 +31,7 @@ export default function OccupancyBlockButton() {
       <OccupancyBlockModal
         open={open}
         onOpenChange={setOpen}
+        courts={courts}
         onCreated={() => {
           void queryClient.invalidateQueries({ queryKey: ["reservations"] });
         }}

@@ -1,6 +1,5 @@
 import {
   formatPrice,
-  getCourt,
   getPackage,
   VENUE_TIME_ZONE,
 } from "@/lib/reservations/domain";
@@ -14,6 +13,7 @@ export type MailReservationDetails = {
   packageId: string;
   date: string;
   time: string;
+  courtName?: string;
   durationMinutes?: number;
   priceAmount?: number;
   startsAt?: string;
@@ -48,7 +48,6 @@ function formatVenueDateTime(startsAt: string): { date: string; time: string } {
 
 function resolveDetails(details: MailReservationDetails) {
   const pkg = getPackage(details.packageId);
-  const court = getCourt(details.courtId);
   const fromStarts = details.startsAt
     ? formatVenueDateTime(details.startsAt)
     : null;
@@ -57,7 +56,7 @@ function resolveDetails(details: MailReservationDetails) {
     name: details.name,
     phone: details.phone,
     email: details.email,
-    courtName: court?.name ?? `Teren ${details.courtId}`,
+    courtName: details.courtName ?? `Teren ${details.courtId}`,
     date: fromStarts?.date ?? details.date,
     time: fromStarts?.time ?? details.time.slice(0, 5),
     durationMinutes: details.durationMinutes ?? pkg?.durationMinutes ?? 0,

@@ -2,6 +2,7 @@ import {
   getReservations,
   type ReservationFilters,
 } from "@/lib/actions/reservation.actions";
+import { labelCourts, listCourts, serbianCourtLabel } from "@/lib/courts";
 import { getDefaultWeekRange } from "@/lib/reservations/date-ranges";
 import ReservationFiltersForm from "./ReservationFilters";
 import ReservationsCalendar from "./ReservationsCalendar";
@@ -37,11 +38,14 @@ export default async function ReservationsTab({
 }) {
   const filters = parseFilters(searchParams);
   const week = getDefaultWeekRange();
-  const reservations = await getReservations({
-    ...filters,
-    dateFrom: week.dateFrom,
-    dateTo: week.dateTo,
-  });
+  const [reservations, courts] = await Promise.all([
+    getReservations({
+      ...filters,
+      dateFrom: week.dateFrom,
+      dateTo: week.dateTo,
+    }),
+    listCourts().then((rows) => labelCourts(rows, serbianCourtLabel)),
+  ]);
 
   const filterKey = [filters.courtId ?? "", filters.name ?? ""].join("|");
 
@@ -57,7 +61,7 @@ export default async function ReservationsTab({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <OccupancyBlockButton />
+          <OccupancyBlockButton courts={courts} />
           <Link href="/admin/rezervacije/nova">
             <Button variant="accent" type="button">
               <PlusIcon className="h-4 w-4" />
@@ -67,12 +71,13 @@ export default async function ReservationsTab({
         </div>
       </div>
 
-      <ReservationFiltersForm initial={filters} />
+      <ReservationFiltersForm initial={filters} courts={courts} />
 
       <ReservationsCalendar
         key={filterKey}
         initialReservations={reservations}
         filters={filters}
+        courts={courts}
       />
     </section>
   );

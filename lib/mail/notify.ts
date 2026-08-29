@@ -16,10 +16,29 @@ import {
   type MailReservationDetails,
 } from "@/lib/mail/templates";
 import { getAdminNotifyEmail, sendMail } from "@/lib/mailer";
+import {
+  formatCourtDisplayName,
+  getCourt,
+  serbianCourtLabel,
+} from "@/lib/courts";
+
+async function withCourtName(
+  details: MailReservationDetails,
+): Promise<MailReservationDetails> {
+  const court = await getCourt(details.courtId);
+  return {
+    ...details,
+    courtName: formatCourtDisplayName(
+      court?.name ?? null,
+      serbianCourtLabel(details.courtId),
+    ),
+  };
+}
 
 export async function notifyAdminNewBooking(
   details: MailReservationDetails,
 ): Promise<void> {
+  const resolved = await withCourtName(details);
   const to = getAdminNotifyEmail();
   if (!to) {
     console.error(
@@ -30,8 +49,8 @@ export async function notifyAdminNewBooking(
 
   const result = await sendMail({
     to,
-    subject: newBookingAdminSubject(details),
-    html: newBookingAdminHtml(details),
+    subject: newBookingAdminSubject(resolved),
+    html: newBookingAdminHtml(resolved),
   });
 
   if (!result.ok) {
@@ -42,7 +61,8 @@ export async function notifyAdminNewBooking(
 export async function notifyPlayerNewBooking(
   details: MailReservationDetails,
 ): Promise<void> {
-  const to = details.email.trim();
+  const resolved = await withCourtName(details);
+  const to = resolved.email.trim();
   if (!to) {
     console.error("Skipping player booking email: reservation has no email.");
     return;
@@ -50,8 +70,8 @@ export async function notifyPlayerNewBooking(
 
   const result = await sendMail({
     to,
-    subject: newBookingPlayerSubject(details),
-    html: newBookingPlayerHtml(details),
+    subject: newBookingPlayerSubject(resolved),
+    html: newBookingPlayerHtml(resolved),
   });
 
   if (!result.ok) {
@@ -62,6 +82,7 @@ export async function notifyPlayerNewBooking(
 export async function notifyAdminCancelledBooking(
   details: MailReservationDetails,
 ): Promise<void> {
+  const resolved = await withCourtName(details);
   const to = getAdminNotifyEmail();
   if (!to) {
     console.error(
@@ -72,8 +93,8 @@ export async function notifyAdminCancelledBooking(
 
   const result = await sendMail({
     to,
-    subject: cancelledBookingAdminSubject(details),
-    html: cancelledBookingAdminHtml(details),
+    subject: cancelledBookingAdminSubject(resolved),
+    html: cancelledBookingAdminHtml(resolved),
   });
 
   if (!result.ok) {
@@ -84,7 +105,8 @@ export async function notifyAdminCancelledBooking(
 export async function notifyPlayerCancelledBooking(
   details: MailReservationDetails,
 ): Promise<void> {
-  const to = details.email.trim();
+  const resolved = await withCourtName(details);
+  const to = resolved.email.trim();
   if (!to) {
     console.error(
       "Skipping player cancellation email: reservation has no email.",
@@ -94,8 +116,8 @@ export async function notifyPlayerCancelledBooking(
 
   const result = await sendMail({
     to,
-    subject: cancelledBookingPlayerSubject(details),
-    html: cancelledBookingPlayerHtml(details),
+    subject: cancelledBookingPlayerSubject(resolved),
+    html: cancelledBookingPlayerHtml(resolved),
   });
 
   if (!result.ok) {
@@ -106,15 +128,16 @@ export async function notifyPlayerCancelledBooking(
 export async function sendPlayerReminder(
   details: MailReservationDetails,
 ): Promise<{ ok: true } | { ok: false; error: string }> {
-  const to = details.email.trim();
+  const resolved = await withCourtName(details);
+  const to = resolved.email.trim();
   if (!to) {
     return { ok: false, error: "Reservation has no email." };
   }
 
   return sendMail({
     to,
-    subject: reminderPlayerSubject(details),
-    html: reminderPlayerHtml(details),
+    subject: reminderPlayerSubject(resolved),
+    html: reminderPlayerHtml(resolved),
   });
 }
 

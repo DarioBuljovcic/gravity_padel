@@ -14,11 +14,12 @@ import {
   SelectValue,
   SelectGroup
 } from "@/components/ui/select";
-import { courts } from "@/lib/reservations/domain";
+import type { LabeledCourt } from "@/lib/courts";
 import type { ReservationFilters as Filters } from "@/lib/actions/reservation.actions";
 
 type Props = {
   initial: Pick<Filters, "courtId" | "name">;
+  courts: LabeledCourt[];
 };
 
 const fieldClass =
@@ -28,7 +29,7 @@ const fieldClass =
 
 const fieldWithIconClass = `${fieldClass} pl-10`;
 
-export default function ReservationFilters({ initial }: Props) {
+export default function ReservationFilters({ initial, courts }: Props) {
   const router = useRouter();
   const [courtId, setCourtId] = useState(
     initial.courtId != null ? String(initial.courtId) : "all",
@@ -74,7 +75,7 @@ export default function ReservationFilters({ initial }: Props) {
             items={[
               { label: "Svi tereni", value: "all" },
               ...courts.map((court) => ({
-                label: court.name,
+                label: court.displayName,
                 value: court.id.toString(),
               })),
             ]}
@@ -92,7 +93,7 @@ export default function ReservationFilters({ initial }: Props) {
                 <SelectItem value="all">Svi tereni</SelectItem>
                 {courts.map((court) => (
                   <SelectItem key={court.id} value={court.id.toString()}>
-                    {court.name}
+                    {court.displayName}
                   </SelectItem>
                 ))}
               </SelectGroup>

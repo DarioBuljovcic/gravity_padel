@@ -77,6 +77,23 @@ export type Database = {
         Update: { role?: "admin" };
         Relationships: [];
       };
+      courts: {
+        Row: {
+          id: number;
+          name: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          id: number;
+          name?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          name?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       reservations: {
         Row: {
           id: string;
@@ -132,7 +149,15 @@ export type Database = {
           email?: string;
           reminder_sent?: boolean;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "reservations_court_id_fkey";
+            columns: ["court_id"];
+            isOneToOne: false;
+            referencedRelation: "courts";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {
@@ -184,6 +209,10 @@ export type Database = {
       is_admin: {
         Args: Record<PropertyKey, never>;
         Returns: boolean;
+      };
+      court_terrain_name: {
+        Args: { p_court_id: number };
+        Returns: string;
       };
     };
     Enums: Record<PropertyKey, never>;

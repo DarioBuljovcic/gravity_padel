@@ -1,3 +1,4 @@
+import type { LabeledCourt } from "@/lib/courts";
 import BookingFlow from "./BookingFlow";
 import {
   type BookingMode,
@@ -17,6 +18,7 @@ type BookingWizardProps = {
   defaultPackageId?: string;
   defaultCourtId?: number;
   isAuthenticated: boolean;
+  courts: LabeledCourt[];
   mode?: BookingMode;
 };
 

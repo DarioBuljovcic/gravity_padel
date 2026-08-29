@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { requireAdminPage } from "@/lib/auth";
+import { labelCourts, listCourts, serbianCourtLabel } from "@/lib/courts";
 import BookingWizard from "@/app/rezervacija/BookingWizard";
 
 export default async function NewAdminReservationPage() {
   await requireAdminPage();
+  const courts = labelCourts(await listCourts(), serbianCourtLabel);
 
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-12 md:py-20 relative overflow-hidden flex flex-col items-center">
@@ -63,6 +65,7 @@ export default async function NewAdminReservationPage() {
           defaultName=""
           defaultPhone=""
           defaultEmail=""
+          courts={courts}
           isAuthenticated
         />
       </div>

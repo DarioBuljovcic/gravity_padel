@@ -8,6 +8,7 @@ import { updateProfile } from "@/lib/actions/profile.actions";
 import { getAccountReservationHistory } from "@/lib/actions/reservation.actions";
 import { requireUserPage } from "@/lib/auth";
 import { getTranslations } from "@/lib/i18n";
+import { labelCourts, listCourts } from "@/lib/courts";
 import { canPlayerCancel } from "@/lib/reservations/domain";
 import { createClient } from "@/lib/supabase/server";
 import ReservationHistory from "./ReservationHistory";
@@ -18,8 +19,16 @@ const HISTORY_INITIAL_LIMIT = 5;
 export default async function AccountPage() {
   const user = await requireUserPage("/account");
   const t = await getTranslations("Account");
+  const tCard = await getTranslations("ReservationCard");
   const supabase = await createClient();
   const nowIso = new Date().toISOString();
+  const courts = labelCourts(
+    await listCourts(),
+    (id) => tCard("courtFallback", { id }),
+  );
+  const courtNameById = Object.fromEntries(
+    courts.map((court) => [court.id, court.displayName]),
+  );
 
   const [{ data: profile }, { data: upcoming, error: upcomingError }, history] =
     await Promise.all([
@@ -95,6 +104,10 @@ export default async function AccountPage() {
               <ReservationCard
                 key={reservation.id}
                 reservation={reservation}
+                courtName={
+                  courtNameById[reservation.court_id] ??
+                  tCard("courtFallback", { id: reservation.court_id })
+                }
                 canCancel={canPlayerCancel(reservation.starts_at)}
               />
             ))}
@@ -106,6 +119,7 @@ export default async function AccountPage() {
           <ReservationHistory
             initialReservations={history.reservations}
             initialHasMore={history.hasMore}
+            courtNameById={courtNameById}
           />
         </section>
       </div>

@@ -2,6 +2,8 @@ import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/Footer";
 import BookingWizard from "./BookingWizard";
 import { getCurrentUser } from "@/lib/auth";
+import { getTranslations } from "@/lib/i18n";
+import { labelCourts, listCourts } from "@/lib/courts";
 import { createClient } from "@/lib/supabase/server";
 
 type BookingPageProps = {
@@ -20,6 +22,8 @@ export default async function BookingPage({ searchParams }: BookingPageProps) {
       .maybeSingle()
     : { data: null };
   const parsedCourt = Number(params.court);
+  const t = await getTranslations("Reservation");
+  const courts = labelCourts(await listCourts(), (id) => t("courtName", { id }));
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-slate-950">
@@ -31,6 +35,7 @@ export default async function BookingPage({ searchParams }: BookingPageProps) {
           defaultEmail={user?.email ?? ""}
           defaultPackageId={params.package}
           defaultCourtId={Number.isInteger(parsedCourt) ? parsedCourt : undefined}
+          courts={courts}
           isAuthenticated={Boolean(user)}
         />
       </div>

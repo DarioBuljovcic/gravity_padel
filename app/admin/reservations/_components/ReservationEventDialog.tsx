@@ -3,11 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { cancelReservation } from "@/lib/actions/reservation.actions";
-import {
-  formatPrice,
-  getCourt,
-  getPackage,
-} from "@/lib/reservations/domain";
+import { formatPrice, getPackage } from "@/lib/reservations/domain";
+import type { LabeledCourt } from "@/lib/courts";
 import type { CalendarReservation } from "@/lib/reservations/calendar-mapping";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +21,7 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onCancelled?: (id: string) => void;
+  courts: LabeledCourt[];
 };
 
 export default function ReservationEventDialog({
@@ -31,6 +29,7 @@ export default function ReservationEventDialog({
   open,
   onOpenChange,
   onCancelled,
+  courts,
 }: Props) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
@@ -39,7 +38,9 @@ export default function ReservationEventDialog({
   if (!reservation) return null;
 
   const isEvent = reservation.kind === "event";
-  const court = getCourt(reservation.court_id);
+  const courtName =
+    courts.find((court) => court.id === reservation.court_id)?.displayName ??
+    `Teren ${reservation.court_id}`;
   const bookingPackage = getPackage(reservation.package_id);
   const startsAt = new Intl.DateTimeFormat("sr-RS", {
     dateStyle: "medium",
@@ -101,7 +102,7 @@ export default function ReservationEventDialog({
           <div className="flex justify-between gap-4">
             <dt className="text-slate-500">Teren</dt>
             <dd className="text-right text-slate-200">
-              {court?.name ?? `Teren ${reservation.court_id}`}
+              {courtName}
               {isEvent && reservation.event_group_id
                 ? " (deo grupe)"
                 : null}

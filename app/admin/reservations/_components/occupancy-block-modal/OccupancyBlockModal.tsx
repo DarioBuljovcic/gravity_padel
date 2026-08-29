@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createOccupancyBlock } from "@/lib/actions/occupancy.actions";
 import { Button } from "@/components/ui/button";
@@ -20,11 +20,13 @@ import type {
   OccupancyBlockDraft,
   OccupancyBlockFormErrors,
 } from "./types";
+import type { LabeledCourt } from "@/lib/courts";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onCreated?: () => void;
+  courts: LabeledCourt[];
   /** When set, applied each time the dialog opens. */
   draft?: OccupancyBlockDraft | null;
 };
@@ -37,42 +39,56 @@ const todayVenueDate = (): string =>
     day: "2-digit",
   }).format(new Date());
 
+const occupancySessionKey = (
+  open: boolean,
+  draft: OccupancyBlockDraft | null,
+) => {
+  if (!open) return "closed";
+  if (!draft) return "open";
+  return [
+    draft.date,
+    draft.title ?? "",
+    draft.courtIds.join("-"),
+    draft.range.startMinutes,
+    draft.range.endMinutes,
+  ].join("|");
+};
+
 const OccupancyBlockModal = ({
   open,
   onOpenChange,
   onCreated,
+  courts,
+  draft = null,
+}: Props) => (
+  <OccupancyBlockDialog
+    key={occupancySessionKey(open, draft)}
+    open={open}
+    onOpenChange={onOpenChange}
+    onCreated={onCreated}
+    courts={courts}
+    draft={draft}
+  />
+);
+
+const OccupancyBlockDialog = ({
+  open,
+  onOpenChange,
+  onCreated,
+  courts,
   draft = null,
 }: Props) => {
   const router = useRouter();
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState(todayVenueDate);
-  const [courtIds, setCourtIds] = useState<number[]>([...ALL_COURT_IDS]);
-  const [range, setRange] = useState<HourRange | null>(null);
+  const [title, setTitle] = useState(draft?.title ?? "");
+  const [date, setDate] = useState(draft?.date ?? todayVenueDate);
+  const [courtIds, setCourtIds] = useState<number[]>(
+    draft?.courtIds?.length ? [...draft.courtIds] : [...ALL_COURT_IDS],
+  );
+  const [range, setRange] = useState<HourRange | null>(draft?.range ?? null);
   const [errors, setErrors] = useState<OccupancyBlockFormErrors>({});
   const [pending, setPending] = useState(false);
 
-  const applyDefaults = useCallback(() => {
-    setTitle(draft?.title ?? "");
-    setDate(draft?.date ?? todayVenueDate());
-    setCourtIds(draft?.courtIds?.length ? [...draft.courtIds] : [...ALL_COURT_IDS]);
-    setRange(draft?.range ?? null);
-    setErrors({});
-    setPending(false);
-  }, [draft]);
-
-  useEffect(() => {
-    if (open) applyDefaults();
-  }, [open, applyDefaults]);
-
   const handleOpenChange = (next: boolean) => {
-    if (!next) {
-      setTitle("");
-      setDate(todayVenueDate());
-      setCourtIds([...ALL_COURT_IDS]);
-      setRange(null);
-      setErrors({});
-      setPending(false);
-    }
     onOpenChange(next);
   };
 
@@ -149,6 +165,7 @@ const OccupancyBlockModal = ({
           onDateChange={setDate}
           onCourtIdsChange={setCourtIds}
           onRangeChange={setRange}
+          courts={courts}
         />
 
         <DialogFooter className="gap-2 sm:justify-between">

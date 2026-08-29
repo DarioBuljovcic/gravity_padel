@@ -3,9 +3,9 @@
 import Link from "next/link";
 import type { FormEvent } from "react";
 import { useTranslations } from "next-intl";
+import type { LabeledCourt } from "@/lib/courts";
 import {
   bookingPackages,
-  courts,
   formatPrice,
   generateTimeSlots,
   type BookingPackage,
@@ -80,11 +80,12 @@ export function DateStep({ days, onSelect, onBack }: DateStepProps) {
 }
 
 export type CourtStepProps = {
+  courts: LabeledCourt[];
   onSelect: (courtId: number) => void;
   onBack: () => void;
 };
 
-export function CourtStep({ onSelect, onBack }: CourtStepProps) {
+export function CourtStep({ courts, onSelect, onBack }: CourtStepProps) {
   const t = useTranslations("Reservation");
 
   return (
@@ -93,7 +94,7 @@ export function CourtStep({ onSelect, onBack }: CourtStepProps) {
       <div className="grid gap-4 sm:grid-cols-2">
         {courts.map((court) => (
           <button key={court.id} className={stepButtonClass} onClick={() => onSelect(court.id)}>
-            <span className="block text-xl font-black">{t("courtName", { id: court.id })}</span>
+            <span className="block text-xl font-black">{court.displayName}</span>
             <span className="text-sm text-slate-400">
               {court.id <= 2 ? t("courtDescOpen") : t("courtDescCovered")}
             </span>
@@ -196,6 +197,7 @@ export type SuccessStepProps = {
   selectedPackage: BookingPackage;
   reservationId: string | null;
   isAuthenticated: boolean;
+  courtName: string;
   mode?: BookingMode;
 };
 
@@ -204,6 +206,7 @@ export function SuccessStep({
   selectedPackage,
   reservationId,
   isAuthenticated,
+  courtName,
   mode = "public",
 }: SuccessStepProps) {
   const t = useTranslations("Reservation");
@@ -215,7 +218,7 @@ export function SuccessStep({
       <StepHeading title={t("successTitle")} subtitle={t("successSubtitle")} />
       <div className="mb-6 rounded-2xl border border-white/10 bg-slate-900/70 p-6 text-left text-slate-300">
         <p>{t("successWhen", { date: draft.date, time: draft.time })}</p>
-        <p>{t("courtName", { id: draft.courtId })}</p>
+        <p>{courtName}</p>
         <p>
           {selectedPackage.label} · {formatPrice(selectedPackage.priceAmount)}
         </p>

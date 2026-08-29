@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import CourtMultiSelect from "./CourtMultiSelect";
 import HourRangeGrid from "./HourRangeGrid";
 import type { HourRange, OccupancyBlockFormErrors } from "./types";
+import type { LabeledCourt } from "@/lib/courts";
 
 type Props = {
   title: string;
@@ -16,6 +17,7 @@ type Props = {
   onDateChange: (value: string) => void;
   onCourtIdsChange: (courtIds: number[]) => void;
   onRangeChange: (range: HourRange | null) => void;
+  courts: LabeledCourt[];
 };
 
 export default function OccupancyBlockForm({
@@ -28,6 +30,7 @@ export default function OccupancyBlockForm({
   onDateChange,
   onCourtIdsChange,
   onRangeChange,
+  courts,
 }: Props) {
   return (
     <div className="space-y-5">
@@ -62,7 +65,11 @@ export default function OccupancyBlockForm({
       </div>
 
       <div>
-        <CourtMultiSelect value={courtIds} onChange={onCourtIdsChange} />
+        <CourtMultiSelect
+          value={courtIds}
+          onChange={onCourtIdsChange}
+          courts={courts}
+        />
         {errors.courtIds && (
           <p className="mt-2 text-xs text-red-400">{errors.courtIds}</p>
         )}

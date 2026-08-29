@@ -3,13 +3,6 @@ import { z } from "zod";
 export const VENUE_TIME_ZONE = "Europe/Belgrade";
 export const CURRENCY = "RSD";
 
-export const courts = [
-  { id: 1, name: "Teren 1", description: "Panoramic WPT Standard" },
-  { id: 2, name: "Teren 2", description: "Panoramic WPT Standard" },
-  { id: 3, name: "Teren 3", description: "Panoramic WPT Standard (Sa krovom)" },
-  { id: 4, name: "Teren 4", description: "Panoramic WPT Standard (Sa krovom)" },
-] as const;
-
 export const bookingPackages = [
   {
     id: "morning_60",
@@ -69,7 +62,6 @@ export const bookingPackages = [
 ] as const;
 
 export type BookingPackage = (typeof bookingPackages)[number];
-export type Court = (typeof courts)[number];
 export type ReservationStatus = "active" | "cancelled";
 export type ReservationKind = "booking" | "event";
 export const EVENT_PACKAGE_ID = "event";
@@ -117,10 +109,6 @@ export type BusySlot = {
 
 export function getPackage(packageId: string): BookingPackage | undefined {
   return bookingPackages.find((item) => item.id === packageId);
-}
-
-export function getCourt(courtId: number): Court | undefined {
-  return courts.find((court) => court.id === courtId);
 }
 
 export function formatPrice(amount: number): string {

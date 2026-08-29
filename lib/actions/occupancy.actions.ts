@@ -5,16 +5,13 @@ import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
 import { OPENING_HOUR, CLOSING_HOUR } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/server";
-import { courts } from "@/lib/reservations/domain";
-
-const courtIds = courts.map((court) => court.id) as [number, ...number[]];
 
 const occupancyBlockInputSchema = z.object({
   title: z.string().trim().min(2).max(120),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   startTime: z.string().regex(/^(?:[01]\d|2[0-3]):(?:00|30)$/),
   endTime: z.string().regex(/^(?:[01]\d|2[0-3]):(?:00|30)$/),
-  courtIds: z.array(z.number().int().refine((id) => courtIds.includes(id))).min(1),
+  courtIds: z.array(z.number().int().min(1).max(4)).min(1),
 });
 
 export type OccupancyBlockInput = z.infer<typeof occupancyBlockInputSchema>;

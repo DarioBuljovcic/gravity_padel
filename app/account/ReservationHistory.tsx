@@ -20,13 +20,16 @@ type Reservation = {
 type ReservationHistoryProps = {
   initialReservations: Reservation[];
   initialHasMore: boolean;
+  courtNameById: Record<number, string>;
 };
 
 export default function ReservationHistory({
   initialReservations,
   initialHasMore,
+  courtNameById,
 }: ReservationHistoryProps) {
   const t = useTranslations("Account");
+  const tCard = useTranslations("ReservationCard");
   const [reservations, setReservations] = useState(initialReservations);
   const [hasMore, setHasMore] = useState(initialHasMore);
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +59,15 @@ export default function ReservationHistory({
   return (
     <div className="space-y-3">
       {reservations.map((reservation) => (
-        <ReservationCard key={reservation.id} reservation={reservation} canRebook />
+        <ReservationCard
+          key={reservation.id}
+          reservation={reservation}
+          courtName={
+            courtNameById[reservation.court_id] ??
+            tCard("courtFallback", { id: reservation.court_id })
+          }
+          canRebook
+        />
       ))}
       {hasMore && (
         <button

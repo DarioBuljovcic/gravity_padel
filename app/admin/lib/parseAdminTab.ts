@@ -9,6 +9,7 @@ function isAdminTab(value: string): value is AdminTab {
     value === "blogs" ||
     value === "gallery" ||
     value === "reservations" ||
-    value === "statistics"
+    value === "statistics" ||
+    value === "courts"
   );
 }
