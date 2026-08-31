@@ -11,6 +11,8 @@ import {
 import type { MailReservationDetails } from "@/lib/mail/templates";
 import {
   canPlayerCancel,
+  generateTimeSlots,
+  getPackage,
   isPastSlot,
   reservationInputSchema,
   venueDayBoundsUtc,
@@ -84,6 +86,18 @@ export async function createReservation(
 ): Promise<ReservationActionResult> {
   const parsed = reservationInputSchema.safeParse(input);
   if (!parsed.success) {
+    return {
+      success: false,
+      type: "validation",
+      error: "Proverite unete podatke.",
+    };
+  }
+
+  const bookingPackage = getPackage(parsed.data.packageId);
+  if (
+    !bookingPackage ||
+    !generateTimeSlots(bookingPackage).includes(parsed.data.time)
+  ) {
     return {
       success: false,
       type: "validation",

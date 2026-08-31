@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const VENUE_TIME_ZONE = "Europe/Belgrade";
+export const VENUE_CLOSE_TIME = "23:00";
 export const CURRENCY = "RSD";
 
 export const bookingPackages = [
@@ -217,12 +218,14 @@ export function generateTimeSlots(
   date?: string,
 ): string[] {
   const start = timeToMinutes(item.rangeStart);
-  const end = timeToMinutes(item.rangeEnd);
+  const lastStartExclusive = timeToMinutes(item.rangeEnd);
+  const venueClose = timeToMinutes(VENUE_CLOSE_TIME);
   const slots: string[] = [];
 
   for (
     let minutes = start;
-    minutes + item.durationMinutes <= end;
+    minutes < lastStartExclusive &&
+    minutes + item.durationMinutes <= venueClose;
     minutes += 30
   ) {
     const time = `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
