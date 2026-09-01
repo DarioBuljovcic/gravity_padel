@@ -22,7 +22,6 @@ const ArrowRightIcon = () => <ArrowRight size={16} strokeWidth={2} />;
 
 export default async function Hero() {
   const t = await getTranslations('Hero');
-  const bgImage = "https://lmfykqrzbcauxdybadfi.supabase.co/storage/v1/object/public/gallery-images/bd6e1117-2ea9-42e2-a7b8-0d0780a18355.webp";
   const featureItems = [
     {
       icon: <CourtIcon />,
@@ -87,20 +86,20 @@ export default async function Hero() {
         {/* Background Image Placeholder */}
         <div className="absolute inset-0 z-0 max-h-[100vh]">
           <Image
-            src={bgImage}
-            alt="Padel Court Background"
+            src="/images/background.webp"
+            alt=""
             fill
+            sizes="100vw"
+            quality={60}
+            fetchPriority="low"
             className="object-cover opacity-40 mix-blend-overlay"
-            priority
-            fetchPriority="high"
           />
           {/* Gradient Overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/30 to-slate-950" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto w-full space-y-16">
-          {/* Top Text Content */}
-          <FadeIn className="space-y-6 max-w-4xl">
+          <div className="space-y-6 max-w-4xl">
             <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[100px] font-display font-black leading-[0.95] tracking-tight text-white">
               {t('title1')} <br />
               <span className="text-padel-blue">{t('title2')}</span>
@@ -125,7 +124,7 @@ export default async function Hero() {
                 {t('galleryBtn')}
               </Link>
             </div>
-          </FadeIn>
+          </div>
 
           {/* Feature Items */}
           <FadeIn delay={200} className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 pt-8 border-t border-white/10">
