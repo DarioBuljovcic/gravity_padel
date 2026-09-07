@@ -867,9 +867,9 @@ button.rbc-input::-moz-focus-inner {
   justify-content: center;
 }
 
-/* Court color coding — Gravity Padel brand blues & oranges */
+/* Court color coding — distinct hues so courts are easy to tell apart */
 .rbc-event.event-court-1 {
-  --event-bg: #0055ff; /* padel-blue */
+  --event-bg: #0055ff; /* dark padel blue */
   --event-color: #ffffff;
   --event-border: color-mix(in oklab, #0055ff 80%, white);
 }
@@ -877,28 +877,28 @@ button.rbc-input::-moz-focus-inner {
   --event-bg: color-mix(in oklab, #0055ff 85%, white);
 }
 .rbc-event.event-court-2 {
-  --event-bg: #f2b264; /* primary-orange */
-  --event-color: #0f172a;
-  --event-border: color-mix(in oklab, #f2b264 80%, black);
+  --event-bg: #ea580c; /* orange */
+  --event-color: #ffffff;
+  --event-border: color-mix(in oklab, #ea580c 80%, white);
 }
 .rbc-event.event-court-2:hover {
-  --event-bg: color-mix(in oklab, #f2b264 90%, white);
+  --event-bg: color-mix(in oklab, #ea580c 85%, white);
 }
 .rbc-event.event-court-3 {
-  --event-bg: #d97706; /* accent-orange */
-  --event-color: #ffffff;
-  --event-border: color-mix(in oklab, #d97706 80%, white);
+  --event-bg: #84cc16; /* lime green */
+  --event-color: #14532d;
+  --event-border: color-mix(in oklab, #84cc16 75%, black);
 }
 .rbc-event.event-court-3:hover {
-  --event-bg: color-mix(in oklab, #d97706 85%, white);
+  --event-bg: color-mix(in oklab, #84cc16 90%, white);
 }
 .rbc-event.event-court-4 {
-  --event-bg: #3b82f6; /* light padel blue */
+  --event-bg: #c026d3; /* magenta */
   --event-color: #ffffff;
-  --event-border: color-mix(in oklab, #3b82f6 80%, white);
+  --event-border: color-mix(in oklab, #c026d3 80%, white);
 }
 .rbc-event.event-court-4:hover {
-  --event-bg: color-mix(in oklab, #3b82f6 85%, white);
+  --event-bg: color-mix(in oklab, #c026d3 85%, white);
 }
 .rbc-event.event-cancelled {
   --event-bg: color-mix(in oklab, #64748b 55%, transparent);

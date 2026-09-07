@@ -28,12 +28,12 @@ export type ReservationEvent = {
   resource: CalendarReservation;
 };
 
-/** Brand padel palette for the four courts. */
+/** Distinct court colors for the admin calendar (legend + events). */
 export const COURT_COLORS: Record<1 | 2 | 3 | 4, string> = {
-  1: "#0055ff", // padel-blue
-  2: "#f2b264", // primary-orange
-  3: "#d97706", // accent-orange
-  4: "#3b82f6", // light padel blue
+  1: "#0055ff", // dark padel blue
+  2: "#ea580c", // orange
+  3: "#84cc16", // lime green
+  4: "#c026d3", // magenta
 };
 
 export function reservationsToEvents(
