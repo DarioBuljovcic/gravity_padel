@@ -1,6 +1,6 @@
 import "server-only";
 
-import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
 
 import { getReservations } from "@/lib/actions/reservation.actions";
 import {
@@ -8,18 +8,29 @@ import {
   getCourt,
   serbianCourtLabel,
 } from "@/lib/courts";
-import { CURRENCY } from "@/lib/reservations/domain";
+import { CURRENCY, VENUE_TIME_ZONE } from "@/lib/reservations/domain";
 import type { ReservationStatisticsResponse } from "../types";
 import { calculateReservationStatistics } from "./calculate";
+import { getStatisticsPeriod } from "./period";
 
 export async function getReservationStatistics(
   now = new Date(),
 ): Promise<ReservationStatisticsResponse> {
-  const reportMonth = now;
-  const comparisonMonth = subMonths(now, 1);
+  const reportPeriod = getStatisticsPeriod(now);
+  const comparisonPeriod = getStatisticsPeriod(
+    new Date(reportPeriod.start.getTime() - 1),
+  );
 
-  const dateFrom = format(startOfMonth(comparisonMonth), "yyyy-MM-dd");
-  const dateTo = format(endOfMonth(reportMonth), "yyyy-MM-dd");
+  const dateFrom = formatInTimeZone(
+    comparisonPeriod.start,
+    VENUE_TIME_ZONE,
+    "yyyy-MM-dd",
+  );
+  const dateTo = formatInTimeZone(
+    new Date(reportPeriod.end.getTime() - 1),
+    VENUE_TIME_ZONE,
+    "yyyy-MM-dd",
+  );
 
   const reservations = await getReservations({
     dateFrom,

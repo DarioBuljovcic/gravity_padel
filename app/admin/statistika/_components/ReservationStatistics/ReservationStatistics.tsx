@@ -1,8 +1,6 @@
 "use client";
 
-import { format } from "date-fns";
-import { srLatn } from "date-fns/locale";
-
+import { formatStatisticsPeriodLabel } from "../../lib/period";
 import { useReservationStatistics } from "../../useReservationStatistics";
 import { ChangeIndicator } from "../ChangeIndicator";
 import {
@@ -27,9 +25,9 @@ export default function ReservationStatistics() {
     );
   }
 
-  const reportMonthLabel = format(new Date(data.reportMonth), "LLLL yyyy.", {
-    locale: srLatn,
-  });
+  const reportMonthLabel = formatStatisticsPeriodLabel(
+    new Date(data.reportMonth),
+  );
 
   return (
     <section className="space-y-6">

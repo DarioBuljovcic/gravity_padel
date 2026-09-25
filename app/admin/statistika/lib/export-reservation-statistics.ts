@@ -1,10 +1,11 @@
 import "server-only";
 
 import ExcelJS from "exceljs";
-import { format } from "date-fns";
-import { srLatn } from "date-fns/locale";
+import { formatInTimeZone } from "date-fns-tz";
 
+import { VENUE_TIME_ZONE } from "@/lib/reservations/domain";
 import type { ReservationStatisticsResponse } from "../types";
+import { formatStatisticsPeriodLabel, getStatisticsPeriod } from "./period";
 
 function formatChange(value: number | null) {
   if (value === null) return "—";
@@ -38,9 +39,9 @@ export async function buildReservationStatisticsWorkbook(
   workbook.creator = "Gravity Padel";
   workbook.created = new Date();
 
-  const reportMonthLabel = format(new Date(statistics.reportMonth), "LLLL yyyy.", {
-    locale: srLatn,
-  });
+  const reportMonthLabel = formatStatisticsPeriodLabel(
+    new Date(statistics.reportMonth),
+  );
   const currency = statistics.currency;
 
   const sheet = workbook.addWorksheet("Statistika", {
@@ -186,6 +187,7 @@ export async function buildReservationStatisticsWorkbook(
 }
 
 export function reservationStatisticsExportFilename(reportMonth: string) {
-  const stamp = format(new Date(reportMonth), "yyyy-MM");
+  const { start, end } = getStatisticsPeriod(new Date(reportMonth));
+  const stamp = `${formatInTimeZone(start, VENUE_TIME_ZONE, "yyyy-MM-dd")}-${formatInTimeZone(end, VENUE_TIME_ZONE, "yyyy-MM-dd")}`;
   return `statistika-rezervacija-${stamp}.xlsx`;
 }

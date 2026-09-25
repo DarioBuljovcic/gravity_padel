@@ -1,13 +1,12 @@
-import {
-  eachDayOfInterval,
-  endOfMonth,
-  format,
-  getDay,
-  isWithinInterval,
-  startOfMonth,
-} from "date-fns";
+import { differenceInCalendarDays, format, getDay } from "date-fns";
+import { formatInTimeZone } from "date-fns-tz";
+import { srLatn } from "date-fns/locale";
 
 import type { CalendarReservation } from "@/lib/reservations/calendar-mapping";
+import {
+  VENUE_TIME_ZONE,
+  venueLocalToUtcIso,
+} from "@/lib/reservations/domain";
 import type {
   PackageGroupStatistic,
   PeriodStatistics,
@@ -19,20 +18,79 @@ import {
   PACKAGE_GROUP_ORDER,
   packageGroupKey,
   periodLabel,
+  STATISTICS_PERIOD_DAY,
 } from "./constants";
+
+function venueCalendar(reference: Date) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: VENUE_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(reference);
+  const values = Object.fromEntries(
+    parts.map((part) => [part.type, part.value]),
+  );
+
+  return {
+    year: Number(values.year),
+    month: Number(values.month),
+    day: Number(values.day),
+  };
+}
+
+function shiftMonth(year: number, month: number, delta: number) {
+  const shifted = new Date(Date.UTC(year, month - 1 + delta, 1));
+  return { year: shifted.getUTCFullYear(), month: shifted.getUTCMonth() + 1 };
+}
+
+function periodDateKey(year: number, month: number) {
+  const day = String(STATISTICS_PERIOD_DAY).padStart(2, "0");
+  const monthKey = String(month).padStart(2, "0");
+  return `${year}-${monthKey}-${day}`;
+}
+
+/** Half-open Belgrade window [26th 00:00, next 26th 00:00). The closing 26th starts the next period. */
+export function getStatisticsPeriod(reference: Date) {
+  const { year, month, day } = venueCalendar(reference);
+  const startMonth =
+    day >= STATISTICS_PERIOD_DAY
+      ? { year, month }
+      : shiftMonth(year, month, -1);
+  const endMonth = shiftMonth(startMonth.year, startMonth.month, 1);
+
+  return {
+    start: new Date(
+      venueLocalToUtcIso(periodDateKey(startMonth.year, startMonth.month), "00:00"),
+    ),
+    end: new Date(
+      venueLocalToUtcIso(periodDateKey(endMonth.year, endMonth.month), "00:00"),
+    ),
+  };
+}
+
+export function formatStatisticsPeriodLabel(reference: Date) {
+  const { start, end } = getStatisticsPeriod(reference);
+  const startLabel = formatInTimeZone(start, VENUE_TIME_ZONE, "d. LLLL", {
+    locale: srLatn,
+  });
+  const endLabel = formatInTimeZone(end, VENUE_TIME_ZONE, "d. LLLL yyyy.", {
+    locale: srLatn,
+  });
+
+  return `${startLabel} – ${endLabel}`;
+}
 
 export function getReservationsInMonth(
   reservations: CalendarReservation[],
   month: Date,
 ) {
-  const interval = {
-    start: startOfMonth(month),
-    end: endOfMonth(month),
-  };
+  const { start, end } = getStatisticsPeriod(month);
 
-  return reservations.filter((reservation) =>
-    isWithinInterval(new Date(reservation.starts_at), interval),
-  );
+  return reservations.filter((reservation) => {
+    const startsAt = new Date(reservation.starts_at);
+    return startsAt >= start && startsAt < end;
+  });
 }
 
 function isMorningPackage(packageId: string) {
@@ -122,10 +180,8 @@ export function calculatePeriodStatistics(
     }
   }
 
-  const numberOfOperatingDays = eachDayOfInterval({
-    start: startOfMonth(month),
-    end: endOfMonth(month),
-  }).length;
+  const { start, end } = getStatisticsPeriod(month);
+  const numberOfOperatingDays = differenceInCalendarDays(end, start);
 
   const totalAvailableMinutes =
     numberOfOperatingDays * COURT_COUNT * AVAILABLE_MINUTES_PER_COURT_PER_DAY;

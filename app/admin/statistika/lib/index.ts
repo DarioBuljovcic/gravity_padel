@@ -20,6 +20,8 @@ export {
   calculatePeriodStatistics,
   getHighestDailyRevenue,
   getHighestEntry,
+  formatStatisticsPeriodLabel,
   getReservationsInMonth,
+  getStatisticsPeriod,
   toPackageGroupStatistics,
 } from "./period";

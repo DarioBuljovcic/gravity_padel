@@ -5,6 +5,9 @@
  * 08:00–23:00 = 15 available hours per court per day.
  */
 export const COURT_COUNT = 4;
+
+/** Reporting periods run from this day of one month to the same day of the next. */
+export const STATISTICS_PERIOD_DAY = 26;
 export const OPENING_HOUR = 8;
 export const CLOSING_HOUR = 23;
 
